@@ -26,7 +26,7 @@ Tdef(\drone, {
 ~el=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad];
 );
 (
-~note=49;
+~note=28;
 (
 {
 var nn=1.neg;
@@ -75,7 +75,7 @@ n=n+1;
 (
 SynthDef.new(\synth,{
 arg gain=1,drive=0,c=0,az=0,el=0,scalee=0,dicay=0.5,attack=0.01,sc=20;
-var fund,fu=32,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
+var fund,fu=128,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
 var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
 var b_x,b_y,b_z,polytope,mp,env,expansion,sph1,sph2,xx,yy,zz;
 var g_ch1,g_ch2,g_ch3,g_ch4;
@@ -211,7 +211,7 @@ Pbind(\instrument, \synth,\dur, ~seq,\gain, Pfunc { ~gain }, \sc, Pfunc { ~ssc }
 {
 var size,sk,compass,n,scl,r;
 size=1200; sk=(size/50); n=(2pi/9).neg; scl=(size/4); r=2;
-w = Window("gui", Rect(50, 50, size, size)).front;
+w = Window("synthf", Rect(50, 50, size, size)).front;
 ~vw = UserView(w, w.view.bounds).drawFunc_({ ~img_print.drawInRect(~vw.bounds)});
 compass=9.collect{n=n+(2pi/9); (exp(Complex(0,1)*n)*scl)};
 (
@@ -219,7 +219,7 @@ compass=9.collect{n=n+(2pi/9); (exp(Complex(0,1)*n)*scl)};
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,1,56).round(1).asInteger;
+value=obj.value.linexp(0,1,1,28).round(1).asInteger;
 ~ssc=value;
 });
 );
@@ -228,7 +228,7 @@ value=obj.value.linexp(0,1,1,56).round(1).asInteger;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,0.00001,2.sqrt);
+value=obj.value.linexp(0,1,0.00001,1);
 ~gain=value;
 });
 );
@@ -237,7 +237,7 @@ value=obj.value.linexp(0,1,0.00001,2.sqrt);
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,0.001,4).postln;
+value=obj.value.linexp(0,1,0.001,5).postln;
 ~attack=value;
 });
 );
@@ -273,7 +273,7 @@ value=obj.value.linexp(0,1,0.001,8).postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,0.1,100).postln;
+value=obj.value.linexp(0,1,0.1,128).postln;
 TempoClock.default.tempo_(value);
 });
 );
