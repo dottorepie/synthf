@@ -220,104 +220,6 @@ Pbind(\instrument, \synth,\dur, ~seq,\gain, Pfunc { ~gain }, \sc, Pfunc { ~sc },
 ~pattern.play;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////gui
-
-		(
-			MIDIClient.init;
-			MIDIIn.connectAll;
-			(
-					(
-					MIDIdef.cc(\midi_pot21,{ |val, num, chan, src|
-						var a;
-						a=val.linexp(0,127,1,56).round(1).asInteger;
-						a.postln;
-						~sc=a;
-					},21);
-				);
-				(
-					MIDIdef.cc(\midi_pot1,{ |val, num, chan, src|
-						var a;
-						a=val.linexp(0,127,0.00001,10);
-						a.postln;
-						~gain=a;
-					},1);
-				);
-
-						(
-					MIDIdef.cc(\midi_pot3,{ |val, num, chan, src|
-						var a;
-						a=val.linexp(0,127,0.001,4);
-						a.postln;
-						~attack=a;
-					},3);
-				);
-					TempoClock.default.tempo_(1);
-				(
-					MIDIdef.cc(\midi_pot4,{ |val, num, chan, src|
-						var a;
-						a=val.linlin(0,127,pi.neg,pi);
-						a.postln;
-						~az=a;
-					},4);
-				);
-				(
-					MIDIdef.cc(\midi_pot5,{ |val, num, chan, src|
-						var a;
-						a=val.linlin(0,127,0.5pi.neg,0.5pi);
-						a.postln;
-						~el=a;
-					},5);
-				);
-				(
-					MIDIdef.cc(\midi_pot6,{ |val, num, chan, src|
-						var a;
-						a=val.linlin(0,127,0,1).round(1).asInteger;
-						a.postln;
-						~scalee=a;
-					},6);
-				);
-						(
-					MIDIdef.cc(\midi_pot8,{ |val, num, chan, src|
-						var a;
-						a=val.linlin(0,127,0,16256*2).round(1).asInteger;
-						a.postln;
-						~c=a;
-					},8);
-				);
-
-				(
-MIDIdef.cc(\midi_pot18,{ |val, num, chan, src|
-var b;
-b=val.linexp(0,127,0.001,8);
-b.postln;
-~decay=b;
-},18);
-);
-										(
-					MIDIdef.cc(\midi_slider1,{ |val, num, chan, src|
-						var bfg;
-						bfg=val.linexp(0,127,0.1,100);
-						bfg.postln;
-						TempoClock.default.tempo_(bfg);
-					},25);
-				);
-					(
-					MIDIdef.cc(\midi_slider2,{ |val, num, chan, src|
-						var bfg;
-							bfg=val.linlin(0,127,0.degrad,2pi-(2pi/~gold)).round((2pi/992).degrad);
-						bfg.postln;
-						~incr1=bfg;
-					},26);
-				);
-				(
-					MIDIdef.cc(\midi_slider3,{ |val, num, chan, src|
-						var bfg;
-							bfg=val.linlin(0,127,0.degrad,pi-(pi/~gold)).round((pi/992).degrad);
-							bfg.postln;
-					~incr2=bfg;
-					},27);
-				);
-				)
-					);
 (
 {
 (
@@ -335,7 +237,8 @@ compass=9.collext{n=n+(2pi/9); Polar.new(size/10,n);};
 background_(Color.white).knobColor_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,0,1).postln;
+value=obj.value.linexp(0,127,1,56).round(1).asInteger;
+~sc=value;
 });
 );
 (
@@ -343,7 +246,8 @@ value=obj.value.linlin(0,1,0,1).postln;
 background_(Color.white).knobColor_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,0,1).postln;
+value=obj.value.linexp(0,127,0.00001,10);
+~gain=value;
 });
 );
 (
@@ -351,7 +255,8 @@ value=obj.value.linlin(0,1,0,1).postln;
 background_(Color.white).knobColor_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,0,1).postln;
+value=obj.value.linexp(0,127,0.001,4);
+~attck=value;
 });
 );
 (
@@ -359,7 +264,8 @@ value=obj.value.linlin(0,1,0,1).postln;
 background_(Color.white).knobColor_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,0,1).postln;
+value=obj.value.27,0,1).round(1).asInteger;
+~attck=value;
 });
 );
 (
@@ -367,7 +273,8 @@ value=obj.value.linlin(0,1,0,1).postln;
 background_(Color.white).knobColor_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,0,1).postln;
+value=obj.value.27,0,16256*2).round(1).asInteger;
+~c=value;
 });
 );
 (
@@ -375,7 +282,8 @@ value=obj.value.linlin(0,1,0,1).postln;
 background_(Color.white).knobColor_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,0,1).postln;
+value=obj.value.linexp(0,127,0.001,5);
+~dicay=value;
 });
 );
 (
@@ -383,7 +291,8 @@ value=obj.value.linlin(0,1,0,1).postln;
 background_(Color.white).knobColor_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,0,1).postln;
+value=obj.value.linexp(0,127,0.1,100);
+TempoClock.default.tempo_(value);
 });
 );
 (
@@ -391,7 +300,8 @@ value=obj.value.linlin(0,1,0,1).postln;
 background_(Color.white).knobColor_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,0,1).postln;
+value=obj.value.27,0.degrad,2pi-(2pi/~gold)).round((2pi/992).degrad);
+~incr1=value;
 });
 );
 (
@@ -399,7 +309,8 @@ value=obj.value.linlin(0,1,0,1).postln;
 background_(Color.white).knobColor_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,0,1).postln;
+value=obj.value.27,0.degrad,pi-(pi/~gold)).round((pi/992).degrad);
+~incr2=value;
 });
 );
 );
