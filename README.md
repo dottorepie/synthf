@@ -2,7 +2,6 @@
 
 ~download synth folder from this Repository
 
-
 ~open SuperCollider, at the options tab select Language, then click Quarks
 
 ~in Quarks window select and install MathLib (ths library has to be installed in order for the synth to work)
@@ -13,7 +12,7 @@
 
 ~find SuperColider startup file in SuperCollider file in User Library
 
-~open startup.scd and paste in the writing environment of SC the contnet of the synthf.scd (with no image loaded the synth will crash)
+~open startup.scd and paste in the writing environment of SC, the contnet of the synthf.scd (with no image loaded the synth will crash)
 
 ~save startup.scd and overwrite previous save
 
@@ -21,6 +20,9 @@
 
 ~terminate the synth either by closing SuperCollider or quiting the server on the server window 
 
-~knobs on the synth are clockwise with 12oclock being knob0 and son on till 9
 
-~knobs are 0:azimuthal tonal argument, 1:elevation tonal argument, :
+~knobs on the synth are clockwise with 12oclock being knob0 and so on till 9
+
+~knobs are 0:azimuthal tonal argument, 1:elevation tonal argument, 2:tonal range, 3:drive, 4:envelope attack, 5:toggle scales (phrygian,dorian), 6:fundamental, 7:envelope decay, 8:tempo (0.001,128)Hz (beats per second)
+
+~if turning tempo to max, preferably do not set max long attack and decay at the same time so the sound engine does not crash
