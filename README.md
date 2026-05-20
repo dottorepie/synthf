@@ -7,16 +7,20 @@
 
 ~in Quarks window select and install MathLib (ths library has to be installed in order for the synth to work)
 
-~open synthf.scd file from downloaded synth folder, find this line at the top, ~img_print = Image.open();, and drag and drop, or copy paste file image1.jpg, also from synth folder, in the parenteses of the code line. Any image file can be loaded, important is that the parenthese contain the file path as .open("file path"). Save synthf.scd 
+~open synthf.scd file from downloaded synth folder, find this line at the top, ~img_print = Image.open();, and drag and drop, or copy paste file image1.jpg,(that is also in the synth folder), in the parenteses of the code line. Any image file can be loaded, important is that the parentheses contain the file path as .open("file path") then save synthf.scd 
 
 ~close SuperCollider
 
 ~find SuperColider startup file in SuperCollider file in User Library
 
-~open startup.scd and paste in the writing environment of SC the contnet of the synthf.scd (with no image pasted the synth will crash)
+~open startup.scd and paste in the writing environment of SC the contnet of the synthf.scd (with no image loaded the synth will crash)
 
 ~save startup.scd and overwrite previous save
 
 ~close SuperCollider and reopen it, now it will open along with synthf and the sound engine running
 
 ~terminate the synth either by closing SuperCollider or quiting the server on the server window 
+
+~knobs on the synth are clockwise with 12oclock being knob0 and son on till 9
+
+~knobs are 0:azimuthal tonal argument, 1:elevation tonal argument, :
