@@ -1,28 +1,33 @@
 
 (
 (
-s.options.numWireBufs = 1024*4;
+s.options.numWireBufs = 1024*2;
 s.options.numOutputBusChannels=4;
 s.options.numInputBusChannels=0;
-s.options.memSize = 8192*32;
+s.options.memSize = 8192*8;
 s.options.blockSize = 64;
 s.options.maxNodes = 8192*2;
+Buffer.freeAll;
 s.boot;
 s.makeGui(w);
-s.meter;
-s.freqscope;
-s.scope;
+//s.meter;
+//s.freqscope;
+//s.scope;
 );
-({
-var img,c=0, color,xx=0,yy=0,r=[],g=[],b=[],h_count=0;
-img = Image.open("/Users/amimid/Desktop/image1.jpg");
-~cx=[]; ~cy=[];  ~cz=[];
-~height=img.height;
-~width=img.width;
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+~img = Image.open("/Users/amimid/Desktop/image1.jpg");/////////copy paste image path in parentheses
 
-	img.height.do {
-				img.width.do {
-         color = img.getColor(xx, yy);
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+({
+var c=0, color,xx=0,yy=0,r=[],g=[],b=[],h_count=0;
+~cx=[]; ~cy=[];  ~cz=[];
+~height=~img.height;
+~width=~img.width;
+
+	~img.height.do {
+				~img.width.do {
+         color = ~img.getColor(xx, yy);
 	[color.red, color.green, color.blue].postln;
 			r=r++color.red;
 			g=g++color.green;
@@ -40,47 +45,14 @@ xx=xx+1;
 		}.value;
 );
 s.waitForBoot{
-
-Buffer.freeAll;
-
-
 Tdef(\drone, {
-/*(
-var img = Image.open("/Users/amimid/Desktop/image1.jpg");
-var width = img.width;
-var height = img.height;
-var color = img.getColor(0, 0).postln; // returns a Color object
-width.postln;
-height.postln;
-//[color.red, color.green, color.blue].postln;
-)*/
-
-
-(
+////////////////////////////////////////////////////////////////////////////////////////// wavetable, scales, space
 (
 ~az=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad];
 ~el=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad];
 );
-
-			/*(
-			{
-				~nc=1.neg;
-				~cel=~height.collect{~nc=~nc+1;};
-				~nc=1.neg;
-			~caz=~width.collect{~nc=~nc+1;};
-			}.value;
-		)*/
-////// wavetables
-
-		//oscillator table
-		(
-~n=1.neg;~array=992.collect{~n=~n+1;2.pow(~n/992)};
-~n=(0-(pi/496)); ~ph=992.collect{~n=~n+(pi/496);};
-~bufferSize = 4096*8;
-~signalSize = 2048*8;
-);
 (
-~note=56;
+~note=49;
 (
 {
 var nn=1.neg;
@@ -94,15 +66,13 @@ var nn=1.neg;
 }.value;
 );
 ~sc=[~scalee,~scaleee];
-		);
-
-	(
+);
+(
 ~n=1.neg;~array=992.collect{~n=~n+1;2.pow(~n/992)};
 ~n=(0-(2pi/992)); ~ph=992.collect{~n=~n+(2pi/992);};
 ~bufferSize = 4096*8;
 ~signalSize = 2048*8;
 );
-
 (
 ~wt= Buffer.alloc(s,~bufferSize);
 {
@@ -113,10 +83,7 @@ wt = signal.asWavetable;
 //signal.plot;
 }.value;
 );
-
-);
-		////sound
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////sound
 (
 SynthDef.new(\synth,{
 arg gain=1,drive=0,c=0,az=0,el=0,scalee=0,dicay=0.5,attack=0.01,sc=20;
@@ -126,18 +93,17 @@ var b_x,b_y,b_z,polytope,mp,env,expansion,sph1,sph2,xx,yy,zz;
 var g_ch1,g_ch2,g_ch3,g_ch4;
 
 env=EnvGen.ar(Env.perc(attack,dicay,gain),doneAction:2);
+
 expansion=2.pow(c.lag(0.001)/16256);
 fund=(fu*(9/8))*expansion;
 heavy=2.pow(drive.lag(0.001)/16256);
+
 xx=Spherical(~width*~height,az,el).x.round(1).asInteger;
 yy=Spherical(~width*~height,az,el).y.round(1).asInteger;
 zz=Spherical(~width*~height,az,el).z.round(1).asInteger;
-
 polytope=Cartesian(Select.kr(xx,~cx),Select.kr(yy,~cy),Select.kr(zz,~cz));
 mp=Spherical(sc,polytope.theta,  polytope.phi);
-//b_x=2.pow(mp.x.round(1) /16256);
-//b_y=2.pow(mp.y.round(1) /16256);
-//b_z=2.pow(mp.z.round(1) /16256);
+
 b_x=2.pow(Select.kr(mp.x.round(1), Select.kr(scalee.lag(0.001),~sc)) /12);
 b_y=2.pow(Select.kr(mp.y.round(1), Select.kr(scalee.lag(0.001),~sc)) /12);
 b_z=2.pow(Select.kr(mp.z.round(1), Select.kr(scalee.lag(0.001),~sc)) /12);
@@ -147,6 +113,7 @@ mod_z=polytope.z;
 phasex=(Complex(1,mod_x).theta*4);
 phasey=(Complex(1,mod_y).theta*4);
 phasez=(Complex(1,mod_z).theta*2);
+
 freq1=(fund)*b_x;
 freq2=(fund)*b_y;
 freq3=(fund)*b_z;
@@ -199,21 +166,20 @@ Out.ar(0,sig3*env*g_ch1);Out.ar(1,sig3*env*g_ch2);Out.ar(2,sig3*env*g_ch3);Out.a
 )
 
 }).add;
-		);
-	4.wait;
+);
+1.wait;
+/////////////////////////////////////////////////////////////////////////////////////////////////////////sequencer,pattern
 (
-		(
-				(
+(
+(
 ~az=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad];
 ~el=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad];
 );
 ({
 var m1=1.neg, m2=1.neg, m3=1.neg,a,b,c,n=0,bank=4,time=32.reciprocal,beat=1,r=0;
-				~r=0;		~r1=0;		~r2=0;
+~r=0;~r1=0;	~r2=0;
 (
-
 ~dur1=[];~dur2=[];~dur3=[]; ~dx=[];~dy=[]; ~dz=[]; ~durx=[]; ~dury=[]; ~durz=[]; ~dur=[];
-
 3.do{
 ~x=bank.collect{
 m1=m1+1;
@@ -232,48 +198,26 @@ d=Spherical(beat,~az.[m3],~el.[m3]).rotate(~r).tilt(~r1).tumble(~r2).z;
 };
 m1=1.neg; m2=1.neg; m3=1.neg; ~dx=~dx++~x; ~dy=~dy++~y;  ~dz=~dz++~z;   ~x=[]; ~y=[]; ~z=[];  r=r+90.degrad; };
 bank.do{ ~dur1=~dur1++~dx.[n];n=n+1;};n=0;
-//	~durx = ~dur1.collect { |x| if (x == 0) { Rest(2) } { x }};
 bank.do{ ~dur2=~dur2++~dy.[n];n=n+1;};n=0;
-//	~dury = ~dur2.collect { |x| if (x == 0) { Rest(2) } { x }};
 bank.do{ ~dur3=~dur3++~dz.[n];n=n+1;};n=0;
-//	~durz = ~dur3.collect { |x| if (x == 0) { Rest(2) } { x }};
 ~dur=~dur++~dur1++~dur2++~dur3;
 )}.value);
 );
 
-~gain=1;~drive=0;~c=0;~az=0;~el=0;~scalee=0;~attack=0.01;~decay=1;
-~gold=((1+5.sqrt)/2);~silver=(1+2.sqrt);
-~incr=0;
-~g=((1+5.sqrt)/2);
-~s=(1+2.sqrt);
+~gain=1;~drive=0;~c=0;~az=0;~el=0;~scalee=0;~attack=0.01;~decay=1;~incr1=0;~incr2=0;
+~gold=((1+5.sqrt)/2);~silver=(1+2.sqrt);~incr=0;~g=((1+5.sqrt)/2);~s=(1+2.sqrt);
 ~seq= Pseq(~dur ,inf).asStream;
-~val=1234;
-			TempoClock.default.tempo_(0.001);
+TempoClock.default.tempo_(0.01);
 
-~incr1=0;
-~incr2=0;
-					~pattern = Pdef(\1,
-    Pbind(
-        \instrument, \synth,
-        \dur, ~seq,
+~pattern = Pdef(\1,
+Pbind(\instrument, \synth,\dur, ~seq,\gain, Pfunc { ~gain }, \sc, Pfunc { ~sc },\drive, Pfunc { ~drive },
+\c, Pfunc { ~c },\az, Pseries(0, Pfunc{~incr1}, inf).collect(_.wrap(pi.neg, pi)).asStream,
+\el, Pseries(0, Pfunc{~incr2}, inf).collect(_.wrap(0.5pi.neg, 0.5pi)).asStream,
+\attack,  Pfunc { ~attack }, \dicay, Pfunc { ~decay },\scalee, Pfunc { ~scalee };
+));
+~pattern.play;
 
-        \gain, Pfunc { ~gain },
-		  \sc, Pfunc { ~sc },
-        \drive, Pfunc { ~drive },
-        \c, Pfunc { ~c },
-
-		\az, Pseries(0, Pfunc{~incr1}, inf).collect(_.wrap(pi.neg, pi)).asStream,
-	\el, Pseries(0, Pfunc{~incr2}, inf).collect(_.wrap(0.5pi.neg, 0.5pi)).asStream,
-
-        \attack,  Pfunc { ~attack },
-        \dicay, Pfunc { ~decay },
-
-        \scalee, Pfunc { ~scalee },
-			));
-			(
-
-					~pattern.play;
-			);
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////gui
 
 		(
 			MIDIClient.init;
@@ -295,7 +239,7 @@ bank.do{ ~dur3=~dur3++~dz.[n];n=n+1;};n=0;
 						~gain=a;
 					},1);
 				);
-				.;
+
 						(
 					MIDIdef.cc(\midi_pot3,{ |val, num, chan, src|
 						var a;
@@ -346,7 +290,7 @@ b.postln;
 ~decay=b;
 },18);
 );
-						(
+										(
 					MIDIdef.cc(\midi_slider1,{ |val, num, chan, src|
 						var bfg;
 						bfg=val.linexp(0,127,0.1,100);
@@ -372,28 +316,19 @@ b.postln;
 				);
 				)
 					)
-	);
-	}); Tdef(\drone).play;
-	}
-)
 
 (
+{
 var sizex=1450, sizey=750, sl=170;
-var px1=0,py1=0,px2=sl+(sl/2),py2=0,px3=px2+sl+(sl/2),py3=0,px4=px3+sl+(sl/2),py4=0,px5=px4+sl+(sl/2),py5=0,px6=px5+sl+(sl/2),py6=0;
-var px7=0,py7=sl+(sl/4),px8=px7+sl+(sl/2),py8=sl+(sl/4),px9=px8+sl+(sl/2),py9=sl+(sl/4);
-var px10=px9+sl+(sl/2),py10=sl+(sl/4),px11=px10+sl+(sl/2),py11=sl+(sl/4),px12=px11+sl+(sl/2),py12=sl+(sl/4);
-var px13=0,py13=py7+sl+(sl/4),px14=px13+sl+(sl/2),py14=py7+sl+(sl/4),px15=px14+sl+(sl/2),py15=py7+sl+(sl/4),px16=px15+sl+(sl/2);
-var py16=py7+sl+(sl/4),px17=px16+sl+(sl/2),py17=py7+sl+(sl/4),px18=px17+sl+(sl/2), py18=py7+sl+(sl/4);
-var px19=0,py19=py13+sl+(sl/4),px20=px19+sl+(sl/2),py20=py13+sl+(sl/4);
-var px21=px20+sl+(sl/2),py21=py13+sl+(sl/4),px22=px21+sl+(sl/2),py22=py13+sl+(sl/4),px23=px22+sl+(sl/2),py23=py13+sl+(sl/4),px24=px23+sl+(sl/2),py24=py13+sl+(sl/4);
+var px1=0,py1=0,px2=sl+(sl/2),py2=0,px3=px2+sl+(sl/2),py3=0;
+var px4=px3+sl+(sl/2),py4=0,px5=px4+sl+(sl/2),py5=0,px6=px5+sl+(sl/2),py6=0;
+
 //Window.closeAll;
 ~orange=3;
 w=Window.new("c_gui", Rect(10, 10, sizex,sizey)).front;
-~vw = UserView(w, Rect(0,0,sizex,sizey)).background_(Color.black);
+~vw = UserView(w, Rect(0,0,sizex,sizey)).drawFunc_( ~img.drawInRect(~vw.bounds) };
 
 (
-~nb1=NumberBox(~vw,Rect(0+px1,(sl/4)+py1,sl/2,sl/4)).background_(Color.black).normalColor_(Color.white).font_(Font('Arial',16));
-~t_sl1=StaticText(~vw,Rect((sl/2)+px1,(sl/4)+py1,sl/2,sl/4)).string_("gain").stringColor_(Color.white).background_(Color.black).font_(Font('Arial',16));
 ~sl1=Slider2D.new(~vw,Rect.new(px1,py1,sl,sl/4)).
 background_(Color.gray).action_({
 arg obj;
@@ -404,8 +339,6 @@ value=obj.x.value.linlin(0,1,0,1).postln;
 });
 );
 (
-~nb2=NumberBox(~vw,Rect(0+px2,(sl/4)+py2,sl/2,sl/4)).background_(Color.black).normalColor_(Color.white).font_(Font('Arial',16));
-~t_sl2=StaticText(~vw,Rect((sl/2)+px2,(sl/4)+py2,sl/2,sl/4)).string_("drive").stringColor_(Color.white).background_(Color.black).font_(Font('Arial',16));
 ~sl2=Slider2D.new(~vw,Rect.new(px2,py2,sl,sl/4)).
 background_(Color.gray).action_({
 arg obj;
@@ -416,8 +349,6 @@ value=obj.x.value.linlin(0,1,(16256).neg,(16256*3)).round(1).asInteger.postln;
 });
 );
 (
-~nb3=NumberBox(~vw,Rect(0+px3,(sl/4)+py3,sl/2,sl/4)).background_(Color.black).normalColor_(Color.white).font_(Font('Arial',16));
-~t_sl3=StaticText(~vw,Rect((sl/2)+px3,(sl/4)+py3,sl/2,sl/4)).string_("band").stringColor_(Color.white).background_(Color.black).font_(Font('Arial',16));
 ~sl3=Slider2D.new(~vw,Rect.new(px3,py3,sl,sl/4)).
 background_(Color.gray).action_({
 arg obj;
@@ -428,8 +359,6 @@ value=obj.x.value.linlin(0,1,0.00001,10).postln;
 });
 );
 (
-~nb4=NumberBox(~vw,Rect(0+px4,(sl/4)+py4,sl/2,sl/4)).background_(Color.black).normalColor_(Color.white).font_(Font('Arial',16));
-~t_sl4=StaticText(~vw,Rect((sl/2)+px4,(sl/4)+py4,sl/2,sl/4)).string_("azimuth").stringColor_(Color.white).background_(Color.black).font_(Font('Arial',16));
 ~sl4=Slider2D.new(~vw,Rect.new(px4,py4,sl,sl/4)).
 background_(Color.gray).action_({
 arg obj;
@@ -440,8 +369,6 @@ value=obj.x.value.linlin(0,1,pi.neg,pi).postln;
 });
 );
 (
-~nb5=NumberBox(~vw,Rect(0+px5,(sl/4)+py5,sl/2,sl/4)).background_(Color.black).normalColor_(Color.white).font_(Font('Arial',16));
-~t_sl5=StaticText(~vw,Rect((sl/2)+px5,(sl/4)+py5,sl/2,sl/4)).string_("elevation").stringColor_(Color.white).background_(Color.black).font_(Font('Arial',16));
 ~sl5=Slider2D.new(~vw,Rect.new(px5,py5,sl,sl/4)).
 background_(Color.gray).action_({
 arg obj;
@@ -452,8 +379,6 @@ value=obj.x.value.linlin(0,1,0.5pi.neg,0.5pi).postln;
 });
 );
 (
-~nb6=NumberBox(~vw,Rect(0+px6,(sl/4)+py6,sl/2,sl/4)).background_(Color.black).normalColor_(Color.white).font_(Font('Arial',16));
-~t_sl6=StaticText(~vw,Rect((sl/2)+px6,(sl/4)+py6,sl/2,sl/4)).string_("scale").stringColor_(Color.white).background_(Color.black).font_(Font('Arial',16));
 ~sl6=Slider2D.new(~vw,Rect.new(px6,py6,sl,sl/4)).
 background_(Color.gray).action_({
 arg obj;
@@ -464,8 +389,6 @@ value=obj.x.value.linlin(0,1,0,1).round(1).asInteger.postln;
 });
 );
 (
-~nb7=NumberBox(~vw,Rect(0+px7,(sl/4)+py7,sl/2,sl/4)).background_(Color.black).normalColor_(Color.white).font_(Font('Arial',16));
-~t_sl7=StaticText(~vw,Rect((sl/2)+px7,(sl/4)+py7,sl/2,sl/4)).string_("lowend").stringColor_(Color.white).background_(Color.black).font_(Font('Arial',16));
 ~sl7=Slider2D.new(~vw,Rect.new(px7,py7,sl,sl/4)).
 background_(Color.gray).action_({
 arg obj;
@@ -476,8 +399,6 @@ value=obj.x.value.linlin(0,1,32,128).postln;
 });
 );
 (
-~nb8=NumberBox(~vw,Rect(0+px8,(sl/4)+py8,sl/2,sl/4)).background_(Color.black).normalColor_(Color.white).font_(Font('Arial',16));
-~t_sl8=StaticText(~vw,Rect((sl/2)+px8,(sl/4)+py8,sl/2,sl/4)).string_("c").stringColor_(Color.white).background_(Color.black).font_(Font('Arial',16));
 ~sl8=Slider2D.new(~vw,Rect.new(px8,py8,sl,sl/4)).
 background_(Color.gray).action_({
 arg obj;
@@ -488,8 +409,6 @@ value=obj.x.value.linlin(0,1,0,16256*~orange).round(1).asInteger.postln;
 });
 );
 (
-~nb9=NumberBox(~vw,Rect(0+px9,(sl/4)+py9,sl/2,sl/4)).background_(Color.black).normalColor_(Color.white).font_(Font('Arial',16));
-~t_sl9=StaticText(~vw,Rect((sl/2)+px9,(sl/4)+py9,sl/2,sl/4)).string_("dynamic").stringColor_(Color.white).background_(Color.black).font_(Font('Arial',16));
 ~sl9=Slider2D.new(~vw,Rect.new(px9,py9,sl,sl/4)).
 background_(Color.gray).action_({
 arg obj;
@@ -499,4 +418,99 @@ value=obj.x.value.linlin(0,1,1,3).round(1/4).postln;
 ~nb9.value_(value);
 });
 );
+}.difer
+);
+
+				);
+	}); Tdef(\drone).play;
+	}
 )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////spaces
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////tetrahedron
+(
+~azimuth=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad];
+~elevation=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad];
+);
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////cube
+(
+~azimuth=[45.degrad,135.degrad,45.neg.degrad,135.neg.degrad,45.degrad,135.degrad,45.neg.degrad,135.neg.degrad];
+~elevation=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad,35.264390.degrad,35.264390.degrad];
+)
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////octahedron
+(
+~azimuth=[0.degrad,0.degrad,90.degrad,180.degrad,90.neg.degrad,0.degrad];
+~elevation=[90.neg.degrad,0.degrad,0.degrad,0.degrad,0.degrad,90.degrad];
+)
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////icosahedron
+(
+~azimuth=[90.degrad,90.neg.degrad,0.degrad,180.degrad,58.28.degrad,121.72.degrad,121.72.neg.degrad,58.neg.degrad,90.degrad,90.neg.degrad,0.degrad,180.degrad];
+~elevation=[58.28.neg.degrad,58.28.neg.degrad,31.72.neg.degrad,31.72.neg.degrad,0.degrad,0.degrad,0.degrad,0.degrad,58.28.degrad,58.28.degrad,31.72.degrad,31.72.degrad];
+)
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////dodecahedron
+(
+~azimuth=[45.degrad,135.neg.degrad,135.degrad,45.neg.degrad,90.degrad,90.neg.degrad,0.degrad,180.degrad,45.degrad,135.neg.degrad,135.degrad,45.neg.degrad,90.degrad,
+	90.neg.degrad,69.09.degrad,110.91.degrad,110.91.neg.degrad,69.09.neg.degrad,0.degrad,180.degrad];
+
+~elevation=[35.26.neg.degrad,35.26.neg.degrad,35.26.neg.degrad,35.26.neg.degrad,69.09.neg.degrad,69.09.neg.degrad,20.91.neg.degrad,20.91.neg.degrad,
+	35.26.degrad,35.26.degrad,35.26.degrad,35.26.degrad,69.09.degrad,69.09.degrad,0.degrad,0.degrad,0.degrad,0.degrad,20.91.degrad,20.91.degrad]
+)
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Rhombic dodecahedron
+(
+~azimuth=[0.degrad,45.degrad,135.neg.degrad,135.degrad,45.neg.degrad,0.degrad,180.degrad,90.degrad,90.neg.degrad,0.degrad,
+	45.degrad,135.neg.degrad,135.degrad,45.neg.degrad];
+~elevation=[90.neg.degrad,35.264390.neg.degrad,35.264390.neg.degrad,35.264390.neg.degrad,35.264390.neg.degrad,0.degrad
+	,0.degrad,0.degrad,0.degrad,90.degrad,35.264390.degrad,35.264390.degrad,35.264390.degrad,35.264390.degrad];
+)
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////cuboctahedron
+(
+~azimuth=[0.degrad,90.degrad,180.degrad,90.neg.degrad,45.degrad,135.degrad,45.neg.degrad,135.neg.degrad,
+	0.degrad,90.degrad,180.degrad,90.neg.degrad];
+~elevation=[45.neg.degrad,45.neg.degrad,45.neg.degrad,45.neg.degrad,0.degrad,0.degrad,0.degrad,0.degrad,
+	45.degrad,45.degrad,45.degrad,45.degrad];
+)
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Rhombic Triacontahedron
+(
+~azimuth=[0.degrad,0.degrad,72.degrad,144.degrad,144.neg.degrad,72.neg.degrad,36.degrad,108.degrad,180.degrad,108.neg.degrad,36.neg.degrad,
+	0.degrad,72.degrad,144.degrad,144.neg.degrad,72.neg.degrad,36.degrad,108.degrad,180.degrad,108.neg.degrad,36.neg.degrad,
+	0.degrad,72.degrad,144.degrad,144.neg.degrad,72.neg.degrad,36.degrad,108.degrad,180.degrad,108.neg.degrad,36.neg.degrad,0.degrad];
+
+~elevation=[90.neg.degrad,52.6.neg.degrad,52.6.neg.degrad,52.6.neg.degrad,52.6.neg.degrad,52.6.neg.degrad,26.6.neg.degrad,26.6.neg.degrad,26.6.neg.degrad,26.6.neg.degrad,26.6.neg.degrad,10.8.neg.degrad,10.8.neg.degrad,10.8.neg.degrad,10.8.neg.degrad,10.8.neg.degrad,52.6.degrad,52.6.degrad,52.6.degrad,52.6.degrad,52.6.degrad,26.6.degrad,26.6.degrad,26.6.degrad,26.6.degrad,26.6.degrad,10.8.degrad,10.8.degrad,10.8.degrad,10.8.degrad,10.8.degrad,90.degrad];
+
+)
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////icosidodecahedron
+(
+~azimuth=[18.degrad,90.degrad,162.degrad,126.neg.degrad,54.neg.degrad,54.degrad,126.degrad,162.neg.degrad,90.neg.degrad,18.neg.degrad,
+	0.degrad,36.degrad,72.degrad,108.degrad,144.degrad,180.degrad,144.neg.degrad,108.neg.degrad,72.neg.degrad,36.neg.degrad,
+	54.degrad,126.degrad,162.neg.degrad,90.neg.degrad,18.neg.degrad,18.degrad,90.degrad,162.degrad,126.neg.degrad,54.neg.degrad];
+
+~elevation=[58.283.degrad,58.283.degrad,58.283.degrad,58.283.degrad,58.283.degrad,58.283.neg.degrad,58.283.neg.degrad,58.283.neg.degrad,58.283.neg.degrad,58.283.neg.degrad,0.degrad,0.degrad,0.degrad,0.degrad,0.degrad,0.degrad,0.degrad,0.degrad,0.degrad,0.degrad,
+37.717.degrad,37.717.degrad,37.717.degrad,37.717.degrad,37.717.degrad,37.717.neg.degrad,37.717.neg.degrad,37.717.neg.degrad,37.717.neg.degrad,37.717.neg.degrad];
+)*/
+
+
