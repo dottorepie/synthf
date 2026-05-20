@@ -218,23 +218,17 @@ Pbind(\instrument, \synth,\dur, ~seq,\gain, Pfunc { ~gain }, \sc, Pfunc { ~sc },
 \attack,  Pfunc { ~attack }, \dicay, Pfunc { ~decay },\scalee, Pfunc { ~scalee };
 ));
 ~pattern.play;
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////gui
 (
 {
-(
-var size=1000,sk=size/50,compass,n=(2pi/9).neg;
-var px1=0,py1=0,px2=0,py2=0,px3=0,py3=0;
-var px4=0,py4=0,px5=0,py5=0,px6=0,py6=0;
-var px7=0,py7=0,px8=0,py8=0,px9=0,py9=0;
-
-w = Window("gui", Rect(10, 10, sizex, sizey)).front;
+var size,sk,compass,n,scl,r;
+size=1200; sk=(size/50); n=(2pi/9).neg; scl=(size/4); r=2;
+w = Window("gui", Rect(50, 50, size, size)).front;
 ~vw = UserView(w, w.view.bounds).drawFunc_({ ~img_print.drawInRect(~vw.bounds)});
-Pen.translate(size/2,size/2);
-compass=9.collext{n=n+(2pi/9); Polar.new(size/10,n);};
+compass=9.collect{n=n+(2pi/9); (exp(Complex(0,1)*n)*scl)};
 (
-~sl1=Knob.new(~vw, Rect.aboutPoint(compass.[0].x @ compass.[0].y, sk, sk)).
-background_(Color.white).knobColor_(Color.black).action_({
+~sl1=Knob.new(~vw, Rect.aboutPoint((compass.[0].real+(size/r)) @ (compass.[0].imag+(size/r)), sk, sk)).
+background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linexp(0,127,1,56).round(1).asInteger;
@@ -242,8 +236,8 @@ value=obj.value.linexp(0,127,1,56).round(1).asInteger;
 });
 );
 (
-~sl2=Knob.new(~vw, Rect.aboutPoint(compass.[1].x @ compass.[1].y, sk, sk)).
-background_(Color.white).knobColor_(Color.black).action_({
+~sl2=Knob.new(~vw, Rect.aboutPoint((compass.[1].real+(size/r)) @ (compass.[1].imag+(size/r)), sk, sk)).
+background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linexp(0,127,0.00001,10);
@@ -251,68 +245,67 @@ value=obj.value.linexp(0,127,0.00001,10);
 });
 );
 (
-~sl3=Knob.new(~vw, Rect.aboutPoint(compass.[2].x @ compass.[2].y, sk, sk)).
-background_(Color.white).knobColor_(Color.black).action_({
+~sl3=Knob.new(~vw, Rect.aboutPoint((compass.[2].real+(size/r)) @ (compass.[2].imag+(size/r)), sk, sk)).
+background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,127,0.001,4);
-~attck=value;
+value=obj.value.linexp(0,1,0.001,4);
+~attack=value;
 });
 );
 (
-~sl4=Knob.new(~vw, Rect.aboutPoint(compass.[3].x @ compass.[3].y, sk, sk)).
-background_(Color.white).knobColor_(Color.black).action_({
+~sl4=Knob.new(~vw, Rect.aboutPoint((compass.[3].real+(size/r)) @ (compass.[3].imag+(size/r)), sk, sk)).
+background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.27,0,1).round(1).asInteger;
-~attck=value;
+value=obj.value.linlin(0,1,0,1).round(1).asInteger;
+~scalee=value;
 });
 );
 (
-~sl5=Knob.new(~vw, Rect.aboutPoint(compass.[4].x @ compass.[4].y, sk, sk)).
-background_(Color.white).knobColor_(Color.black).action_({
+~sl5=Knob.new(~vw, Rect.aboutPoint((compass.[4].real+(size/r)) @ (compass.[4].imag+(size/r)), sk, sk)).
+background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.27,0,16256*2).round(1).asInteger;
+value=obj.value.linlin(0,1,0,16256*2).round(1).asInteger;
 ~c=value;
 });
 );
 (
-~sl6=Knob.new(~vw, Rect.aboutPoint(compass.[5].x @ compass.[5].y, sk, sk)).
-background_(Color.white).knobColor_(Color.black).action_({
+~sl6=Knob.new(~vw, Rect.aboutPoint((compass.[5].real+(size/r)) @ (compass.[5].imag+(size/r)), sk, sk)).
+background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,127,0.001,5);
+value=obj.value.linexp(0,1,0.001,5);
 ~dicay=value;
 });
 );
 (
-~sl7=Knob.new(~vw, Rect.aboutPoint(compass.[6].x @ compass.[6].y, sk, sk)).
-background_(Color.white).knobColor_(Color.black).action_({
+~sl7=Knob.new(~vw, Rect.aboutPoint((compass.[6].real+(size/r))@ (compass.[6].imag+(size/r)), sk, sk)).
+background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,127,0.1,100);
+value=obj.value.linexp(0,1,0.1,100);
 TempoClock.default.tempo_(value);
 });
 );
 (
-~sl8=Knob.new(~vw, Rect.aboutPoint(compass.[7].x @ compass.[7].y, sk, sk)).
-background_(Color.white).knobColor_(Color.black).action_({
+~sl8=Knob.new(~vw, Rect.aboutPoint((compass.[7].real+(size/r))@ (compass.[7].imag+(size/r)), sk, sk)).
+background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.27,0.degrad,2pi-(2pi/~gold)).round((2pi/992).degrad);
+value=obj.value.linlin(0,1,0.degrad,2pi-(2pi/~silver)).round((2pi/992).degrad);
 ~incr1=value;
 });
 );
 (
-~sl9=Knob.new(~vw, Rect.aboutPoint(compass.[8].x @ compass.[8].y, sk, sk)).
-background_(Color.white).knobColor_(Color.black).action_({
+~sl9=Knob.new(~vw, Rect.aboutPoint((compass.[8].real+(size/r))@ (compass.[8].imag+(size/r)), sk, sk)).
+background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.27,0.degrad,pi-(pi/~gold)).round((pi/992).degrad);
+value=obj.value.linlin(0,1,0.degrad,pi-(pi/~silver)).round((pi/992).degrad);
 ~incr=value;
 });
-);
 );
 }.value
 )
