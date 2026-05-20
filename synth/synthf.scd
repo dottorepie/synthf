@@ -75,11 +75,13 @@ n=n+1;
 (
 SynthDef.new(\synth,{
 arg gain=1,drive=0,c=0,az=0,el=0,scalee=0,dicay=0.5,attack=0.01,sc=20;
-var fund,fu=16,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
+var fund,fu=32,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
 var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
 var b_x,b_y,b_z,polytope,mp,env,expansion,sph1,sph2,xx,yy,zz;
 var g_ch1,g_ch2,g_ch3,g_ch4;
 
+~az=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad];
+~el=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad];
 env=EnvGen.ar(Env.perc(attack,dicay,gain),doneAction:2);
 
 expansion=2.pow(c.lag(0.001)/16256);
@@ -90,7 +92,7 @@ xx=Spherical(365,az,el).x.round(1).asInteger;
 yy=Spherical(365,az,el).y.round(1).asInteger;
 zz=Spherical(365,az,el).z.round(1).asInteger;
 polytope=Cartesian(Select.kr(xx,~cx),Select.kr(yy,~cy),Select.kr(zz,~cz));
-mp=Spherical(sc,polytope.theta,  polytope.phi);
+mp=Spherical(sc,polytope.theta, polytope.phi);
 
 b_x=2.pow(Select.kr(mp.x.round(1), Select.kr(scalee.lag(0.001),~sc)) /12);
 b_y=2.pow(Select.kr(mp.y.round(1), Select.kr(scalee.lag(0.001),~sc)) /12);
@@ -192,7 +194,7 @@ bank.do{ ~dur3=~dur3++~dz.[n];n=n+1;};n=0;
 )}.value);
 );
 
-~gain=1;~drive=0;~c=0;~az=0;~el=0;~scalee=0;~attack=0.01;~decay=1;~incr1=0;~incr2=0;
+~gain=0.2;~drive=0;~c=0;~az=0;~el=0;~scalee=0;~attack=0.01;~decay=1;~incr1=0;~incr2=0;
 ~gold=((1+5.sqrt)/2);~silver=(1+2.sqrt);~incr=0;~g=((1+5.sqrt)/2);~s=(1+2.sqrt);~ssc=26;
 ~seq= Pseq(~dur ,inf).asStream;
 TempoClock.default.tempo_(0.01);
@@ -217,7 +219,7 @@ compass=9.collect{n=n+(2pi/9); (exp(Complex(0,1)*n)*scl)};
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,127,1,56).round(1).asInteger;
+value=obj.value.linexp(0,1,1,56).round(1).asInteger;
 ~ssc=value;
 });
 );
@@ -226,7 +228,7 @@ value=obj.value.linexp(0,127,1,56).round(1).asInteger;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,127,0.00001,10);
+value=obj.value.linexp(0,1,0.00001,2.sqrt);
 ~gain=value;
 });
 );
@@ -262,7 +264,7 @@ value=obj.value.linlin(0,1,0,16256*2).round(1).asInteger.postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,0.001,5).postln;
+value=obj.value.linexp(0,1,0.001,8).postln;
 ~dicay=value;
 });
 );
@@ -290,7 +292,7 @@ background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linlin(0,1,0.degrad,pi-(pi/~silver)).round((pi/992).degrad).postln;
-~incr=value;
+~incr2=value;
 });
 );
 }.defer
