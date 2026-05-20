@@ -26,3 +26,5 @@
 ~knobs are 0:azimuthal tonal argument, 1:elevation tonal argument, 2:tonal range, 3:drive, 4:envelope attack, 5:toggle scales (phrygian,dorian), 6:fundamental, 7:envelope decay, 8:tempo (0.001,128)Hz (beats per second)
 
 ~if turning tempo to max, preferably do not set max long attack and decay at the same time so the sound engine does not crash
+
+~synthf output is 4 independent channels of audio,according to audio interface n channels are audible
