@@ -27,6 +27,8 @@
 
 ~if turning tempo to max, preferably do not set max long attack and decay at the same time so the sound engine does not crash
 
-~synthf output is 4 independent channels of audio,according to audio interface, n channels are audible
+~synthf output is 4 independent channels of audio,according to audio interface, n(4) channels are audible, tetrahedral full range quadrophony
 
 ~if unsure on speaker system dynamic range do not set drive to high at low pitch 
+
+~system runs on windows pc, mac, linux and or raspberry pi 5
