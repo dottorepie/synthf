@@ -9,46 +9,18 @@ s.options.blockSize = 64;
 s.options.maxNodes = 8192*2;
 Buffer.freeAll;
 Window.closeAll;
-s.boot;
 s.makeGui(w);
 //s.meter;
 //s.freqscope;
 //s.scope;
 );
-/////////copy paste image path in parentheses
+/////////copy paste image path in parentheses for graphics
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-~img = Image.open("/Users/amimid/Desktop/synth/path1.jpg");//////////////////////////////////paste image path1.jpg
 ~img_print = Image.open("/Users/amimid/Documents/monad/image1.jpg");///////////////paste image image1.jpg
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-({
-var c=0, color,xx=0,yy=0,r=[],g=[],b=[],h_count=0;
-~cx=[]; ~cy=[];  ~cz=[];
-~height=~img.height;
-~width=~img.width;
-
-	~img.height.do {
-				~img.width.do {
-         color = ~img.getColor(xx, yy);
-	[color.red, color.green, color.blue].postln;
-			r=r++color.red;
-			g=g++color.green;
-         	b=b++color.blue;
-xx=xx+1;
-				};
-				xx=0;
-				yy=yy+1;
-    };
-			r=r+0.0001;  g=g+0.0001;  b=b+0.0001;
-
-        ~cx=~cx++r;
-		~cy=~cy++g;
-		~cz=~cz++b;
-		}.value;
-);
 s.waitForBoot{
 Tdef(\drone, {
-////////////////////////////////////////////////////////////////////////////////////////// wavetable, scales, space
+////////////////////////////////////////////////////////////////////////////////////////// wavetable, scales, space,timbre
 (
 ~az=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad];
 ~el=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad];
@@ -85,6 +57,20 @@ wt = signal.asWavetable;
 //signal.plot;
 }.value;
 );
+(
+{
+var timbre,raz,rel,dif,n;
+thisThread.randSeed = 689;
+dif=366.collect{Spherical(1,2pi.rand2,pi.rand2)}; n=0; ~cx=[]; ~cy=[]; ~cz=[];
+366.do{
+~cx=~cx++dif.[n].x;
+~cy=~cy++dif.[n].y;
+~cz=~cz++dif.[n].z;
+n=n+1;
+};
+}.value;
+);
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////sound
 (
 SynthDef.new(\synth,{
@@ -100,9 +86,9 @@ expansion=2.pow(c.lag(0.001)/16256);
 fund=(fu*(9/8))*expansion;
 heavy=2.pow(drive.lag(0.001)/16256);
 
-xx=Spherical(~width*~height,az,el).x.round(1).asInteger;
-yy=Spherical(~width*~height,az,el).y.round(1).asInteger;
-zz=Spherical(~width*~height,az,el).z.round(1).asInteger;
+xx=Spherical(365,az,el).x.round(1).asInteger;
+yy=Spherical(365,az,el).y.round(1).asInteger;
+zz=Spherical(365,az,el).z.round(1).asInteger;
 polytope=Cartesian(Select.kr(xx,~cx),Select.kr(yy,~cy),Select.kr(zz,~cz));
 mp=Spherical(sc,polytope.theta,  polytope.phi);
 
@@ -207,12 +193,12 @@ bank.do{ ~dur3=~dur3++~dz.[n];n=n+1;};n=0;
 );
 
 ~gain=1;~drive=0;~c=0;~az=0;~el=0;~scalee=0;~attack=0.01;~decay=1;~incr1=0;~incr2=0;
-~gold=((1+5.sqrt)/2);~silver=(1+2.sqrt);~incr=0;~g=((1+5.sqrt)/2);~s=(1+2.sqrt);
+~gold=((1+5.sqrt)/2);~silver=(1+2.sqrt);~incr=0;~g=((1+5.sqrt)/2);~s=(1+2.sqrt);~ssc=26;
 ~seq= Pseq(~dur ,inf).asStream;
 TempoClock.default.tempo_(0.01);
 
 ~pattern = Pdef(\1,
-Pbind(\instrument, \synth,\dur, ~seq,\gain, Pfunc { ~gain }, \sc, Pfunc { ~sc },\drive, Pfunc { ~drive },
+Pbind(\instrument, \synth,\dur, ~seq,\gain, Pfunc { ~gain }, \sc, Pfunc { ~ssc },\drive, Pfunc { ~drive },
 \c, Pfunc { ~c },\az, Pseries(0, Pfunc{~incr1}, inf).collect(_.wrap(pi.neg, pi)).asStream,
 \el, Pseries(0, Pfunc{~incr2}, inf).collect(_.wrap(0.5pi.neg, 0.5pi)).asStream,
 \attack,  Pfunc { ~attack }, \dicay, Pfunc { ~decay },\scalee, Pfunc { ~scalee };
@@ -232,7 +218,7 @@ background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linexp(0,127,1,56).round(1).asInteger;
-~sc=value;
+~ssc=value;
 });
 );
 (
@@ -249,7 +235,7 @@ value=obj.value.linexp(0,127,0.00001,10);
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,0.001,4);
+value=obj.value.linexp(0,1,0.001,4).postln;
 ~attack=value;
 });
 );
@@ -258,7 +244,7 @@ value=obj.value.linexp(0,1,0.001,4);
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,0,1).round(1).asInteger;
+value=obj.value.linlin(0,1,0,1).round(1).asInteger.postln;
 ~scalee=value;
 });
 );
@@ -267,7 +253,7 @@ value=obj.value.linlin(0,1,0,1).round(1).asInteger;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,0,16256*2).round(1).asInteger;
+value=obj.value.linlin(0,1,0,16256*2).round(1).asInteger.postln;
 ~c=value;
 });
 );
@@ -276,7 +262,7 @@ value=obj.value.linlin(0,1,0,16256*2).round(1).asInteger;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,0.001,5);
+value=obj.value.linexp(0,1,0.001,5).postln;
 ~dicay=value;
 });
 );
@@ -285,7 +271,7 @@ value=obj.value.linexp(0,1,0.001,5);
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,0.1,100);
+value=obj.value.linexp(0,1,0.1,100).postln;
 TempoClock.default.tempo_(value);
 });
 );
@@ -294,7 +280,7 @@ TempoClock.default.tempo_(value);
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,0.degrad,2pi-(2pi/~silver)).round((2pi/992).degrad);
+value=obj.value.linlin(0,1,0.degrad,2pi-(2pi/~silver)).round((2pi/992).degrad).postln;
 ~incr1=value;
 });
 );
@@ -303,11 +289,11 @@ value=obj.value.linlin(0,1,0.degrad,2pi-(2pi/~silver)).round((2pi/992).degrad);
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,0.degrad,pi-(pi/~silver)).round((pi/992).degrad);
+value=obj.value.linlin(0,1,0.degrad,pi-(pi/~silver)).round((pi/992).degrad).postln;
 ~incr=value;
 });
 );
-}.value
+}.defer
 )
 );
 }); Tdef(\drone).play;
