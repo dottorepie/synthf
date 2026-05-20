@@ -8,15 +8,17 @@ s.options.memSize = 8192*8;
 s.options.blockSize = 64;
 s.options.maxNodes = 8192*2;
 Buffer.freeAll;
+Window.closeAll;
 s.boot;
 s.makeGui(w);
 //s.meter;
 //s.freqscope;
 //s.scope;
 );
+/////////copy paste image path in parentheses
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-~img = Image.open("/Users/amimid/Desktop/image1.jpg");/////////copy paste image path in parentheses
-
+~img = Image.open("/Users/amimid/Desktop/synth/path1.jpg");//////////////////////////////////paste image path1.jpg
+~img_print = Image.open("/Users/amimid/Documents/monad/image1.jpg");///////////////paste image image1.jpg
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ({
@@ -315,124 +317,98 @@ b.postln;
 					},27);
 				);
 				)
-					)
-
+					);
 (
 {
-var sizex=1450, sizey=750, sl=170;
-var px1=0,py1=0,px2=sl+(sl/2),py2=0,px3=px2+sl+(sl/2),py3=0;
-var px4=px3+sl+(sl/2),py4=0,px5=px4+sl+(sl/2),py5=0,px6=px5+sl+(sl/2),py6=0;
+(
+var size=1000,sk=size/50,compass,n=(2pi/9).neg;
+var px1=0,py1=0,px2=0,py2=0,px3=0,py3=0;
+var px4=0,py4=0,px5=0,py5=0,px6=0,py6=0;
+var px7=0,py7=0,px8=0,py8=0,px9=0,py9=0;
 
-//Window.closeAll;
-~orange=3;
-w=Window.new("c_gui", Rect(10, 10, sizex,sizey)).front;
-~vw = UserView(w, Rect(0,0,sizex,sizey)).drawFunc_( ~img.drawInRect(~vw.bounds) };
-
+w = Window("gui", Rect(10, 10, sizex, sizey)).front;
+~vw = UserView(w, w.view.bounds).drawFunc_({ ~img_print.drawInRect(~vw.bounds)});
+Pen.translate(size/2,size/2);
+compass=9.collext{n=n+(2pi/9); Polar.new(size/10,n);};
 (
-~sl1=Slider2D.new(~vw,Rect.new(px1,py1,sl,sl/4)).
-background_(Color.gray).action_({
+~sl1=Knob.new(~vw, Rect.aboutPoint(compass.[0].x @ compass.[0].y, sk, sk)).
+background_(Color.white).knobColor_(Color.black).action_({
 arg obj;
 var value;
-value=obj.x.value.linlin(0,1,0,1).postln;
-~synth.set(\gain,value);
-~nb1.value_(value);
+value=obj.value.linlin(0,1,0,1).postln;
 });
 );
 (
-~sl2=Slider2D.new(~vw,Rect.new(px2,py2,sl,sl/4)).
-background_(Color.gray).action_({
+~sl2=Knob.new(~vw, Rect.aboutPoint(compass.[1].x @ compass.[1].y, sk, sk)).
+background_(Color.white).knobColor_(Color.black).action_({
 arg obj;
 var value;
-value=obj.x.value.linlin(0,1,(16256).neg,(16256*3)).round(1).asInteger.postln;
-~synth.set(\drive,value);
-~nb2.value_(value);
+value=obj.value.linlin(0,1,0,1).postln;
 });
 );
 (
-~sl3=Slider2D.new(~vw,Rect.new(px3,py3,sl,sl/4)).
-background_(Color.gray).action_({
+~sl3=Knob.new(~vw, Rect.aboutPoint(compass.[2].x @ compass.[2].y, sk, sk)).
+background_(Color.white).knobColor_(Color.black).action_({
 arg obj;
 var value;
-value=obj.x.value.linlin(0,1,0.00001,10).postln;
-~synth.set(\band,value);
-~nb3.value_(value);
+value=obj.value.linlin(0,1,0,1).postln;
 });
 );
 (
-~sl4=Slider2D.new(~vw,Rect.new(px4,py4,sl,sl/4)).
-background_(Color.gray).action_({
+~sl4=Knob.new(~vw, Rect.aboutPoint(compass.[3].x @ compass.[3].y, sk, sk)).
+background_(Color.white).knobColor_(Color.black).action_({
 arg obj;
 var value;
-value=obj.x.value.linlin(0,1,pi.neg,pi).postln;
-~synth.set(\az,value);
-~nb4.value_(value);
+value=obj.value.linlin(0,1,0,1).postln;
 });
 );
 (
-~sl5=Slider2D.new(~vw,Rect.new(px5,py5,sl,sl/4)).
-background_(Color.gray).action_({
+~sl5=Knob.new(~vw, Rect.aboutPoint(compass.[4].x @ compass.[4].y, sk, sk)).
+background_(Color.white).knobColor_(Color.black).action_({
 arg obj;
 var value;
-value=obj.x.value.linlin(0,1,0.5pi.neg,0.5pi).postln;
-~synth.set(\el,value);
-~nb5.value_(value);
+value=obj.value.linlin(0,1,0,1).postln;
 });
 );
 (
-~sl6=Slider2D.new(~vw,Rect.new(px6,py6,sl,sl/4)).
-background_(Color.gray).action_({
+~sl6=Knob.new(~vw, Rect.aboutPoint(compass.[5].x @ compass.[5].y, sk, sk)).
+background_(Color.white).knobColor_(Color.black).action_({
 arg obj;
 var value;
-value=obj.x.value.linlin(0,1,0,1).round(1).asInteger.postln;
-~synth.set(\scale,value);
-~nb6.value_(value);
+value=obj.value.linlin(0,1,0,1).postln;
 });
 );
 (
-~sl7=Slider2D.new(~vw,Rect.new(px7,py7,sl,sl/4)).
-background_(Color.gray).action_({
+~sl7=Knob.new(~vw, Rect.aboutPoint(compass.[6].x @ compass.[6].y, sk, sk)).
+background_(Color.white).knobColor_(Color.black).action_({
 arg obj;
 var value;
-value=obj.x.value.linlin(0,1,32,128).postln;
-~synth.set(\lowend,value);
-~nb7.value_(value);
+value=obj.value.linlin(0,1,0,1).postln;
 });
 );
 (
-~sl8=Slider2D.new(~vw,Rect.new(px8,py8,sl,sl/4)).
-background_(Color.gray).action_({
+~sl8=Knob.new(~vw, Rect.aboutPoint(compass.[7].x @ compass.[7].y, sk, sk)).
+background_(Color.white).knobColor_(Color.black).action_({
 arg obj;
 var value;
-value=obj.x.value.linlin(0,1,0,16256*~orange).round(1).asInteger.postln;
-~synth.set(\c,value);
-~nb8.value_(value);
+value=obj.value.linlin(0,1,0,1).postln;
 });
 );
 (
-~sl9=Slider2D.new(~vw,Rect.new(px9,py9,sl,sl/4)).
-background_(Color.gray).action_({
+~sl9=Knob.new(~vw, Rect.aboutPoint(compass.[8].x @ compass.[8].y, sk, sk)).
+background_(Color.white).knobColor_(Color.black).action_({
 arg obj;
 var value;
-value=obj.x.value.linlin(0,1,1,3).round(1/4).postln;
-~synth.set(\dyn,value);
-~nb9.value_(value);
+value=obj.value.linlin(0,1,0,1).postln;
 });
 );
-}.difer
 );
-
-				);
-	}); Tdef(\drone).play;
-	}
+}.value
 )
-
-
-
-
-
-
-
-
+);
+}); Tdef(\drone).play;
+}
+)
 
 
 
