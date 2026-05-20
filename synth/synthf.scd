@@ -194,7 +194,7 @@ bank.do{ ~dur3=~dur3++~dz.[n];n=n+1;};n=0;
 )}.value);
 );
 
-~gain=0.2;~drive=0;~c=0;~az=0;~el=0;~scalee=0;~attack=0.01;~decay=1;~incr1=0;~incr2=0;
+~gain=0.83;~drive=0;~c=0;~az=0;~el=0;~scalee=0;~attack=0.01;~decay=1;~incr1=0;~incr2=0;
 ~gold=((1+5.sqrt)/2);~silver=(1+2.sqrt);~incr=0;~g=((1+5.sqrt)/2);~s=(1+2.sqrt);~ssc=26;
 ~seq= Pseq(~dur ,inf).asStream;
 TempoClock.default.tempo_(0.01);
@@ -213,7 +213,7 @@ var size,sk,compass,n,scl,r;
 size=1200; sk=(size/50); n=(2pi/9).neg; scl=(size/4); r=2;
 w = Window("synthf", Rect(50, 50, size, size)).front;
 ~vw = UserView(w, w.view.bounds).drawFunc_({ ~img_print.drawInRect(~vw.bounds)});
-compass=9.collect{n=n+(2pi/9); (exp(Complex(0,1)*n)*scl)};
+compass=10.collect{n=n+(2pi/9); (exp(Complex(0,1)*n)*scl)};
 (
 ~sl1=Knob.new(~vw, Rect.aboutPoint((compass.[0].real+(size/r)) @ (compass.[0].imag+(size/r)), sk, sk)).
 background_(Color.black).action_({
@@ -228,8 +228,8 @@ value=obj.value.linexp(0,1,1,28).round(1).asInteger;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,0.00001,1);
-~gain=value;
+value=obj.value.linlin(0,1,(16256*4).neg,(16256*2)).round(1).asInteger.postln;
+~drive=value;
 });
 );
 (
