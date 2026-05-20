@@ -1,4 +1,5 @@
 ~download and install SuperCollider https://supercollider.github.io
+////////
 ~download synth folder from this Repository
 ~open SuperCollider, at the options tab select Language, then click Quarks
 ~in Quarks window select and install MathLib (ths library has to be installed in order for the synth to work)
