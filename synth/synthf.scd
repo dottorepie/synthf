@@ -59,9 +59,9 @@ wt = signal.asWavetable;
 );
 (
 {
-var timbre,raz,rel,dif,n;
-//thisThread.randSeed = 689;
-dif=366.collect{Spherical(1,2pi.rand2,pi.rand2)}; n=0; ~cx=[]; ~cy=[]; ~cz=[];
+var timbre,raz,rel,dif,nn=0;
+dif=366.collect{thisThread.randSeed =(689+nn); nn=nn+1;Spherical(1,2pi.rand2,pi.rand2)};
+n=0; ~cx=[]; ~cy=[]; ~cz=[];
 366.do{
 ~cx=~cx++dif.[n].x;
 ~cy=~cy++dif.[n].y;
