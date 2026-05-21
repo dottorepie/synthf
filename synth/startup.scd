@@ -257,7 +257,7 @@ Pbind(\instrument, \synth,\dur, ~seq,\gain, Pfunc { ~gain }, \sc, Pfunc { ~ssc }
 						(
 					MIDIdef.cc(\midi_pot3,{ |val, num, chan, src|
 						var a;
-						a=val.linexp(0,127,0.001,1);
+						a=val.linexp(0,127,0.001,10);
 						~gain=a;
 							a.postln;
 					},2);
