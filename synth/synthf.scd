@@ -60,7 +60,7 @@ wt = signal.asWavetable;
 (
 {
 var timbre,raz,rel,dif,n;
-thisThread.randSeed = 689;
+//thisThread.randSeed = 689;
 dif=366.collect{Spherical(1,2pi.rand2,pi.rand2)}; n=0; ~cx=[]; ~cy=[]; ~cz=[];
 366.do{
 ~cx=~cx++dif.[n].x;
@@ -380,5 +380,3 @@ value=obj.value.linlin(0,1,0.degrad,pi-(pi/~silver)).round((pi/992).degrad).post
 ~elevation=[58.283.degrad,58.283.degrad,58.283.degrad,58.283.degrad,58.283.degrad,58.283.neg.degrad,58.283.neg.degrad,58.283.neg.degrad,58.283.neg.degrad,58.283.neg.degrad,0.degrad,0.degrad,0.degrad,0.degrad,0.degrad,0.degrad,0.degrad,0.degrad,0.degrad,0.degrad,
 37.717.degrad,37.717.degrad,37.717.degrad,37.717.degrad,37.717.degrad,37.717.neg.degrad,37.717.neg.degrad,37.717.neg.degrad,37.717.neg.degrad,37.717.neg.degrad];
 )*/
-
-
