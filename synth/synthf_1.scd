@@ -9,6 +9,7 @@ s.options.blockSize = 64;
 s.options.maxNodes = 8192*2;
 Buffer.freeAll;
 Window.closeAll;
+Quarks.install("MathLib");
 s.makeGui(w);
 //s.meter;
 //s.freqscope;
