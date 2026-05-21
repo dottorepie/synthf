@@ -1,5 +1,6 @@
 //////SETUP WIZARD//////////////////////////
 ///////////////////////////////////////////
+
 ~synthf_1.scd is reviewed version on spaces (geodesies) timbre
 
 ~synthf_1a.scd is machine with entropy
