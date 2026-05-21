@@ -34,11 +34,15 @@
 ~if unsure on speaker system dynamic range do not set drive to high at low pitch 
 
 ~system runs on windows pc, mac, linux and or raspberry pi 5
-
-~eny time the software opens synthf has a new random timbre
+ 
 
 ~use server window gain slider to adjust limiting of drive
 
 ~feel free to use an image of your choosing for background 
 
 ~recommended use: musical autonomon, laptop orchestra, beatmaking
+
+
+~each time the software opens, synthf has a new random timbre, to set one solid, set fixed random seed in synthf.scd, or modulated via routine or envelope, or spherical data from one azimuth and one elevation array. Loading an image as timbre can be found in image-to-sound Repository. Adding or miltiplying more oscillators and other Ugens will most propably crash the synth, as it runs one one server (~10% of CPU usage)
+
+~in file synthf at the bottom arrays of spaces can be found (polytopes), these can be used in rhythm array section or for developing more ouput channels (or use VBAP plugin), or for timbre
