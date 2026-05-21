@@ -1,11 +1,12 @@
-//////SETUP WIZARD/////////////////////////////////////
-
+//////SETUP WIZARD//////////////////////////
+///////////////////////////////////////////
 ~synthf_1.scd is reviewed version on spaces (geodesies) timbre
 
 ~synthf_1a.scd is machine with entropy
 
-
-/////////////The following build will only work with Internet Connection (after Installation No Internet Connection ist required):
+////////////////////////////////////////////
+////////The following build will only work with Internet Connection (after Installation No Internet Connection ist required):
+/////////////////////////////////////////////
 
 ~download and install SuperCollider 3.14 and further https://supercollider.github.io
 
@@ -51,7 +52,7 @@
 
 
 
-///////Raspberry:
+//////////Raspberry:
 
 ~ install jack
 
