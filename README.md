@@ -58,7 +58,11 @@
 
 
 ///////Raspberry:
+
 ~ install jack
+
 ~ install SuperCollider and Quark
+
 ~ save synthf as startupfile at directory /home/usr/config/SuperCollider
+
 ~ adjust window size in sc or screen resolution. Window size is 1200px by default 
