@@ -12,7 +12,7 @@
 
 ~find SuperCollider startup file in SuperCollider file in User Library
 
-~open startup.scd and paste in the writing environment of SuperCollider, the contnet of the synthf.scd. Copy Paste or drag and drop image1.jpg or any Image you prefer, in the parentheses on Line 20 like so, ~img_print = Image.open("/Users/amimid/Documents/synth/image1.jpg");///////////////paste image image1.jpg, (with no image loaded the synth will crash)
+~open startup.scd and paste on the writing environment of SuperCollider, the contnet of the synthf.scd. Copy Paste or drag and drop image1.jpg or any image you prefer, in the parentheses on Line 20 like so, ~img_print = Image.open("image1 path");, (with no image loaded the synth will crash, after pasting in the parentheses of Image.open(), the new path should appear in "")
 
 ~save startup.scd and overwrite previous save
 
