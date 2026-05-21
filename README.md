@@ -50,5 +50,9 @@
 
 ~instructions for spaces can be found here https://en.wikipedia.org/wiki/Polytope_compound under Dual Compounds section
 
+~Dual Compounds, ig cube-octahedron, are in two kinds, core and hull, choosing a hull will make the sound hollistic, a core will render the sound timbre local.
+
+~The number of vertices on the chosen compound polytope is also the number of possible tones as in notes. Choosing a polytope of higher number of vertices expands the tonal range of the instrument. Tetrahedral spaces have a lomited range, Cubic a median range Icosahedral a full range. Anything above or below that range is either orchestral or percussion. Vertices can be set either via randomness, distribution or geodesic methods
+
 
 
