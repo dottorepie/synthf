@@ -43,13 +43,15 @@
 
 ~each time the software opens, synthf has a new random timbre, to set one solid, set fixed random seed in synthf.scd, or modulated via routine or envelope, or spherical data from one azimuth and one elevation array. Loading an image as timbre can be found in image-to-sound Repository. Adding or miltiplying more oscillators and other Ugens will most propably crash the synth, as it runs one one server (~10% of CPU usage)
 
-~in file synthf at the bottom arrays of spaces can be found (polytopes), these can be used in rhythm array section or for developing more ouput channels (or use VBAP plugin), or for timbre
+~in file synthf at the bottom, some readymade arrays of spaces can be found (polytopes), these can be used in rhythm array section or for developing more ouput channels (or use VBAP plugin), or for timbre
 
 ~instructions for spaces can be found here https://en.wikipedia.org/wiki/Polytope_compound under Dual Compounds section
 
 ~Dual Compounds, ig cube-octahedron, are in two kinds, core and hull, choosing a hull will make the sound hollistic, a core will render the sound timbre local.
 
-~The number of vertices on the chosen compound polytope is also the number of possible tones as in notes. Choosing a polytope of higher number of vertices expands the tonal range of the instrument. Tetrahedral spaces have a limited range, Cubic a median range Icosahedral a full range. Anything above or below that range is either orchestral or percussion. Vertices can be set either via randomness, distribution or geodesic methods
+~The number of vertices on the chosen compound polytope is also the number of possible tones as in notes. Choosing a polytope of higher number of vertices expands the tonal range of the instrument. Tetrahedral spaces have a limited range, Cubic a median range Icosahedral a full range. Anything above or below that range is either orchestral or percussion. Vertices can be set either via randomness, distribution or geodesic methods.
+
+~version synthf_1a hast a random Limit on tonal range at every sonic event
 
 ~32 vertices is the normal range. This range affects greatly the disconance of the scales in toggle. Setting more or other scales for the toggle knob function is recommended (Scale.directory)
 
