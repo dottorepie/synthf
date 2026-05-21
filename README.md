@@ -10,7 +10,7 @@
 
 ~download files from synth folder from this Repository to a local new synth folder
 
-~find SuperColider startup file in SuperCollider file in User Library
+~find SuperCollider startup file in SuperCollider file in User Library
 
 ~open startup.scd and paste in the writing environment of SuperCollider, the contnet of the synthf.scd (with no image loaded the synth will crash)
 
