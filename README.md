@@ -57,4 +57,8 @@
 ~32 vertices is the normal range. This range affects greatly the disconance of the scales in toggle. Setting more or other scales for the toggle knob function is recommended (Scale.directory)
 
 
-
+///////Raspberry:
+~ install jack
+~ install SuperCollider and Quark
+~ save synthf as startupfile at directory /home/usr/config/SuperCollider
+~ adjust window size in sc or screen resolution. Window size is 1200px by default 
