@@ -50,3 +50,5 @@
 
 ~instructions for spaces can be found here https://en.wikipedia.org/wiki/Polytope_compound under Dual Compounds section
 
+
+
