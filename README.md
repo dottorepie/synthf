@@ -5,7 +5,7 @@
 ~synthf_1a.scd is machine with entropy
 
 
-/////////////The following build will only work with Internet Connection
+/////////////The following build will only work with Internet Connection:
 
 ~download and install SuperCollider 3.14 and further https://supercollider.github.io
 
