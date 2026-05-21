@@ -12,7 +12,7 @@
 
 ~find SuperCollider startup file in SuperCollider file in User Library
 
-~open startup.scd and paste in the writing environment of SuperCollider, the contnet of the synthf.scd (with no image loaded the synth will crash)
+~open startup.scd and paste in the writing environment of SuperCollider, the contnet of the synthf.scd. Copy Paste or drag and drop image1.jpg or any Image you prefer, in the parentheses(with no image loaded the synth will crash)
 
 ~save startup.scd and overwrite previous save
 
