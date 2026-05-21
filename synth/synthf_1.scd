@@ -71,17 +71,23 @@ n=n+1;
 }.value;
 );*/
 (
-			(
-~azimuth=[0.degrad,45.degrad,135.neg.degrad,135.degrad,45.neg.degrad,0.degrad,180.degrad,90.degrad,90.neg.degrad,0.degrad,45.degrad,135.neg.degrad,135.degrad,45.neg.degrad];
-~elevation=[90.neg.degrad,35.264390.neg.degrad,35.264390.neg.degrad,35.264390.neg.degrad,35.264390.neg.degrad,0.degrad,0.degrad,0.degrad,0.degrad,90.degrad,35.264390.degrad,35.264390.degrad,35.264390.degrad,35.264390.degrad];
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Rhombic Triacontahedron
+(
+~azimuth=[0.degrad,0.degrad,72.degrad,144.degrad,144.neg.degrad,72.neg.degrad,36.degrad,108.degrad,180.degrad,108.neg.degrad,36.neg.degrad,
+	0.degrad,72.degrad,144.degrad,144.neg.degrad,72.neg.degrad,36.degrad,108.degrad,180.degrad,108.neg.degrad,36.neg.degrad,
+	0.degrad,72.degrad,144.degrad,144.neg.degrad,72.neg.degrad,36.degrad,108.degrad,180.degrad,108.neg.degrad,36.neg.degrad,0.degrad];
+
+~elevation=[90.neg.degrad,52.6.neg.degrad,52.6.neg.degrad,52.6.neg.degrad,52.6.neg.degrad,52.6.neg.degrad,26.6.neg.degrad,26.6.neg.degrad,26.6.neg.degrad,26.6.neg.degrad,26.6.neg.degrad,10.8.neg.degrad,10.8.neg.degrad,10.8.neg.degrad,10.8.neg.degrad,10.8.neg.degrad,52.6.degrad,52.6.degrad,52.6.degrad,52.6.degrad,52.6.degrad,26.6.degrad,26.6.degrad,26.6.degrad,26.6.degrad,26.6.degrad,10.8.degrad,10.8.degrad,10.8.degrad,10.8.degrad,10.8.degrad,90.degrad];
+
 );
+~vertices=32;
 {
 var timbre,raz,rel,difaz,difel,nn=1.neg;
-difaz=14.collect{nn=nn+1;~azimuth.[nn]};
+difaz=~vertices.collect{nn=nn+1;~azimuth.[nn]};
 nn=1.neg;
-difel=14.collect{nn=nn+1;~elevation.[nn]};
+difel=~vertices.collect{nn=nn+1;~elevation.[nn]};
 n=0; ~cx=[]; ~cy=[]; ~cz=[];
-14.do{
+~vertices.do{
 ~cx=~cx++Spherical(1,difaz.[n],difel.[n]).x;
 ~cy=~cy++Spherical(1,difaz.[n],difel.[n]).y;
 ~cz=~cz++Spherical(1,difaz.[n],difel.[n]).z;
@@ -107,9 +113,9 @@ expansion=2.pow(c.lag(0.001)/16256);
 fund=(fu*(9/8))*expansion;
 heavy=2.pow(drive.lag(0.001)/16256);
 
-xx=Spherical(14,az,el).x.round(1).asInteger;
-yy=Spherical(14,az,el).y.round(1).asInteger;
-zz=Spherical(14,az,el).z.round(1).asInteger;
+xx=Spherical(~vertices,az,el).x.round(1).asInteger;
+yy=Spherical(~vertices,az,el).y.round(1).asInteger;
+zz=Spherical(~vertices,az,el).z.round(1).asInteger;
 polytope=Cartesian(Select.kr(xx,~cx),Select.kr(yy,~cy),Select.kr(zz,~cz));
 mp=Spherical(sc,polytope.theta, polytope.phi);
 
