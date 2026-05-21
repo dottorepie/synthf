@@ -6,7 +6,7 @@
 
 
 
-~download and install SuperCollider https://supercollider.github.io
+~download and install SuperCollider 3.14 and further https://supercollider.github.io
 
 ~download files from synth folder from this Repository to a local new synth folder
 
