@@ -57,6 +57,7 @@
 ~32 vertices is the normal range. This range affects greatly the disconance of the scales in toggle. Setting more or other scales for the toggle knob function is recommended (Scale.directory)
 
 
+
 ///////Raspberry:
 
 ~ install jack
