@@ -263,7 +263,7 @@ value=obj.value.linlin(0,1,(16256*4).neg,(16256*2)).round(1).asInteger.postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,0.001,5).postln;
+value=obj.value.linexp(0,1,0.001,1).postln;
 ~attack=value;
 });
 );
@@ -290,7 +290,7 @@ value=obj.value.linlin(0,1,0,16256*2).round(1).asInteger.postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,0.001,8).postln;
+value=obj.value.linexp(0,1,0.001,4).postln;
 ~decay=value;
 });
 );
