@@ -49,4 +49,4 @@
 
 ~instructions for spaces can be found here https://en.wikipedia.org/wiki/Polytope_compound under Dual Compounds section
 
-~synthf_1.scd is reviewed verson on spaced timbre
+~synthf_1.scd is reviewed verson on spaces (geodesies) timbre
