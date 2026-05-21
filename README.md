@@ -32,3 +32,6 @@
 ~if unsure on speaker system dynamic range do not set drive to high at low pitch 
 
 ~system runs on windows pc, mac, linux and or raspberry pi 5
+
+~eny time the software opens synthf has a new random timbre, to set on solid uncomment this line 
+//thisThread.randSeed = 689;
