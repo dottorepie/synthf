@@ -31,16 +31,22 @@ Tdef(\drone, {
 (
 {
 var nn=1.neg;
-~scalee=~note.collect{nn=nn+1;Scale.phrygian.performDegreeToKey(nn,12)};
+~scalee=~note.collect{nn=nn+1;Scale.chromatic.performDegreeToKey(nn,12)};
 }.value;
 );
 (
 {
 var nn=1.neg;
-~scaleee=~note.collect{nn=nn+1;Scale.dorian.performDegreeToKey(nn,12)};
+~scaleee=~note.collect{nn=nn+1;Scale.diminished.performDegreeToKey(nn,12)};
 }.value;
 );
-~sc=[~scalee,~scaleee];
+(
+{
+var nn=1.neg;
+~scaleeee=~note.collect{nn=nn+1;Scale.dorian.performDegreeToKey(nn,12)};
+}.value;
+);
+~sc=[~scalee,~scaleee,~scaleeee];
 );
 (
 ~n=1.neg;~array=992.collect{~n=~n+1;2.pow(~n/992)};
@@ -291,7 +297,7 @@ Pbind(\instrument, \synth,\dur, ~seq,\gain, Pfunc { ~gain }, \sc, Pfunc { ~ssc }
 				(
 					MIDIdef.cc(\midi_pot6,{ |val, num, chan, src|
 						var a;
-						a=val.linlin(0,127,0,1).round(1).asInteger;
+						a=val.linlin(0,127,0,2).round(1).asInteger;
 						a.postln;
 						~scalee=a;
 					},6);
@@ -379,7 +385,7 @@ value=obj.value.linexp(0,1,0.001,5).postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,0,1).round(1).asInteger.postln;
+value=obj.value.linlin(0,1,0,2).round(1).asInteger.postln;
 ~scalee=value;
 });
 );
