@@ -17,7 +17,7 @@
 
 ~open startup.scd and paste on the writing environment of SuperCollider, the contnet of the synthf_1.scd
 
-~If you Download and load synthf_1.scd or synthf1a.scd then copy paste or drag and drop image1.jpg or any image you prefer, in the parentheses on Line 20 like so, ~img_print = Image.open("image1 path");, (with no image loaded the synth will crash, after pasting in the parentheses of Image.open(), the new path should appear in "")
+~If you do not download or load synthf_1.scd or synthf1a.scd, but synthd.scd then copy paste or drag and drop image1.jpg or any image you prefer, in the parentheses on Line 20 like so, ~img_print = Image.open("image1 path");, (with no image loaded the synth will crash, after pasting in the parentheses of Image.open(), the new path should appear in "")
 
 ~save startup.scd and overwrite previous save
 
