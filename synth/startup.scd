@@ -7,6 +7,7 @@ s.options.numInputBusChannels=0;
 s.options.memSize = 8192*8;
 s.options.blockSize = 64;
 s.options.maxNodes = 8192*2;
+Quarks.install("MathLib");
 Buffer.freeAll;
 Window.closeAll;
 s.makeGui(w);
@@ -100,7 +101,7 @@ n=n+1;
 (
 SynthDef.new(\synth,{
 arg gain=1,drive=0,c=0,az=0,el=0,scalee=0,dicay=0.5,attack=0.01,sc=20;
-var fund,fu=128,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
+var fund,fu=4,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
 var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
 var b_x,b_y,b_z,polytope,mp,env,expansion,sph1,sph2,xx,yy,zz;
 var g_ch1,g_ch2,g_ch3,g_ch4;
@@ -298,7 +299,7 @@ Pbind(\instrument, \synth,\dur, ~seq,\gain, Pfunc { ~gain }, \sc, Pfunc { ~ssc }
 						(
 					MIDIdef.cc(\midi_pot8,{ |val, num, chan, src|
 						var a;
-						a=val.linlin(0,127,0,16256*2).round(1).asInteger;
+						a=val.linlin(0,127,0,16256*4).round(1).asInteger;
 						a.postln;
 						~c=a;
 					},8);
@@ -387,7 +388,7 @@ value=obj.value.linlin(0,1,0,1).round(1).asInteger.postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,0,16256*2).round(1).asInteger.postln;
+value=obj.value.linlin(0,1,0,16256*4).round(1).asInteger.postln;
 ~c=value;
 });
 );
