@@ -38,3 +38,7 @@
 ~eny time the software opens synthf has a new random timbre
 
 ~use server window gain slider to adjust limiting of drive
+
+~feel free to use an image of your choosing for background 
+
+~recommended use: musical autonomon, laptop orchestra, beatmaking
