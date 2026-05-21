@@ -1,4 +1,5 @@
 //////SETUP WIZARD/////////////////////////////////////
+~synthf_1.scd is reviewed verson on spaces (geodesies) timbre
 
 ~download and install SuperCollider https://supercollider.github.io
 
@@ -49,4 +50,3 @@
 
 ~instructions for spaces can be found here https://en.wikipedia.org/wiki/Polytope_compound under Dual Compounds section
 
-~synthf_1.scd is reviewed verson on spaces (geodesies) timbre
