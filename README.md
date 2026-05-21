@@ -1,3 +1,5 @@
+//////SETUP WIZARD/////////////////////////////////////
+
 ~download and install SuperCollider https://supercollider.github.io
 
 ~download synth folder from this Repository
