@@ -101,7 +101,7 @@ n=n+1;
 (
 SynthDef.new(\synth,{
 arg gain=1,drive=0,c=0,az=0,el=0,scalee=0,dicay=0.5,attack=0.01,sc=20;
-var fund,fu=4,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
+var fund,fu=9,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
 var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
 var b_x,b_y,b_z,polytope,mp,env,expansion,sph1,sph2,xx,yy,zz;
 var g_ch1,g_ch2,g_ch3,g_ch4;
