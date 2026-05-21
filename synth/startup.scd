@@ -349,7 +349,7 @@ b.postln;
 (
 {
 var size,sk,compass,n,scl,r;
-size=1200; sk=(size/50); n=(2pi/9).neg; scl=(size/4); r=2;
+size=700; sk=(size/30); n=(2pi/9).neg; scl=(size/4); r=2;
 w = Window("synthf", Rect(50, 50, size, size)).front;
 ~vw = UserView(w, w.view.bounds).drawFunc_({ ~img_print.drawInRect(~vw.bounds)});
 compass=10.collect{n=n+(2pi/9); (exp(Complex(0,1)*n)*scl)};
@@ -376,7 +376,7 @@ value=obj.value.linlin(0,1,(16256*4).neg,(16256*2)).round(1).asInteger.postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,0.001,5).postln;
+value=obj.value.linexp(0,1,0.001,2).postln;
 ~attack=value;
 });
 );
@@ -394,7 +394,7 @@ value=obj.value.linlin(0,1,0,2).round(1).asInteger.postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,0,16256*4).round(1).asInteger.postln;
+value=obj.value.linlin(0,1,0,16256*6).round(1).asInteger.postln;
 ~c=value;
 });
 );
@@ -403,7 +403,7 @@ value=obj.value.linlin(0,1,0,16256*4).round(1).asInteger.postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,0.001,8).postln;
+value=obj.value.linexp(0,1,0.001,5).postln;
 ~decay=value;
 });
 );
