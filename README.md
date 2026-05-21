@@ -46,3 +46,5 @@
 ~each time the software opens, synthf has a new random timbre, to set one solid, set fixed random seed in synthf.scd, or modulated via routine or envelope, or spherical data from one azimuth and one elevation array. Loading an image as timbre can be found in image-to-sound Repository. Adding or miltiplying more oscillators and other Ugens will most propably crash the synth, as it runs one one server (~10% of CPU usage)
 
 ~in file synthf at the bottom arrays of spaces can be found (polytopes), these can be used in rhythm array section or for developing more ouput channels (or use VBAP plugin), or for timbre
+
+~instructions for spaces can be found here https://en.wikipedia.org/wiki/Polytope_compound under Dual Compounds section
