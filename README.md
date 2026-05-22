@@ -15,9 +15,9 @@
 
 ~find SuperCollider startup file in SuperCollider file in User Library, APPDATA on Windows, Application Support on Mac
 
-~open startup.scd and paste on the writing environment of SuperCollider, the contnet of the synthf_1.scd
+~open startup.scd and paste on the writing environment of SuperCollider, the contnet of the synthf_1.scd , synthf or 1a, or directly use startup.scd from this repository 
 
-~If you do not download or load synthf_1.scd or synthf1a.scd, but synthd.scd then copy paste or drag and drop image1.jpg or any image you prefer, in the parentheses on Line 20 like so, ~img_print = Image.open("image1 path");, (with no image loaded the synth will crash, after pasting in the parentheses of Image.open(), the new path should appear in "")
+~ then copy paste or drag and drop image1.jpg or any image you prefer, in the parentheses on Line 20 like so, ~img_print = Image.open("image1 path");, (with no image loaded the synth will crash, after pasting in the parentheses of Image.open(), the new path should appear in "")
 
 ~save startup.scd and overwrite previous save
 
@@ -25,13 +25,12 @@
 
 ~terminate the synth either by closing SuperCollider or quiting the server on the server window 
 
-
 ~knobs on the synth are clockwise with 12oclock being knob0 and so on till 9
+
+~knobs are 0:azimuthal tonal argument, 1:elevation tonal argument, 2:tonal range, 3:drive, 4:envelope attack, 5:toggle scales (phrygian,dorian), 6:fundamental, 7:envelope decay, 8:tempo (0.001,128)Hz (beats per second)
 
 ~ for startup.scd knobs are clockwise 0 to 8 with 0 being12o clock.0 and 1 are quantized tone variation in complex relation and localization, 2 is tone variation range, 3 is drive, 4 is envelope attack, 5 is scale toggle (chromatiqc, diminished,dorian),
 6 is tempered fundamental from ultra low to mid/high, 7 is decay and 8 tempo.
-
-~knobs are 0:azimuthal tonal argument, 1:elevation tonal argument, 2:tonal range, 3:drive, 4:envelope attack, 5:toggle scales (phrygian,dorian), 6:fundamental, 7:envelope decay, 8:tempo (0.001,128)Hz (beats per second)
 
 ~if turning tempo to max, preferably do not set max long attack and decay at the same time so the sound engine does not crash
 
