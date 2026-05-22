@@ -10,6 +10,7 @@
 /////////////////////////////////////////////
 
 ~download and install SuperCollider 3.14 and further https://supercollider.github.io
+Note that project sybthf builds against SuperCollider 3.13.0, only MathLib Quark is required, other than core SuperCollider Objects and Ugens
 
 ~download files from synth folder from this Repository to a local new synth folder
 
