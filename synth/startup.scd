@@ -78,16 +78,12 @@ n=n+1;
 }.value;
 );*/
 (
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Rhombic Triacontahedron
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////simplex
 (
-~azimuth=[0.degrad,0.degrad,72.degrad,144.degrad,144.neg.degrad,72.neg.degrad,36.degrad,108.degrad,180.degrad,108.neg.degrad,36.neg.degrad,
-	0.degrad,72.degrad,144.degrad,144.neg.degrad,72.neg.degrad,36.degrad,108.degrad,180.degrad,108.neg.degrad,36.neg.degrad,
-	0.degrad,72.degrad,144.degrad,144.neg.degrad,72.neg.degrad,36.degrad,108.degrad,180.degrad,108.neg.degrad,36.neg.degrad,0.degrad];
-
-~elevation=[90.neg.degrad,52.6.neg.degrad,52.6.neg.degrad,52.6.neg.degrad,52.6.neg.degrad,52.6.neg.degrad,26.6.neg.degrad,26.6.neg.degrad,26.6.neg.degrad,26.6.neg.degrad,26.6.neg.degrad,10.8.neg.degrad,10.8.neg.degrad,10.8.neg.degrad,10.8.neg.degrad,10.8.neg.degrad,52.6.degrad,52.6.degrad,52.6.degrad,52.6.degrad,52.6.degrad,26.6.degrad,26.6.degrad,26.6.degrad,26.6.degrad,26.6.degrad,10.8.degrad,10.8.degrad,10.8.degrad,10.8.degrad,10.8.degrad,90.degrad];
-
+~azimuth=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad,pi.rand2];
+~elevation=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad,0.5pi.rand2];
 );
-~vertices=32;
+~vertices=5;
 {
 var timbre,raz,rel,difaz,difel,nn=1.neg;
 difaz=~vertices.collect{nn=nn+1;~azimuth.[nn]};
@@ -367,7 +363,7 @@ value=obj.value.linexp(0,1,1,28).round(1).asInteger;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,(16256*4).neg,(16256*2)).round(1).asInteger.postln;
+value=obj.value.linlin(0,1,(16256*3).neg,(16256*5)).round(1).asInteger.postln;
 ~drive=value;
 });
 );
@@ -403,7 +399,7 @@ value=obj.value.linlin(0,1,0,16256*6).round(1).asInteger.postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,0.001,5).postln;
+value=obj.value.linexp(0,1,0.001,16).postln;
 ~decay=value;
 });
 );
@@ -440,7 +436,6 @@ value=obj.value.linlin(0,1,0.degrad,pi-(pi/~silver)).round((pi/992).degrad).post
 }); Tdef(\drone).play;
 }
 )
-
 
 
 
