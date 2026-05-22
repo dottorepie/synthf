@@ -87,7 +87,7 @@ n=n+1;
 ~azimuth=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad,~s1,~s2,~s3,~s4];
 ~elevation=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad,~s1*0.5,~s2*0.5,~s3*0.5,~s4*0.5];
 );
-~vertices=7;
+~vertices=8;
 {
 var timbre,raz,rel,difaz,difel,nn=1.neg;
 difaz=~vertices.collect{nn=nn+1;~azimuth.[nn]};
