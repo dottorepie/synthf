@@ -31,13 +31,13 @@ Tdef(\drone, {
 (
 {
 var nn=1.neg;
-~scalee=~note.collect{nn=nn+1;Scale.chromatic.performDegreeToKey(nn,12)};
+~scalee=~note.collect{nn=nn+1;Scale.mixolydian.performDegreeToKey(nn,12)};
 }.value;
 );
 (
 {
 var nn=1.neg;
-~scaleee=~note.collect{nn=nn+1;Scale.diminished.performDegreeToKey(nn,12)};
+~scaleee=~note.collect{nn=nn+1;Scale.phrygian.performDegreeToKey(nn,12)};
 }.value;
 );
 (
@@ -80,14 +80,12 @@ n=n+1;
 (
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////simplex
 (
-~s1=0.rand2;
-~s2=0.25.rand2;
-~s3=0.5.rand;
-~s4=0.75;
-~azimuth=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad,~s1,~s2,~s3,~s4];
-~elevation=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad,~s1*0.5,~s2*0.5,~s3*0.5,~s4*0.5];
+~s1=0.5pi.rand2;
+~s2=pi.rand2;
+~azimuth=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad,~s1,~s2];
+~elevation=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad,~s1*0.5,~s2*0.5];
 );
-~vertices=8;
+~vertices=6;
 {
 var timbre,raz,rel,difaz,difel,nn=1.neg;
 difaz=~vertices.collect{nn=nn+1;~azimuth.[nn]};
