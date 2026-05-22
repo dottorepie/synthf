@@ -28,6 +28,9 @@
 
 ~knobs on the synth are clockwise with 12oclock being knob0 and so on till 9
 
+~ for startup.scd knobs are clockwise 0 to 8 with 0 being12o clock.0 and 1 are quantized tone variation in complex relation and localization, 2 is tone variation range, 3 is drive, 4 is envelope attack, 5 is scale toggle (chromatiqc, diminished,dorian),
+6 is tempered fundamental from ultra low to mid/high, 7 is decay and 8 tempo.
+
 ~knobs are 0:azimuthal tonal argument, 1:elevation tonal argument, 2:tonal range, 3:drive, 4:envelope attack, 5:toggle scales (phrygian,dorian), 6:fundamental, 7:envelope decay, 8:tempo (0.001,128)Hz (beats per second)
 
 ~if turning tempo to max, preferably do not set max long attack and decay at the same time so the sound engine does not crash
