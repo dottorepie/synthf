@@ -80,11 +80,13 @@ n=n+1;
 (
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////simplex
 (
-~s=pi.rand2;
-~azimuth=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad,~s];
-~elevation=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad,~s*0.5];
+~s1=pi.rand2;
+~s2=pi.rand2;
+~s3=pi.rand2;
+~azimuth=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad,~s1,~s2,~s3];
+~elevation=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad,~s1*0.5,~s2*0.5,~s3*0.5];
 );
-~vertices=5;
+~vertices=7;
 {
 var timbre,raz,rel,difaz,difel,nn=1.neg;
 difaz=~vertices.collect{nn=nn+1;~azimuth.[nn]};
