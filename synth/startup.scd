@@ -80,8 +80,9 @@ n=n+1;
 (
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////simplex
 (
-~azimuth=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad,pi.rand2];
-~elevation=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad,0.5pi.rand2];
+~s=pi.rand2;
+~azimuth=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad,~s];
+~elevation=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad,~s*0.5];
 );
 ~vertices=5;
 {
