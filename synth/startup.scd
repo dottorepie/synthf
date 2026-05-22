@@ -4,7 +4,7 @@
 s.options.numWireBufs = 1024*2;
 s.options.numOutputBusChannels=4;
 s.options.numInputBusChannels=0;
-s.options.memSize = 8192*8;
+s.options.memSize = 8192*16;
 s.options.blockSize = 64;
 s.options.maxNodes = 8192*2;
 Quarks.install("MathLib");
@@ -374,7 +374,7 @@ value=obj.value.linlin(0,1,(16256*3).neg,(16256*5)).round(1).asInteger.postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,0.001,2).postln;
+value=obj.value.linexp(0,1,0.01,4).postln;
 ~attack=value;
 });
 );
@@ -401,7 +401,7 @@ value=obj.value.linlin(0,1,0,16256*6).round(1).asInteger.postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,0.001,16).postln;
+value=obj.value.linexp(0,1,1,8).postln;
 ~decay=value;
 });
 );
@@ -410,7 +410,7 @@ value=obj.value.linexp(0,1,0.001,16).postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,0.1,128).postln;
+value=obj.value.linexp(0,1,0.1,56).postln;
 TempoClock.default.tempo_(value);
 });
 );
