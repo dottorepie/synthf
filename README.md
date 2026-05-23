@@ -55,7 +55,7 @@ Note that project sybthf builds against SuperCollider 3.13.0, only MathLib Quark
 
 ~32 vertices is the normal range. This range affects greatly the disconance of the scales in toggle. Setting more or other scales for the toggle knob function is recommended (Scale.directory)
 
-~ startup file has 4 vertices as real output channels and 4 as imaginary. Therofore echolocations are presnt through time, playback on stereo or quad is irrelevant, speaker placement also greatly, wattage only noise++
+~ startup file has 4 vertices as real output channels and 2 as imaginary, (6 virtual channels, octahedral symmetry). Therofore echolocations are presnt through time, playback on stereo or quad is irrelevant, speaker placement also greatly, wattage only noise++
 
 
 //////////Raspberry:
