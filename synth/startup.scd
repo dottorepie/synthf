@@ -85,18 +85,20 @@ n=n+1;
 ~azimuth=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad,~s1,~s2];
 ~elevation=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad,~s1*0.5,~s2*0.5];
 );
-~vertices=6;
+~vertices=16;~n=6;
 {
 var timbre,raz,rel,difaz,difel,nn=1.neg;
-difaz=~vertices.collect{nn=nn+1;~azimuth.[nn]};
+difaz=~n.collect{nn=nn+1;~azimuth.[nn]};
 nn=1.neg;
-difel=~vertices.collect{nn=nn+1;~elevation.[nn]};
+difel=~n.collect{nn=nn+1;~elevation.[nn]};
 n=0; ~cx=[]; ~cy=[]; ~cz=[];
 ~vertices.do{
+	~n.do{
 ~cx=~cx++Spherical(1,difaz.[n],difel.[n]).x;
 ~cy=~cy++Spherical(1,difaz.[n],difel.[n]).y;
 ~cz=~cz++Spherical(1,difaz.[n],difel.[n]).z;
 n=n+1;
+					};n=0;
 };
 }.value;
 );
