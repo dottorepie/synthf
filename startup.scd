@@ -23,12 +23,12 @@ Tdef(\drone, {
 ////////////////////////////////////////////////////////////////////////////////////////// wavetable, scales, space,timbre
 ///////////////////////////////////////cuboctahedron
 (
-~s1=pi.rand2;
-~s2=~s1.neg;
-~az=[0.degrad,90.degrad,180.degrad,90.neg.degrad,45.degrad,135.degrad,45.neg.degrad,135.neg.degrad,
-	0.degrad,90.degrad,180.degrad,90.neg.degrad,~s1,~s2];
-~el=[45.neg.degrad,45.neg.degrad,45.neg.degrad,45.neg.degrad,0.degrad,0.degrad,0.degrad,0.degrad,
-	45.degrad,45.degrad,45.degrad,45.degrad,~s1/2,~s2/2];
+~s1=pi.rand2;~s2=pi.rand2;~s3=pi.rand2;~s4=pi.rand2;
+~s5=pi.rand2;~s6=pi.rand2;~s7=pi.rand2;~s8=pi.rand2;
+~s9=pi.rand2;~s10=pi.rand2;~s11=pi.rand2;~s12=pi.rand2;
+~az=[~s1,~s2,~s3,~s4,~s5,~s6,~s7,~s8,~s9,~s10,~s11,~s12];
+~el=[~s1/2,~s2/2,~s3/2,~s4/2,~s5/2,~s6/2,
+			~s7/2,~s8/2,~s9/2,~s10/2,~s11/2,~s12/2];
 );
 
 
@@ -58,7 +58,7 @@ var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
 var b_x,b_y,b_z,polytope,mp,env,expansion,sph1,sph2,xx,yy,zz;
 var g_ch1,g_ch2,g_ch3,g_ch4,s1,s2,s3,s4,a1,a2,a3,a4;
 
-s1=14.rand;s2=14.rand;s3=14.rand;s4=14.rand;
+s1=13.rand;s2=13.rand;s3=13.rand;s4=13.rand;
 env=EnvGen.ar(Env.perc(attack,dicay,gain),doneAction:2);
 
 expansion=2.pow(c.lag(0.001)/16256);
@@ -112,7 +112,7 @@ Spherical(sig3.range(0,2.sqrt),~az[s2]*a2,~el[s2]*a2).z)
 );
 g_ch3 = (
 (Spherical(1,(polytope.theta),(polytope.phi)).x *
-Spherical(sig1.range(0,2.sqrt),~az[s3]*a3,~el[0]*a3).x) +
+Spherical(sig1.range(0,2.sqrt),~az[s3]*a3,~el[s3]*a3).x) +
 (Spherical(1,(polytope.theta),(polytope.phi)).y *
 Spherical(sig2.range(0,2.sqrt),~az[s3]*a3,~el[s3]*a3).y)+
 (Spherical(1,(polytope.theta),(polytope.phi)).z *
@@ -142,7 +142,7 @@ Out.ar(0,sig3*env*g_ch1);Out.ar(1,sig3*env*g_ch2);Out.ar(2,sig3*env*g_ch3);Out.a
 (
 
 ({
-var m1=1.neg, m2=1.neg, m3=1.neg,a,b,c,n=0,bank=14,time=32.reciprocal,beat=1,r=0;
+var m1=1.neg, m2=1.neg, m3=1.neg,a,b,c,n=0,bank=12,time=32.reciprocal,beat=1,r=0;
 ~r=0;~r1=0;	~r2=0;
 (
 ~dur1=[];~dur2=[];~dur3=[]; ~dx=[];~dy=[]; ~dz=[]; ~durx=[]; ~dury=[]; ~durz=[]; ~dur=[];
@@ -198,7 +198,7 @@ compass=10.collect{n=n+(2pi/9); (exp(Complex(0,1)*n)*scl)};
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,1,8128*2).round(1).asInteger;
+value=obj.value.linexp(0,1,1,8128*2).round(1).asInteger.postln;
 ~ssc=value;
 });
 );
