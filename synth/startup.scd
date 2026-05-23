@@ -155,35 +155,35 @@ Out.kr(~controlBus.index,sig3);
 
 g_ch1 = (
 (Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).x *
-Spherical(1,~az[0],~el[0]).x) +
+Spherical(sig1.range(0,2.sqrt),~az[0],~el[0]).x) +
 (Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).y *
-Spherical(1,~az[0],~el[0]).y)+
+Spherical(sig2.range(0,2.sqrt),~az[0],~el[0]).y)+
 (Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).z *
-Spherical(1,~az[0],~el[0]).z)
+Spherical(sig3.range(0,2.sqrt),~az[0],~el[0]).z)
 );
 g_ch2 = (
 (Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).x *
-Spherical(1,~az[1],~el[1]).x)+
+Spherical(sig1.range(0,2.sqrt),~az[1],~el[1]).x)+
 (Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).y *
-Spherical(1,~az[1],~el[1]).y)+
+Spherical(sig2.range(0,2.sqrt),~az[1],~el[1]).y)+
 (Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).z *
-Spherical(1,~az[1],~el[1]).z)
+Spherical(sig3.range(0,2.sqrt),~az[1],~el[1]).z)
 );
 g_ch3 = (
 (Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi ).wrap(~el[2],~el[1])).x *
-Spherical(1,~az[2],~el[2]).x)+
+Spherical(sig1.range(0,2.sqrt),~az[2],~el[2]).x)+
 (Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).y *
-Spherical(1,~az[2],~el[2]).y)+
+Spherical(sig2.range(0,2.sqrt),~az[2],~el[2]).y)+
 (Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).z *
-Spherical(1,~az[2],~el[2]).z)
+Spherical(sig3.range(0,2.sqrt),~az[2],~el[2]).z)
 );
 g_ch4 = (
 (Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).x *
-Spherical(1,~az[3],~el[3]).x) +
+Spherical(sig1.range(0,2.sqrt),~az[3],~el[3]).x) +
 (Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).y *
-Spherical(1,~az[3],~el[3]).y)+
+Spherical(sig2.range(0,2.sqrt),~az[3],~el[3]).y)+
 (Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).z *
-Spherical(1,~az[3],~el[3]).z)
+Spherical(sig3.range(0,2.sqrt),~az[3],~el[3]).z)
 );
 
 //Out.ar(0,sig1*env);Out.ar(1,sig2*env);Out.ar(0,(sig3*env*2.sqrt.reciprocal)!2);
