@@ -200,7 +200,7 @@ compass=10.collect{n=n+(2pi/9); (exp(Complex(0,1)*n)*scl)};
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,1,16256*3).round(1).asInteger;
+value=obj.value.linexp(0,1,1,16256).round(1).asInteger;
 ~ssc=value;
 });
 );
