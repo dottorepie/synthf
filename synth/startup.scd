@@ -7,7 +7,7 @@ s.options.numInputBusChannels=0;
 s.options.memSize = 8192*256;
 s.options.blockSize = 64;
 s.options.maxNodes = 8192*2;
-Quarks.install("MathLib");
+//Quarks.install("MathLib");
 Buffer.freeAll;
 Window.closeAll;
 s.makeGui(w);
@@ -21,13 +21,19 @@ s.makeGui(w);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 s.waitForBoot{
 Tdef(\drone, {
-~controlBus = Bus.control(s, 1);
+//~controlBus = Bus.control(s, 1);
 
 ////////////////////////////////////////////////////////////////////////////////////////// wavetable, scales, space,timbre
+///////////////////////////////////////cuboctahedron
 (
-~az=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad];
-~el=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad];
+~s1=pi.rand2;
+~s2=~s1.neg;
+~az=[0.degrad,90.degrad,180.degrad,90.neg.degrad,45.degrad,135.degrad,45.neg.degrad,135.neg.degrad,
+	0.degrad,90.degrad,180.degrad,90.neg.degrad,~s1,~s2];
+~el=[45.neg.degrad,45.neg.degrad,45.neg.degrad,45.neg.degrad,0.degrad,0.degrad,0.degrad,0.degrad,
+	45.degrad,45.degrad,45.degrad,45.degrad,~s1/2,~s2/2];
 );
+
 
 (
 ~n=1.neg;~array=992.collect{~n=~n+1;2.pow(~n/992)};
@@ -45,31 +51,17 @@ wt = signal.asWavetable;
 //signal.plot;
 }.value;
 );
-/*(
-{
-var timbre,raz,rel,dif,nn=0;
-dif=366.collect{thisThread.randSeed =(689+nn); nn=nn+1;Spherical(1,2pi.rand2,pi.rand2)};
-n=0; ~cx=[]; ~cy=[]; ~cz=[];
-366.do{
-~cx=~cx++dif.[n].x;
-~cy=~cy++dif.[n].y;
-~cz=~cz++dif.[n].z;
-n=n+1;
-};
-}.value;
-);*/
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////sound
 (
 SynthDef.new(\synth,{
-arg gain=1,drive=0,c=0,az=0,el=0,scalee=0,dicay=0.5,attack=0.01,sc=20;
+arg gain=1,drive=0,c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20;
 var fund,fu=9,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
 var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
 var b_x,b_y,b_z,polytope,mp,env,expansion,sph1,sph2,xx,yy,zz;
-var g_ch1,g_ch2,g_ch3,g_ch4;
+var g_ch1,g_ch2,g_ch3,g_ch4,s1,s2,s3,s4;
 
-~az=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad];
-~el=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad];
+s1=14.rand;s2=14.rand;s3=14.rand;s4=14.rand;
 env=EnvGen.ar(Env.perc(attack,dicay,gain),doneAction:2);
 
 expansion=2.pow(c.lag(0.001)/16256);
@@ -103,41 +95,37 @@ sig1=LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex,mul:300).abs*SinOsc.ar(freq1,p
 sig2=LPF.ar((Osc.ar(~wt.bufnum,freq2,phase:phasey,mul:300).abs*SinOsc.ar(freq2,phase:phasey)),freq2*heavy,amp2);
 sig3=LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez,mul:300).abs*SinOsc.ar(freq3,phase:phasez)),freq3*heavy,amp3);
 
-Out.kr(~controlBus.index,sig1);
-Out.kr(~controlBus.index,sig2);
-Out.kr(~controlBus.index,sig3);
-
 g_ch1 = (
-(Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).x *
-Spherical(sig1.range(0,2.sqrt),~az[0],~el[0]).x) +
-(Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).y *
-Spherical(sig2.range(0,2.sqrt),~az[0],~el[0]).y)+
-(Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).z *
-Spherical(sig3.range(0,2.sqrt),~az[0],~el[0]).z)
+(Spherical(1,(polytope.theta),(polytope.phi)).x *
+Spherical(sig1.range(0,2.sqrt),~az[s1],~el[s1]).x) +
+(Spherical(1,(polytope.theta),(polytope.phi)).y *
+Spherical(sig2.range(0,2.sqrt),~az[s1],~el[s1]).y)+
+(Spherical(1,(polytope.theta),(polytope.phi)).z *
+Spherical(sig3.range(0,2.sqrt),~az[s1],~el[s1]).z)
 );
 g_ch2 = (
-(Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).x *
-Spherical(sig1.range(0,2.sqrt),~az[1],~el[1]).x)+
-(Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).y *
-Spherical(sig2.range(0,2.sqrt),~az[1],~el[1]).y)+
-(Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).z *
-Spherical(sig3.range(0,2.sqrt),~az[1],~el[1]).z)
+(Spherical(1,(polytope.theta),(polytope.phi)).x *
+Spherical(sig1.range(0,2.sqrt),~az[s2],~el[s2]).x) +
+(Spherical(1,(polytope.theta),(polytope.phi)).y *
+Spherical(sig2.range(0,2.sqrt),~az[s2],~el[s2]).y)+
+(Spherical(1,(polytope.theta),(polytope.phi)).z *
+Spherical(sig3.range(0,2.sqrt),~az[s2],~el[s2]).z)
 );
 g_ch3 = (
-(Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi ).wrap(~el[2],~el[1])).x *
-Spherical(sig1.range(0,2.sqrt),~az[2],~el[2]).x)+
-(Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).y *
-Spherical(sig2.range(0,2.sqrt),~az[2],~el[2]).y)+
-(Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).z *
-Spherical(sig3.range(0,2.sqrt),~az[2],~el[2]).z)
+(Spherical(1,(polytope.theta),(polytope.phi)).x *
+Spherical(sig1.range(0,2.sqrt),~az[s3],~el[0]).x) +
+(Spherical(1,(polytope.theta),(polytope.phi)).y *
+Spherical(sig2.range(0,2.sqrt),~az[s3],~el[s3]).y)+
+(Spherical(1,(polytope.theta),(polytope.phi)).z *
+Spherical(sig3.range(0,2.sqrt),~az[s3],~el[s3]).z)
 );
 g_ch4 = (
-(Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).x *
-Spherical(sig1.range(0,2.sqrt),~az[3],~el[3]).x) +
-(Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).y *
-Spherical(sig2.range(0,2.sqrt),~az[3],~el[3]).y)+
-(Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).z *
-Spherical(sig3.range(0,2.sqrt),~az[3],~el[3]).z)
+(Spherical(1,(polytope.theta),(polytope.phi)).x *
+Spherical(sig1.range(0,2.sqrt),~az[s4],~el[s4]).x) +
+(Spherical(1,(polytope.theta),(polytope.phi)).y *
+Spherical(sig2.range(0,2.sqrt),~az[s4],~el[s4]).y)+
+(Spherical(1,(polytope.theta),(polytope.phi)).z *
+Spherical(sig3.range(0,2.sqrt),~az[s4],~el[s4]).z)
 );
 
 //Out.ar(0,sig1*env);Out.ar(1,sig2*env);Out.ar(0,(sig3*env*2.sqrt.reciprocal)!2);
@@ -153,16 +141,13 @@ Out.ar(0,sig3*env*g_ch1);Out.ar(1,sig3*env*g_ch2);Out.ar(2,sig3*env*g_ch3);Out.a
 /////////////////////////////////////////////////////////////////////////////////////////////////////////sequencer,pattern
 (
 (
-(
-~az=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad];
-~el=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad];
-);
+
 ({
-var m1=1.neg, m2=1.neg, m3=1.neg,a,b,c,n=0,bank=4,time=32.reciprocal,beat=1,r=0;
+var m1=1.neg, m2=1.neg, m3=1.neg,a,b,c,n=0,bank=14,time=32.reciprocal,beat=1,r=0;
 ~r=0;~r1=0;	~r2=0;
 (
 ~dur1=[];~dur2=[];~dur3=[]; ~dx=[];~dy=[]; ~dz=[]; ~durx=[]; ~dury=[]; ~durz=[]; ~dur=[];
-3.do{
+1.do{
 ~x=bank.collect{
 m1=m1+1;
 b=Spherical(beat,~az.[m1],~el.[m1]).rotate(~r).tilt(~r1).tumble(~r2).x;
@@ -186,7 +171,7 @@ bank.do{ ~dur3=~dur3++~dz.[n];n=n+1;};n=0;
 )}.value);
 );
 
-~gain=1;~drive=0;~c=0;~az=0;~el=0;~scalee=0;~attack=0.01;~decay=1;~incr1=0;~incr2=0;
+~gain=1;~drive=0;~c=0;~az=0;~el=0;~attack=0.01;~decay=1;~incr1=0;~incr2=0;
 ~gold=((1+5.sqrt)/2);~silver=(1+2.sqrt);~incr=0;~g=((1+5.sqrt)/2);~s=(1+2.sqrt);~ssc=26;
 ~seq= Pseq(~dur ,inf).asStream;
 TempoClock.default.tempo_(0.01);
@@ -195,7 +180,7 @@ TempoClock.default.tempo_(0.01);
 Pbind(\instrument, \synth,\dur, ~seq,\gain, Pfunc { ~gain }, \sc, Pfunc { ~ssc },\drive, Pfunc { ~drive },
 \c, Pfunc { ~c },\az, Pseries(0, Pfunc{~incr1}, inf).collect(_.wrap(pi.neg, pi)).asStream,
 \el, Pseries(0, Pfunc{~incr2}, inf).collect(_.wrap(0.5pi.neg, 0.5pi)).asStream,
-\attack,  Pfunc { ~attack }, \dicay, Pfunc { ~decay },\scalee, Pfunc { ~scalee };
+\attack,  Pfunc { ~attack }, \dicay, Pfunc { ~decay };
 ));
 ~pattern.play;
 
@@ -205,11 +190,14 @@ Pbind(\instrument, \synth,\dur, ~seq,\gain, Pfunc { ~gain }, \sc, Pfunc { ~ssc }
 var size,sk,compass,n,scl,r;
 size=700; sk=(size/30); n=(2pi/9).neg; scl=(size/4); r=2;
 w = Window("synthf", Rect(50, 50, size, size)).front;
-~vw = UserView(w, w.view.bounds).drawFunc_({ ~img_print.drawInRect(~vw.bounds)});
+//~vw = UserView(w, w.view.bounds).drawFunc_({ ~img_print.drawInRect(~vw.bounds)});
+					~vw = UserView(w, w.view.bounds).background_(Color.black);
+
+
 compass=10.collect{n=n+(2pi/9); (exp(Complex(0,1)*n)*scl)};
 (
 ~sl1=Knob.new(~vw, Rect.aboutPoint((compass.[0].real+(size/r)) @ (compass.[0].imag+(size/r)), sk, sk)).
-background_(Color.new(~controlBus.getSynchronous,~controlBus.getSynchronous,~controlBus.getSynchronous)).action_({
+background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linexp(0,1,1,16256*3).round(1).asInteger;
@@ -218,7 +206,7 @@ value=obj.value.linexp(0,1,1,16256*3).round(1).asInteger;
 );
 (
 ~sl2=Knob.new(~vw, Rect.aboutPoint((compass.[1].real+(size/r)) @ (compass.[1].imag+(size/r)), sk, sk)).
-background_(Color.new(~controlBus.getSynchronous,~controlBus.getSynchronous,~controlBus.getSynchronous)).action_({
+background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linlin(0,1,(16256*3).neg,(16256*5)).round(1).asInteger.postln;
@@ -227,7 +215,7 @@ value=obj.value.linlin(0,1,(16256*3).neg,(16256*5)).round(1).asInteger.postln;
 );
 (
 ~sl3=Knob.new(~vw, Rect.aboutPoint((compass.[2].real+(size/r)) @ (compass.[2].imag+(size/r)), sk, sk)).
-						background_(Color.new(~controlBus.getSynchronous,~controlBus.getSynchronous,~controlBus.getSynchronous)).action_({
+						background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linexp(0,1,0.01,4).postln;
@@ -235,17 +223,8 @@ value=obj.value.linexp(0,1,0.01,4).postln;
 });
 );
 (
-~sl4=Knob.new(~vw, Rect.aboutPoint((compass.[3].real+(size/r)) @ (compass.[3].imag+(size/r)), sk, sk)).
-background_(Color.new(~controlBus.getSynchronous,~controlBus.getSynchronous,~controlBus.getSynchronous)).action_({
-arg obj;
-var value;
-value=obj.value.linlin(0,1,0,2).round(1).asInteger.postln;
-~scalee=value;
-});
-);
-(
 ~sl5=Knob.new(~vw, Rect.aboutPoint((compass.[4].real+(size/r)) @ (compass.[4].imag+(size/r)), sk, sk)).
-background_(Color.new(~controlBus.getSynchronous,~controlBus.getSynchronous,~controlBus.getSynchronous)).action_({
+background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linlin(0,1,0,16256*6).round(1).asInteger.postln;
@@ -254,7 +233,7 @@ value=obj.value.linlin(0,1,0,16256*6).round(1).asInteger.postln;
 );
 (
 ~sl6=Knob.new(~vw, Rect.aboutPoint((compass.[5].real+(size/r)) @ (compass.[5].imag+(size/r)), sk, sk)).
-background_(Color.new(~controlBus.getSynchronous,~controlBus.getSynchronous,~controlBus.getSynchronous)).action_({
+background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linexp(0,1,1,8).postln;
@@ -263,7 +242,7 @@ value=obj.value.linexp(0,1,1,8).postln;
 );
 (
 ~sl7=Knob.new(~vw, Rect.aboutPoint((compass.[6].real+(size/r))@ (compass.[6].imag+(size/r)), sk, sk)).
-background_(Color.new(~controlBus.getSynchronous,~controlBus.getSynchronous,~controlBus.getSynchronous)).action_({
+background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linexp(0,1,1-(1/~gold),56*~gold).postln;
@@ -272,7 +251,7 @@ TempoClock.default.tempo_(value);
 );
 (
 ~sl8=Knob.new(~vw, Rect.aboutPoint((compass.[7].real+(size/r))@ (compass.[7].imag+(size/r)), sk, sk)).
-background_(Color.new(~controlBus.getSynchronous,~controlBus.getSynchronous,~controlBus.getSynchronous)).action_({
+background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linlin(0,1,0.degrad,2pi-(2pi/~gold)).round((2pi/992).degrad).postln;
@@ -281,16 +260,15 @@ value=obj.value.linlin(0,1,0.degrad,2pi-(2pi/~gold)).round((2pi/992).degrad).pos
 );
 (
 ~sl9=Knob.new(~vw, Rect.aboutPoint((compass.[8].real+(size/r))@ (compass.[8].imag+(size/r)), sk, sk)).
-background_(Color.new(~controlBus.getSynchronous,~controlBus.getSynchronous,~controlBus.getSynchronous)).action_({
+background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linlin(0,1,0.degrad,pi-(pi/~gold)).round((pi/992).degrad).postln;
 ~incr2=value;
 });
-);
-}.defer
 )
-);
+}.defer
+		));
 }); Tdef(\drone).play;
 }
 )
