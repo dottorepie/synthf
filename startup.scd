@@ -13,17 +13,24 @@ Window.closeAll;
 s.makeGui(w);
 //s.meter;
 //s.freqscope;
-s.scope;
+//s.scope;
 );
+
 s.waitForBoot{
 Tdef(\drone, {
 //~controlBus = Bus.control(s, 1);
 
 ////////////////////////////////////////////////////////////////////////////////////////// wavetable, scales, space,timbre
+///////////////////////////////////////cuboctahedron
 (
-~az=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad];
-~el=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad];
+~s1=pi.rand2;
+~s2=~s1.neg;
+~az=[0.degrad,90.degrad,180.degrad,90.neg.degrad,45.degrad,135.degrad,45.neg.degrad,135.neg.degrad,
+	0.degrad,90.degrad,180.degrad,90.neg.degrad,~s1,~s2];
+~el=[45.neg.degrad,45.neg.degrad,45.neg.degrad,45.neg.degrad,0.degrad,0.degrad,0.degrad,0.degrad,
+	45.degrad,45.degrad,45.degrad,45.degrad,~s1/2,~s2/2];
 );
+
 
 (
 ~n=1.neg;~array=992.collect{~n=~n+1;2.pow(~n/992)};
@@ -49,10 +56,9 @@ arg gain=1,drive=0,c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20;
 var fund,fu=9,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
 var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
 var b_x,b_y,b_z,polytope,mp,env,expansion,sph1,sph2,xx,yy,zz;
-var g_ch1,g_ch2,g_ch3,g_ch4;
+var g_ch1,g_ch2,g_ch3,g_ch4,s1,s2,s3,s4,a1,a2,a3,a4;
 
-~az=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad];
-~el=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad];
+s1=14.rand;s2=14.rand;s3=14.rand;s4=14.rand;
 env=EnvGen.ar(Env.perc(attack,dicay,gain),doneAction:2);
 
 expansion=2.pow(c.lag(0.001)/16256);
@@ -86,37 +92,39 @@ sig1=LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex,mul:300).abs*SinOsc.ar(freq1,p
 sig2=LPF.ar((Osc.ar(~wt.bufnum,freq2,phase:phasey,mul:300).abs*SinOsc.ar(freq2,phase:phasey)),freq2*heavy,amp2);
 sig3=LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez,mul:300).abs*SinOsc.ar(freq3,phase:phasez)),freq3*heavy,amp3);
 
+a1=1.rand2;a2=1.rand2;a3=1.rand2;a4=1.rand2;
+
 g_ch1 = (
-(Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).x *
-Spherical(sig1.range(0,2.sqrt),~az[0],~el[0]).x) +
-(Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).y *
-Spherical(sig2.range(0,2.sqrt),~az[0],~el[0]).y)+
-(Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).z *
-Spherical(sig3.range(0,2.sqrt),~az[0],~el[0]).z)
+(Spherical(1,(polytope.theta),(polytope.phi)).x *
+Spherical(sig1.range(0,2.sqrt),~az[s1]*a1,~el[s1]*a1).x) +
+(Spherical(1,(polytope.theta),(polytope.phi)).y *
+Spherical(sig2.range(0,2.sqrt),~az[s1]*a1,~el[s1]*a1).y)+
+(Spherical(1,(polytope.theta),(polytope.phi)).z *
+Spherical(sig3.range(0,2.sqrt),~az[s1]*a1,~el[s1]*a1).z)
 );
 g_ch2 = (
-(Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).x *
-Spherical(sig1.range(0,2.sqrt),~az[1],~el[1]).x)+
-(Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).y *
-Spherical(sig2.range(0,2.sqrt),~az[1],~el[1]).y)+
-(Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).z *
-Spherical(sig3.range(0,2.sqrt),~az[1],~el[1]).z)
+(Spherical(1,(polytope.theta),(polytope.phi)).x *
+Spherical(sig1.range(0,2.sqrt),~az[s2]*a2,~el[s2]*a2).x) +
+(Spherical(1,(polytope.theta),(polytope.phi)).y *
+Spherical(sig2.range(0,2.sqrt),~az[s2]*a2,~el[s2]*a2).y)+
+(Spherical(1,(polytope.theta),(polytope.phi)).z *
+Spherical(sig3.range(0,2.sqrt),~az[s2]*a2,~el[s2]*a2).z)
 );
 g_ch3 = (
-(Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi ).wrap(~el[2],~el[1])).x *
-Spherical(sig1.range(0,2.sqrt),~az[2],~el[2]).x)+
-(Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).y *
-Spherical(sig2.range(0,2.sqrt),~az[2],~el[2]).y)+
-(Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).z *
-Spherical(sig3.range(0,2.sqrt),~az[2],~el[2]).z)
+(Spherical(1,(polytope.theta),(polytope.phi)).x *
+Spherical(sig1.range(0,2.sqrt),~az[s3]*a3,~el[0]*a3).x) +
+(Spherical(1,(polytope.theta),(polytope.phi)).y *
+Spherical(sig2.range(0,2.sqrt),~az[s3]*a3,~el[s3]*a3).y)+
+(Spherical(1,(polytope.theta),(polytope.phi)).z *
+Spherical(sig3.range(0,2.sqrt),~az[s3]*a3,~el[s3]*a3).z)
 );
 g_ch4 = (
-(Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).x *
-Spherical(sig1.range(0,2.sqrt),~az[3],~el[3]).x) +
-(Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).y *
-Spherical(sig2.range(0,2.sqrt),~az[3],~el[3]).y)+
-(Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).z *
-Spherical(sig3.range(0,2.sqrt),~az[3],~el[3]).z)
+(Spherical(1,(polytope.theta),(polytope.phi)).x *
+Spherical(sig1.range(0,2.sqrt),~az[s4]*a4,~el[s4]*a4).x) +
+(Spherical(1,(polytope.theta),(polytope.phi)).y *
+Spherical(sig2.range(0,2.sqrt),~az[s4]*a4,~el[s4]*a4).y)+
+(Spherical(1,(polytope.theta),(polytope.phi)).z *
+Spherical(sig3.range(0,2.sqrt),~az[s4]*a4,~el[s4]*a4).z)
 );
 
 //Out.ar(0,sig1*env);Out.ar(1,sig2*env);Out.ar(0,(sig3*env*2.sqrt.reciprocal)!2);
@@ -132,16 +140,13 @@ Out.ar(0,sig3*env*g_ch1);Out.ar(1,sig3*env*g_ch2);Out.ar(2,sig3*env*g_ch3);Out.a
 /////////////////////////////////////////////////////////////////////////////////////////////////////////sequencer,pattern
 (
 (
-(
-~az=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad];
-~el=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad];
-);
+
 ({
-var m1=1.neg, m2=1.neg, m3=1.neg,a,b,c,n=0,bank=4,time=32.reciprocal,beat=1,r=0;
+var m1=1.neg, m2=1.neg, m3=1.neg,a,b,c,n=0,bank=14,time=32.reciprocal,beat=1,r=0;
 ~r=0;~r1=0;	~r2=0;
 (
 ~dur1=[];~dur2=[];~dur3=[]; ~dx=[];~dy=[]; ~dz=[]; ~durx=[]; ~dury=[]; ~durz=[]; ~dur=[];
-3.do{
+1.do{
 ~x=bank.collect{
 m1=m1+1;
 b=Spherical(beat,~az.[m1],~el.[m1]).rotate(~r).tilt(~r1).tumble(~r2).x;
@@ -184,7 +189,8 @@ Pbind(\instrument, \synth,\dur, ~seq,\gain, Pfunc { ~gain }, \sc, Pfunc { ~ssc }
 var size,sk,compass,n,scl,r;
 size=700; sk=(size/30); n=(2pi/9).neg; scl=(size/4); r=2;
 w = Window("synthf", Rect(50, 50, size, size)).front;
-~vw = UserView(w, w.view.bounds).backround_(Color.black);
+~vw = UserView(w, w.view.bounds).background_(Color.black);
+
 
 compass=10.collect{n=n+(2pi/9); (exp(Complex(0,1)*n)*scl)};
 (
@@ -192,7 +198,7 @@ compass=10.collect{n=n+(2pi/9); (exp(Complex(0,1)*n)*scl)};
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,1,16256*3).round(1).asInteger;
+value=obj.value.linexp(0,1,1,16256).round(1).asInteger;
 ~ssc=value;
 });
 );
