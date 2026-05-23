@@ -27,8 +27,9 @@ Tdef(\drone, {
 ~s5=pi.rand2;~s6=pi.rand2;~s7=pi.rand2;~s8=pi.rand2;
 ~s9=pi.rand2;~s10=pi.rand2;~s11=pi.rand2;~s12=pi.rand2;
 ~az=[~s1,~s2,~s3,~s4,~s5,~s6,~s7,~s8,~s9,~s10,~s11,~s12];
-~el=[~s1/2,~s2/2,~s3/2,~s4/2,~s5/2,~s6/2,
-			~s7/2,~s8/2,~s9/2,~s10/2,~s11/2,~s12/2];
+~el=[~s1.rand2/2,~s2.rand2/2,~s3.rand2/2,~s4.rand2/2,~s5.rand2/2,
+~s6.rand2/2,~s7.rand2/2,~s8.rand2/2,~s9.rand2/2,~s10.rand2/2,
+~s11.rand2/2,~s12.rand2/2];
 );
 
 
@@ -55,7 +56,7 @@ SynthDef.new(\synth,{
 arg gain=1,drive=0,c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20;
 var fund,fu=9,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
 var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
-var b_x,b_y,b_z,polytope,mp,env,expansion,sph1,sph2,xx,yy,zz;
+var b_x,b_y,b_z,polytope,env,expansion,sph1,sph2,xx,yy,zz;
 var g_ch1,g_ch2,g_ch3,g_ch4,s1,s2,s3,s4,a1,a2,a3,a4;
 
 s1=13.rand;s2=13.rand;s3=13.rand;s4=13.rand;
@@ -65,15 +66,14 @@ expansion=2.pow(c.lag(0.001)/16256);
 fund=(fu*(9/8))*expansion;
 heavy=2.pow(drive.lag(0.001)/16256);
 
-xx=Spherical(1,az,el).x.round(1).asInteger;
-yy=Spherical(1,az,el).y.round(1).asInteger;
-zz=Spherical(1,az,el).z.round(1).asInteger;
+xx=Spherical(sc,az,el).x.round(1).asInteger;
+yy=Spherical(sc,az,el).y.round(1).asInteger;
+zz=Spherical(sc,az,el).z.round(1).asInteger;
 polytope=Cartesian(xx,yy,zz);
-mp=Spherical(sc,polytope.theta, polytope.phi);
 
-b_x=2.pow(mp.x.round(1)/16256);
-b_y=2.pow(mp.y.round(1)/16256);
-b_z=2.pow(mp.z.round(1)/16256);
+b_x=2.pow(polytope.x.round(1)/16256);
+b_y=2.pow(polytope.y.round(1)/16256);
+b_z=2.pow(polytope.z.round(1)/16256);
 mod_x=polytope.x;
 mod_y=polytope.y;
 mod_z=polytope.z;
@@ -198,7 +198,7 @@ compass=10.collect{n=n+(2pi/9); (exp(Complex(0,1)*n)*scl)};
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,1,8128*2).round(1).asInteger.postln;
+value=obj.value.linexp(0,1,1,8128*3).round(1).asInteger.postln;
 ~ssc=value;
 });
 );
