@@ -21,6 +21,8 @@ s.makeGui(w);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 s.waitForBoot{
 Tdef(\drone, {
+~controlBus = Bus.control(s, 1);
+
 ////////////////////////////////////////////////////////////////////////////////////////// wavetable, scales, space,timbre
 (
 ~az=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad];
@@ -146,6 +148,10 @@ amp3=b_z.reciprocal*expansion.reciprocal;
 sig1=LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex,mul:300).abs*SinOsc.ar(freq1,phase:phasex)),freq1*heavy,amp1);
 sig2=LPF.ar((Osc.ar(~wt.bufnum,freq2,phase:phasey,mul:300).abs*SinOsc.ar(freq2,phase:phasey)),freq2*heavy,amp2);
 sig3=LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez,mul:300).abs*SinOsc.ar(freq3,phase:phasez)),freq3*heavy,amp3);
+
+Out.kr(~controlBus.index,sig1);
+Out.kr(~controlBus.index,sig2);
+Out.kr(~controlBus.index,sig3);
 
 g_ch1 = (
 (Spherical(1,(polytope.theta).wrap(pi,pi.neg),(polytope.phi).wrap(~el[2],~el[1])).x *
@@ -355,7 +361,7 @@ w = Window("synthf", Rect(50, 50, size, size)).front;
 compass=10.collect{n=n+(2pi/9); (exp(Complex(0,1)*n)*scl)};
 (
 ~sl1=Knob.new(~vw, Rect.aboutPoint((compass.[0].real+(size/r)) @ (compass.[0].imag+(size/r)), sk, sk)).
-background_(Color.black).action_({
+background_(Color.new(~controlBus.getSynchronous,~controlBus.getSynchronous,~controlBus.getSynchronous)).action_({
 arg obj;
 var value;
 value=obj.value.linexp(0,1,1,28).round(1).asInteger;
@@ -364,7 +370,7 @@ value=obj.value.linexp(0,1,1,28).round(1).asInteger;
 );
 (
 ~sl2=Knob.new(~vw, Rect.aboutPoint((compass.[1].real+(size/r)) @ (compass.[1].imag+(size/r)), sk, sk)).
-background_(Color.black).action_({
+background_(Color.new(~controlBus.getSynchronous,~controlBus.getSynchronous,~controlBus.getSynchronous)).action_({
 arg obj;
 var value;
 value=obj.value.linlin(0,1,(16256*3).neg,(16256*5)).round(1).asInteger.postln;
@@ -373,7 +379,7 @@ value=obj.value.linlin(0,1,(16256*3).neg,(16256*5)).round(1).asInteger.postln;
 );
 (
 ~sl3=Knob.new(~vw, Rect.aboutPoint((compass.[2].real+(size/r)) @ (compass.[2].imag+(size/r)), sk, sk)).
-background_(Color.black).action_({
+						background_(Color.new(~controlBus.getSynchronous,~controlBus.getSynchronous,~controlBus.getSynchronous)).action_({
 arg obj;
 var value;
 value=obj.value.linexp(0,1,0.01,4).postln;
@@ -382,7 +388,7 @@ value=obj.value.linexp(0,1,0.01,4).postln;
 );
 (
 ~sl4=Knob.new(~vw, Rect.aboutPoint((compass.[3].real+(size/r)) @ (compass.[3].imag+(size/r)), sk, sk)).
-background_(Color.black).action_({
+background_(Color.new(~controlBus.getSynchronous,~controlBus.getSynchronous,~controlBus.getSynchronous)).action_({
 arg obj;
 var value;
 value=obj.value.linlin(0,1,0,2).round(1).asInteger.postln;
@@ -391,7 +397,7 @@ value=obj.value.linlin(0,1,0,2).round(1).asInteger.postln;
 );
 (
 ~sl5=Knob.new(~vw, Rect.aboutPoint((compass.[4].real+(size/r)) @ (compass.[4].imag+(size/r)), sk, sk)).
-background_(Color.black).action_({
+background_(Color.new(~controlBus.getSynchronous,~controlBus.getSynchronous,~controlBus.getSynchronous)).action_({
 arg obj;
 var value;
 value=obj.value.linlin(0,1,0,16256*6).round(1).asInteger.postln;
@@ -400,7 +406,7 @@ value=obj.value.linlin(0,1,0,16256*6).round(1).asInteger.postln;
 );
 (
 ~sl6=Knob.new(~vw, Rect.aboutPoint((compass.[5].real+(size/r)) @ (compass.[5].imag+(size/r)), sk, sk)).
-background_(Color.black).action_({
+background_(Color.new(~controlBus.getSynchronous,~controlBus.getSynchronous,~controlBus.getSynchronous)).action_({
 arg obj;
 var value;
 value=obj.value.linexp(0,1,1,8).postln;
@@ -409,7 +415,7 @@ value=obj.value.linexp(0,1,1,8).postln;
 );
 (
 ~sl7=Knob.new(~vw, Rect.aboutPoint((compass.[6].real+(size/r))@ (compass.[6].imag+(size/r)), sk, sk)).
-background_(Color.black).action_({
+background_(Color.new(~controlBus.getSynchronous,~controlBus.getSynchronous,~controlBus.getSynchronous)).action_({
 arg obj;
 var value;
 value=obj.value.linexp(0,1,1-(1/~gold),56*~gold).postln;
@@ -418,7 +424,7 @@ TempoClock.default.tempo_(value);
 );
 (
 ~sl8=Knob.new(~vw, Rect.aboutPoint((compass.[7].real+(size/r))@ (compass.[7].imag+(size/r)), sk, sk)).
-background_(Color.black).action_({
+background_(Color.new(~controlBus.getSynchronous,~controlBus.getSynchronous,~controlBus.getSynchronous)).action_({
 arg obj;
 var value;
 value=obj.value.linlin(0,1,0.degrad,2pi-(2pi/~gold)).round((2pi/992).degrad).postln;
@@ -427,7 +433,7 @@ value=obj.value.linlin(0,1,0.degrad,2pi-(2pi/~gold)).round((2pi/992).degrad).pos
 );
 (
 ~sl9=Knob.new(~vw, Rect.aboutPoint((compass.[8].real+(size/r))@ (compass.[8].imag+(size/r)), sk, sk)).
-background_(Color.black).action_({
+background_(Color.new(~controlBus.getSynchronous,~controlBus.getSynchronous,~controlBus.getSynchronous)).action_({
 arg obj;
 var value;
 value=obj.value.linlin(0,1,0.degrad,pi-(pi/~gold)).round((pi/992).degrad).postln;
