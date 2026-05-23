@@ -1,7 +1,8 @@
  Qbit Setup Wizard
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////The following build will only work with Internet Connection (after Installation No Internet Connection ist required), 
 
-CAUTION in setting fundamental and tonal range high: Nyquist crash, also very low fundamental will slow cook speaker driver coil
+CAUTION in setting fundamental and tonal range high: Nyquist crash,
+very low fundamental will slow cook speaker driver coil
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ~download and install SuperCollider  https://supercollider.github.io
