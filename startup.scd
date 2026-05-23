@@ -241,7 +241,7 @@ value=obj.value.linexp(0,1,1,8).postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,1-(1/~gold),56*~gold).postln;
+value=obj.value.linexp(0,1,1-(1/~gold),28*~gold).postln;
 TempoClock.default.tempo_(value);
 });
 );
