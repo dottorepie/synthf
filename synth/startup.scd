@@ -28,28 +28,7 @@ Tdef(\drone, {
 ~az=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad];
 ~el=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad];
 );
-(
-~note=28;
-(
-{
-var nn=1.neg;
-~scalee=~note.collect{nn=nn+1;Scale.mixolydian.performDegreeToKey(nn,12)};
-}.value;
-);
-(
-{
-var nn=1.neg;
-~scaleee=~note.collect{nn=nn+1;Scale.phrygian.performDegreeToKey(nn,12)};
-}.value;
-);
-(
-{
-var nn=1.neg;
-~scaleeee=~note.collect{nn=nn+1;Scale.dorian.performDegreeToKey(nn,12)};
-}.value;
-);
-~sc=[~scalee,~scaleee,~scaleeee];
-);
+
 (
 ~n=1.neg;~array=992.collect{~n=~n+1;2.pow(~n/992)};
 ~n=(0-(2pi/992)); ~ph=992.collect{~n=~n+(2pi/992);};
@@ -79,31 +58,6 @@ n=n+1;
 };
 }.value;
 );*/
-(
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////simplex
-(
-~s1=0.5pi.rand2;
-~s2=pi.rand2;
-~azimuth=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad,~s1,~s2];
-~elevation=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad,~s1*0.5,~s2*0.5];
-);
-~vertices=16;~n=6;
-{
-var timbre,raz,rel,difaz,difel,nn=1.neg;
-difaz=~n.collect{nn=nn+1;~azimuth.[nn]};
-nn=1.neg;
-difel=~n.collect{nn=nn+1;~elevation.[nn]};
-n=0; ~cx=[]; ~cy=[]; ~cz=[];
-~vertices.do{
-	~n.do{
-~cx=~cx++Spherical(1,difaz.[n],difel.[n]).x;
-~cy=~cy++Spherical(1,difaz.[n],difel.[n]).y;
-~cz=~cz++Spherical(1,difaz.[n],difel.[n]).z;
-n=n+1;
-					};n=0;
-};
-}.value;
-);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////sound
 (
@@ -122,15 +76,15 @@ expansion=2.pow(c.lag(0.001)/16256);
 fund=(fu*(9/8))*expansion;
 heavy=2.pow(drive.lag(0.001)/16256);
 
-xx=Spherical(~vertices,az,el).x.round(1).asInteger;
-yy=Spherical(~vertices,az,el).y.round(1).asInteger;
-zz=Spherical(~vertices,az,el).z.round(1).asInteger;
-polytope=Cartesian(Select.kr(xx,~cx),Select.kr(yy,~cy),Select.kr(zz,~cz));
+xx=Spherical(16256,az,el).x.round(1).asInteger;
+yy=Spherical(16256,az,el).y.round(1).asInteger;
+zz=Spherical(16256,az,el).z.round(1).asInteger;
+polytope=Cartesian(xx,yy,zz);
 mp=Spherical(sc,polytope.theta, polytope.phi);
 
-b_x=2.pow(Select.kr(mp.x.round(1), Select.kr(scalee.lag(0.001),~sc)) /12);
-b_y=2.pow(Select.kr(mp.y.round(1), Select.kr(scalee.lag(0.001),~sc)) /12);
-b_z=2.pow(Select.kr(mp.z.round(1), Select.kr(scalee.lag(0.001),~sc)) /12);
+b_x=2.pow(mp.x.round(1)/992);
+b_y=2.pow(mp.y.round(1)/992);
+b_z=2.pow(mp.z.round(1)/992);
 mod_x=polytope.x;
 mod_y=polytope.y;
 mod_z=polytope.z;
@@ -244,113 +198,7 @@ Pbind(\instrument, \synth,\dur, ~seq,\gain, Pfunc { ~gain }, \sc, Pfunc { ~ssc }
 \attack,  Pfunc { ~attack }, \dicay, Pfunc { ~decay },\scalee, Pfunc { ~scalee };
 ));
 ~pattern.play;
-			///////midi
-			(
-			MIDIClient.init;
-			MIDIIn.connectAll;
-			(
-					(
-					MIDIdef.cc(\midi_pot1,{ |val, num, chan, src|
-						var a;
-						a=val.linexp(0,127,1,28).round(1).asInteger;
-						a.postln;
-						~ssc=a;
-					},21);
-				);
-				(
-					MIDIdef.cc(\midi_pot2,{ |val, num, chan, src|
-						var a;
-		a=val.linlin(0,127,(16256*4).neg,(16256*2)).round(1).asInteger;
-						a.postln;
-						~drive=a;
-					},1);
-				);
 
-						(
-					MIDIdef.cc(\midi_pot3,{ |val, num, chan, src|
-						var a;
-						a=val.linexp(0,127,0.001,10);
-						~gain=a;
-							a.postln;
-					},2);
-				);
-
-						(
-					MIDIdef.cc(\midi_pot3,{ |val, num, chan, src|
-						var a;
-						a=val.linexp(0,127,0.001,1);
-						a.postln;
-						~attack=a;
-					},3);
-				);
-					TempoClock.default.tempo_(1);
-				(
-					MIDIdef.cc(\midi_pot4,{ |val, num, chan, src|
-						var a;
-						a=val.linlin(0,127,pi.neg,pi);
-						a.postln;
-						~az=a;
-					},4);
-				);
-				(
-					MIDIdef.cc(\midi_pot5,{ |val, num, chan, src|
-						var a;
-						a=val.linlin(0,127,0.5pi.neg,0.5pi);
-						a.postln;
-						~el=a;
-					},5);
-				);
-				(
-					MIDIdef.cc(\midi_pot6,{ |val, num, chan, src|
-						var a;
-						a=val.linlin(0,127,0,2).round(1).asInteger;
-						a.postln;
-						~scalee=a;
-					},6);
-				);
-						(
-					MIDIdef.cc(\midi_pot8,{ |val, num, chan, src|
-						var a;
-						a=val.linlin(0,127,0,16256*4).round(1).asInteger;
-						a.postln;
-						~c=a;
-					},8);
-				);
-
-				(
-MIDIdef.cc(\midi_pot18,{ |val, num, chan, src|
-var b;
-b=val.linexp(0,127,0.001,4);
-b.postln;
-~decay=b;
-},18);
-);
-						(
-					MIDIdef.cc(\midi_slider1,{ |val, num, chan, src|
-						var bfg;
-						bfg=val.linexp(0,127,0.1,128);
-						bfg.postln;
-						TempoClock.default.tempo_(bfg);
-					},25);
-				);
-					(
-					MIDIdef.cc(\midi_slider2,{ |val, num, chan, src|
-						var bfg;
-							bfg=val.linlin(0,127,0.degrad,2pi-(2pi/~gold)).round((2pi/992).degrad);
-						bfg.postln;
-						~incr1=bfg;
-					},26);
-				);
-				(
-					MIDIdef.cc(\midi_slider3,{ |val, num, chan, src|
-						var bfg;
-							bfg=val.linlin(0,127,0.degrad,pi-(pi/~gold)).round((pi/992).degrad);
-							bfg.postln;
-					~incr2=bfg;
-					},27);
-				);
-				)
-					);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////gui
 (
 {
@@ -364,7 +212,7 @@ compass=10.collect{n=n+(2pi/9); (exp(Complex(0,1)*n)*scl)};
 background_(Color.new(~controlBus.getSynchronous,~controlBus.getSynchronous,~controlBus.getSynchronous)).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,1,28).round(1).asInteger;
+value=obj.value.linexp(0,1,1,16256*3).round(1).asInteger;
 ~ssc=value;
 });
 );
