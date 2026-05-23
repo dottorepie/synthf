@@ -1,7 +1,7 @@
  Qbit Setup Wizard
 //////////////////////////////////////////
 
-/////////////////////////////////////////////The following build will only work with Internet Connection (after Installation No Internet Connection ist required):
+///////////////////////////////////////////////////////////The following build will only work with Internet Connection (after Installation No Internet Connection ist required):
 /////////////////////////////////////////////
 
 ~download and install SuperCollider  https://supercollider.github.io
