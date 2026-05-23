@@ -410,7 +410,7 @@ value=obj.value.linexp(0,1,1,8).postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,0.1,56).postln;
+value=obj.value.linexp(0,1,1-(1/~gold),56*~gold).postln;
 TempoClock.default.tempo_(value);
 });
 );
@@ -419,7 +419,7 @@ TempoClock.default.tempo_(value);
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,0.degrad,2pi-(2pi/~silver)).round((2pi/992).degrad).postln;
+value=obj.value.linlin(0,1,0.degrad,2pi-(2pi/~gold)).round((2pi/992).degrad).postln;
 ~incr1=value;
 });
 );
@@ -428,7 +428,7 @@ value=obj.value.linlin(0,1,0.degrad,2pi-(2pi/~silver)).round((2pi/992).degrad).p
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,0.degrad,pi-(pi/~silver)).round((pi/992).degrad).postln;
+value=obj.value.linlin(0,1,0.degrad,pi-(pi/~gold)).round((pi/992).degrad).postln;
 ~incr2=value;
 });
 );
