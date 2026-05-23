@@ -23,13 +23,12 @@ Note that project sybthf builds against SuperCollider 3.13.0, only MathLib Quark
 
 ~if turning tempo to max, preferably do not set max long attack and decay at the same time so the sound engine does not crash
 
-~synthf output is 14 independent channels of audio,according to audio interface, n(12) channels are audible, full range -96db
+~synthf output is 14 independent channels of audio,according to audio interface, n(12) channels are audible, quad instance full range -96db
 
 ~if unsure on speaker system dynamic range do not set drive to high at low pitch 
 
 ~system runs on windows pc, mac, linux and or raspberry pi 5
  
-~use server window gain slider to adjust limiting of drive
 
 
 //////////Raspberry:
