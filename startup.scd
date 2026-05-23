@@ -184,7 +184,7 @@ Pbind(\instrument, \synth,\dur, ~seq,\gain, Pfunc { ~gain }, \sc, Pfunc { ~ssc }
 var size,sk,compass,n,scl,r;
 size=700; sk=(size/30); n=(2pi/9).neg; scl=(size/4); r=2;
 w = Window("synthf", Rect(50, 50, size, size)).front;
-~vw = UserView(w, w.view.bounds).drawFunc_({ ~img_print.drawInRect(~vw.bounds)});
+~vw = UserView(w, w.view.bounds).backround_(Color.black);
 
 compass=10.collect{n=n+(2pi/9); (exp(Complex(0,1)*n)*scl)};
 (
