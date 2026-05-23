@@ -13,7 +13,7 @@ Window.closeAll;
 s.makeGui(w);
 //s.meter;
 //s.freqscope;
-//s.scope;
+s.scope;
 );
 
 s.waitForBoot{
