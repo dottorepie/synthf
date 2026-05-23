@@ -34,8 +34,6 @@ Note that project sybthf builds against SuperCollider 3.13.0, only MathLib Quark
  
 ~use server window gain slider to adjust limiting of drive
 
-try). Therofore echolocations are presnt through time, playback on stereo or quad is irrelevant, speaker placement also greatly, wattage only noise++
-
 
 //////////Raspberry:
 
