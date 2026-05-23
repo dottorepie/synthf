@@ -65,15 +65,15 @@ expansion=2.pow(c.lag(0.001)/16256);
 fund=(fu*(9/8))*expansion;
 heavy=2.pow(drive.lag(0.001)/16256);
 
-xx=Spherical(16256.rand,az,el).x.round(1).asInteger;
-yy=Spherical(16256.rand,az,el).y.round(1).asInteger;
-zz=Spherical(16256.rand,az,el).z.round(1).asInteger;
+xx=Spherical(1,az,el).x.round(1).asInteger;
+yy=Spherical(1,az,el).y.round(1).asInteger;
+zz=Spherical(1,az,el).z.round(1).asInteger;
 polytope=Cartesian(xx,yy,zz);
 mp=Spherical(sc,polytope.theta, polytope.phi);
 
-b_x=2.pow(mp.x.round(1)/992);
-b_y=2.pow(mp.y.round(1)/992);
-b_z=2.pow(mp.z.round(1)/992);
+b_x=2.pow(mp.x.round(1)/16256);
+b_y=2.pow(mp.y.round(1)/16256);
+b_z=2.pow(mp.z.round(1)/16256);
 mod_x=polytope.x;
 mod_y=polytope.y;
 mod_z=polytope.z;
@@ -198,7 +198,7 @@ compass=10.collect{n=n+(2pi/9); (exp(Complex(0,1)*n)*scl)};
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,1,16256).round(1).asInteger;
+value=obj.value.linexp(0,1,1,8128*3).round(1).asInteger;
 ~ssc=value;
 });
 );
@@ -225,7 +225,7 @@ value=obj.value.linexp(0,1,0.01,4).postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,0,16256*6).round(1).asInteger.postln;
+value=obj.value.linlin(0,1,0,8128*14).round(1).asInteger.postln;
 ~c=value;
 });
 );
