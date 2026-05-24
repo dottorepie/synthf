@@ -22,7 +22,7 @@ Tdef(\drone, {
 
 ////////////////////////////////////////////////////////////////////////////////////////// wavetable, scales, space,timbre///////////////////////////////////////cuboctahedron
 (
-(
+/*(
 ~s1=pi.rand2;~s2=pi.rand2;~s3=pi.rand2;~s4=pi.rand2;
 ~s5=pi.rand2;~s6=pi.rand2;~s7=pi.rand2;~s8=pi.rand2;
 ~s9=pi.rand2;~s10=pi.rand2;~s11=pi.rand2;~s12=pi.rand2;
@@ -30,8 +30,35 @@ Tdef(\drone, {
 ~el=[~s1.rand2/2,~s2.rand2/2,~s3.rand2/2,~s4.rand2/2,~s5.rand2/2,
 ~s6.rand2/2,~s7.rand2/2,~s8.rand2/2,~s9.rand2/2,~s10.rand2/2,
 ~s11.rand2/2,~s12.rand2/2];
-);
-~vertices=12;
+)*/
+/*(
+~az=[0.degrad,90.degrad,180.degrad,90.neg.degrad,45.degrad,135.degrad,45.neg.degrad,135.neg.degrad,
+	0.degrad,90.degrad,180.degrad,90.neg.degrad];
+~el=[45.neg.degrad,45.neg.degrad,45.neg.degrad,45.neg.degrad,0.degrad,0.degrad,0.degrad,0.degrad,
+	45.degrad,45.degrad,45.degrad,45.degrad];
+)*/
+{
+var  sph1,sph2,az1=0,el1=0,az2=0,el2=0,angle=0;
+var silver_r=(1+2.sqrt),mag1=1,mag2=1,azimuth,elevation;
+~az=[];~el=[];
+
+32.do{
+azimuth=32.collect{
+az1 = (az1+(2pi-(2pi/silver_r))).wrap(pi.neg,pi);
+el1 = (el1+(pi-(pi/silver_r))).wrap((pi/2).neg,(pi/2));
+sph1=(Spherical(mag1,(az1+angle).wrap(pi.neg,pi),(el1+angle).wrap((pi/2).neg,(pi/2)))).theta;
+};
+elevation=32.collect{
+az2 = (az2+(2pi-(2pi/silver_r))).wrap(pi.neg,pi);
+el2 = (el2+(pi-(pi/silver_r))).wrap((pi/2).neg,(pi/2));
+sph2=(Spherical(mag2,(az2+angle).wrap(pi.neg,pi),(el2+angle).wrap((pi/2).neg,(pi/2)))).phi;
+};
+angle=(angle+(2pi-(2pi/silver_r))).wrap(pi.neg,pi);
+~az=~az++azimuth;~el=~el++elevation;
+az1=0;el1=0;az2=0;el2=0;
+}
+}.value;
+~vertices=1024;
 {
 var timbre,raz,rel,difaz,difel,nn=1.neg;
 difaz=~vertices.collect{nn=nn+1;~az.[nn]};
@@ -74,23 +101,23 @@ var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
 var b_x,b_y,b_z,polytope,env,expansion,sph1,sph2,xx,yy,zz;
 var g_ch1,g_ch2,g_ch3,g_ch4,s1,s2,s3,s4,a1,a2,a3,a4,mp;
 
-s1=12.rand;s2=12.rand;s3=12.rand;s4=12.rand;
+s1=~vertices.rand;s2=~vertices.rand;s3=~vertices.rand;s4=~vertices.rand;
 env=EnvGen.ar(Env.perc(attack,dicay,gain),doneAction:2);
 
 expansion=2.pow(c.lag(0.001)/16256);
 fund=(fu*(9/8))*expansion;
 heavy=2.pow(drive.lag(0.001)/16256);
 
-xx=Spherical(12,az,el).x.round(1).asInteger;
-yy=Spherical(12,az,el).y.round(1).asInteger;
-zz=Spherical(12,az,el).z.round(1).asInteger;
+xx=Spherical(~vertices,az,el).x.round(1).asInteger;
+yy=Spherical(~vertices,az,el).y.round(1).asInteger;
+zz=Spherical(~vertices,az,el).z.round(1).asInteger;
 polytope=Cartesian(Select.kr(xx,~cx),Select.kr(yy,~cy),Select.kr(zz,~cz));
 mp=Spherical(sc,polytope.theta, polytope.phi);
 
 
-b_x=2.pow(polytope.x.round(1)/16256);
-b_y=2.pow(polytope.y.round(1)/16256);
-b_z=2.pow(polytope.z.round(1)/16256);
+b_x=2.pow(mp.x.round(1)/16256);
+b_y=2.pow(mp.y.round(1)/16256);
+b_z=2.pow(mp.z.round(1)/16256);
 mod_x=polytope.x;
 mod_y=polytope.y;
 mod_z=polytope.z;
@@ -159,24 +186,28 @@ Out.ar(0,sig3*env*g_ch1);Out.ar(1,sig3*env*g_ch2);Out.ar(2,sig3*env*g_ch3);Out.a
 (
 
 ({
-var m1=1.neg, m2=1.neg, m3=1.neg,a,b,c,n=0,bank=12,time=32.reciprocal,beat=1,r=0;
+var m1=1.neg, m2=1.neg, m3=1.neg,a,b,c,n=0,bank=4,time=32.reciprocal,beat=1,r=0;
 ~r=0;~r1=0;	~r2=0;
 (
+~azr=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad];
+~elr=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad];
+);
+(
 ~dur1=[];~dur2=[];~dur3=[]; ~dx=[];~dy=[]; ~dz=[]; ~durx=[]; ~dury=[]; ~durz=[]; ~dur=[];
-1.do{
+3.do{
 ~x=bank.collect{
 m1=m1+1;
-b=Spherical(beat,~az.[m1],~el.[m1]).rotate(~r).tilt(~r1).tumble(~r2).x;
+b=Spherical(beat,~azr.[m1],~elr.[m1]).rotate(~r).tilt(~r1).tumble(~r2).x;
 2.pow(b).round(time);
 };
 ~y=bank.collect{
 m2=m2+1;
-c=Spherical(beat,~az.[m2],~el.[m2]).rotate(~r).tilt(~r1).tumble(~r2).y;
+c=Spherical(beat,~azr.[m2],~elr.[m2]).rotate(~r).tilt(~r1).tumble(~r2).y;
 2.pow(c).round(time);
 };
 ~z=bank.collect{
 m3=m3+1;
-d=Spherical(beat,~az.[m3],~el.[m3]).rotate(~r).tilt(~r1).tumble(~r2).z;
+d=Spherical(beat,~azr.[m3],~elr.[m3]).rotate(~r).tilt(~r1).tumble(~r2).z;
 2.pow(d).round(time);
 };
 m1=1.neg; m2=1.neg; m3=1.neg; ~dx=~dx++~x; ~dy=~dy++~y;  ~dz=~dz++~z;   ~x=[]; ~y=[]; ~z=[];  r=r+90.degrad; };
