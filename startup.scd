@@ -60,7 +60,7 @@ az1=0;el1=0;az2=0;el2=0;
 }.value;
 ~vertices=1024;
 {
-var timbre,raz,rel,difaz,difel,nn=1.neg;
+var timbre,raz,rel,difaz,difel,nn=1.neg,n;
 difaz=~vertices.collect{nn=nn+1;~az.[nn]};
 nn=1.neg;
 difel=~vertices.collect{nn=nn+1;~el.[nn]};
@@ -92,7 +92,7 @@ wt = signal.asWavetable;
 }.value;
 );
 (
-~note=28;
+~note=32;
 (
 {
 var nn=1.neg;
@@ -288,7 +288,7 @@ value=obj.value.linexp(0,1,0.01,4).postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,1,28).round(1).asInteger.postln;
+value=obj.value.linexp(0,1,1,~note).round(1).asInteger.postln;
 ~ssc=value;
 });
 );
