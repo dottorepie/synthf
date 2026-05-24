@@ -20,8 +20,8 @@ s.waitForBoot{
 Tdef(\drone, {
 //~controlBus = Bus.control(s, 1);
 
-////////////////////////////////////////////////////////////////////////////////////////// wavetable, scales, space,timbre
-///////////////////////////////////////cuboctahedron
+////////////////////////////////////////////////////////////////////////////////////////// wavetable, scales, space,timbre///////////////////////////////////////cuboctahedron
+(
 (
 ~s1=pi.rand2;~s2=pi.rand2;~s3=pi.rand2;~s4=pi.rand2;
 ~s5=pi.rand2;~s6=pi.rand2;~s7=pi.rand2;~s8=pi.rand2;
@@ -30,6 +30,21 @@ Tdef(\drone, {
 ~el=[~s1.rand2/2,~s2.rand2/2,~s3.rand2/2,~s4.rand2/2,~s5.rand2/2,
 ~s6.rand2/2,~s7.rand2/2,~s8.rand2/2,~s9.rand2/2,~s10.rand2/2,
 ~s11.rand2/2,~s12.rand2/2];
+);
+~vertices=12;
+{
+var timbre,raz,rel,difaz,difel,nn=1.neg;
+difaz=~vertices.collect{nn=nn+1;~az.[nn]};
+nn=1.neg;
+difel=~vertices.collect{nn=nn+1;~el.[nn]};
+n=0; ~cx=[]; ~cy=[]; ~cz=[];
+~vertices.do{
+~cx=~cx++Spherical(1,difaz.[n],difel.[n]).x;
+~cy=~cy++Spherical(1,difaz.[n],difel.[n]).y;
+~cz=~cz++Spherical(1,difaz.[n],difel.[n]).z;
+n=n+1;
+};
+}.value;
 );
 
 
@@ -57,7 +72,7 @@ arg gain=1,drive=0,c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20;
 var fund,fu=9,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
 var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
 var b_x,b_y,b_z,polytope,env,expansion,sph1,sph2,xx,yy,zz;
-var g_ch1,g_ch2,g_ch3,g_ch4,s1,s2,s3,s4,a1,a2,a3,a4;
+var g_ch1,g_ch2,g_ch3,g_ch4,s1,s2,s3,s4,a1,a2,a3,a4,mp;
 
 s1=12.rand;s2=12.rand;s3=12.rand;s4=12.rand;
 env=EnvGen.ar(Env.perc(attack,dicay,gain),doneAction:2);
@@ -66,10 +81,12 @@ expansion=2.pow(c.lag(0.001)/16256);
 fund=(fu*(9/8))*expansion;
 heavy=2.pow(drive.lag(0.001)/16256);
 
-xx=Spherical(sc,az,el).x.round(1).asInteger;
-yy=Spherical(sc,az,el).y.round(1).asInteger;
-zz=Spherical(sc,az,el).z.round(1).asInteger;
-polytope=Cartesian(xx,yy,zz);
+xx=Spherical(12,az,el).x.round(1).asInteger;
+yy=Spherical(12,az,el).y.round(1).asInteger;
+zz=Spherical(12,az,el).z.round(1).asInteger;
+polytope=Cartesian(Select.kr(xx,~cx),Select.kr(yy,~cy),Select.kr(zz,~cz));
+mp=Spherical(sc,polytope.theta, polytope.phi);
+
 
 b_x=2.pow(polytope.x.round(1)/16256);
 b_y=2.pow(polytope.y.round(1)/16256);
@@ -198,7 +215,7 @@ compass=10.collect{n=n+(2pi/9); (exp(Complex(0,1)*n)*scl)};
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,1,8128*3).round(1).asInteger.postln;
+value=obj.value.linexp(0,1,1,8128*5).round(1).asInteger.postln;
 ~ssc=value;
 });
 );
@@ -225,7 +242,7 @@ value=obj.value.linexp(0,1,0.01,4).postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,0,8128*9).round(1).asInteger.postln;
+value=obj.value.linlin(0,1,0,8128*10).round(1).asInteger.postln;
 ~c=value;
 });
 );
