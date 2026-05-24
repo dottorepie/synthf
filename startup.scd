@@ -270,7 +270,7 @@ value=obj.value.linexp(0,1,1,16256).round(1).asInteger.postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,(16256*3).neg,(16256*5)).round(1).asInteger.postln;
+value=obj.value.linlin(0,1,(16256*3).neg,(16256*3)).round(1).asInteger.postln;
 ~drive=value;
 });
 );
