@@ -285,7 +285,7 @@ value=obj.value.linexp(0,1,0.01,4).postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,1,16256).round(1).asInteger.postln;
+value=obj.value.linexp(0,1,1,28).round(1).asInteger.postln;
 ~ssc=value;
 });
 );
