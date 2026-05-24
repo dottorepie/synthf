@@ -110,7 +110,7 @@ var b_x,b_y,b_z,polytope,env,expansion,sph1,sph2,xx,yy,zz;
 var g_ch1,g_ch2,g_ch3,g_ch4,s1,s2,s3,s4,a1,a2,a3,a4,mp,mps;
 var s_x,s_y,s_z,set;
 
-s1=~vertices.rand;s2=~vertices.rand;s3=~vertices.rand;s4=~vertices.rand;
+s4=s3=s2=s1=~vertices.rand;
 env=EnvGen.ar(Env.perc(attack,dicay,gain),doneAction:2);
 
 expansion=2.pow(c.lag(0.001)/16256);
