@@ -2,7 +2,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////The following build will only work with Internet Connection (after Installation No Internet Connection ist required), 
 
 CAUTION in setting fundamental and tonal range high: Nyquist crash,
-very low fundamental will slow cook speaker driver coil
+very low fundamental will slow cook speaker driver coil, if unsure on speaker system dynamic range or speaker wattage do not set drive to high at very low pitch or at very high pitch. Preferably do not use Headphones.
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ~download and install SuperCollider  https://supercollider.github.io
@@ -22,13 +22,11 @@ Note that project sybthf builds against SuperCollider 3.13.0, only MathLib Quark
 
 ~terminate the synth either by closing SuperCollider or quiting the server on the server window 
 
-~knobs are clockwise 0 to 8 with 0 being12o clock.0 and 1 are quantized tone variation in complex relation and localization, 2 is tone variation range, 3 is drive, 4 is envelope attack, 6 is tempered fundamental from ultra low to mid/high, 7 is decay and 8 tempo.
+~knobs are clockwise 0 to 8 with 0 being12o clock.0 and 1 are quantized tone variation in complex relation and localization, 2 is tone variation range, 3 is drive, 4 is envelope attack,5 scaled (Dorian) tonal range, 6 is tempered fundamental from ultra low to mid/high, 7 is decay and 8 tempo.
 
 ~if turning tempo to max, preferably do not set max long attack and decay at the same time so the sound engine does not crash
 
-~synthf output is 14 independent channels of audio,according to audio interface, n(12) channels are audible, quad instance full range -96db
-
-~if unsure on speaker system dynamic range do not set drive to high at low pitch 
+~synthf output is 4 independent channels of audio and 1024 virtual channels. According to audio interface, n(4) channels are audible, full range
 
 ~system runs on windows pc, mac, linux and or raspberry pi 5
  
