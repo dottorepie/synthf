@@ -11,9 +11,9 @@ Quarks.install("MathLib");
 Buffer.freeAll;
 Window.closeAll;
 s.makeGui(w);
-//s.meter;
-//s.freqscope;
-//s.scope;
+s.meter;
+s.freqscope;
+s.scope;
 );
 ~img_print = Image.open("/home/pi/Desktop/synth/image1.jpg");///////////////paste image image1.jpg
 s.waitForBoot{
