@@ -121,6 +121,7 @@ xx=Spherical(~vertices,az,el).x.round(1).asInteger;
 yy=Spherical(~vertices,az,el).y.round(1).asInteger;
 zz=Spherical(~vertices,az,el).z.round(1).asInteger;
 polytope=Cartesian(Select.kr(xx,~cx),Select.kr(yy,~cy),Select.kr(zz,~cz));
+
 mp=Spherical(sc,polytope.theta, polytope.phi);
 mps=Spherical(ssc,polytope.theta, polytope.phi);
 
@@ -130,6 +131,7 @@ b_z=2.pow(mp.z.round(1)/16256);
 s_x=2.pow(Select.kr(mps.x.round(1),~scale) /12);
 s_y=2.pow(Select.kr(mps.y.round(1),~scale) /12);
 s_z=2.pow(Select.kr(mps.z.round(1),~scale) /12);
+
 mod_x=polytope.x;
 mod_y=polytope.y;
 mod_z=polytope.z;
@@ -144,43 +146,46 @@ amp1=b_x.reciprocal*expansion.reciprocal*s_x.reciprocal;
 amp2=b_y.reciprocal*expansion.reciprocal*s_y.reciprocal;
 amp3=b_z.reciprocal*expansion.reciprocal*s_z.reciprocal;
 
-sig1=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex,mul:300).abs*SinOsc.ar(freq1,phase:phasex)),freq1*heavy,amp1),mix,1);
-sig2=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq2,phase:phasey,mul:300).abs*SinOsc.ar(freq2,phase:phasey)),freq2*heavy,amp2),mix,1);
-sig3=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez,mul:300).abs*SinOsc.ar(freq3,phase:phasez)),freq3*heavy,amp3),mix,1);
+sig1=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex,mul:500).abs*
+SinOsc.ar(freq1,phase:phasex)),freq1*heavy,amp1),mix,1);
+sig2=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq2,phase:phasey,mul:500).abs*
+SinOsc.ar(freq2,phase:phasey)),freq2*heavy,amp2),mix,1);
+sig3=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez,mul:500).abs*
+SinOsc.ar(freq3,phase:phasez)),freq3*heavy,amp3),mix,1);
 
 a1=(1/4).rand2;a2=(1/4).rand2;a3=(1/4).rand2;a4=(1/4).rand2;
 
 g_ch1 = (
-(Spherical(1,(polytope.theta),(polytope.phi)).x *
-Spherical(sig1.range(0,2.sqrt),~az[s1]*a1,~el[s1]*a1).x) +
-(Spherical(1,(polytope.theta),(polytope.phi)).y *
-Spherical(sig2.range(0,2.sqrt),~az[s1]*a1,~el[s1]*a1).y)+
-(Spherical(1,(polytope.theta),(polytope.phi)).z *
-Spherical(sig3.range(0,2.sqrt),~az[s1]*a1,~el[s1]*a1).z)
+(Spherical(sig1.abs.range(0.001,1),(polytope.theta),(polytope.phi)).x *
+Spherical(sig1.range(0.001,1),~az[s1]*a1,~el[s1]*a1).x) +
+(Spherical(sig2.abs.range(0.001,1),(polytope.theta),(polytope.phi)).y *
+Spherical(sig2.range(0.001,1),~az[s1]*a1,~el[s1]*a1).y)+
+(Spherical(sig3.abs.range(0.001,1),(polytope.theta),(polytope.phi)).z *
+Spherical(sig3.range(0.001,1),~az[s1]*a1,~el[s1]*a1).z)
 );
 g_ch2 = (
-(Spherical(1,(polytope.theta),(polytope.phi)).x *
-Spherical(sig1.range(0,2.sqrt),~az[s2]*a2,~el[s2]*a2).x) +
-(Spherical(1,(polytope.theta),(polytope.phi)).y *
-Spherical(sig2.range(0,2.sqrt),~az[s2]*a2,~el[s2]*a2).y)+
-(Spherical(1,(polytope.theta),(polytope.phi)).z *
-Spherical(sig3.range(0,2.sqrt),~az[s2]*a2,~el[s2]*a2).z)
+(Spherical(sig1.abs.range(0.001,1),(polytope.theta),(polytope.phi)).x *
+Spherical(sig1.range(0.001,1),~az[s2]*a2,~el[s2]*a2).x) +
+(Spherical(sig2.abs.range(0.001,1),(polytope.theta),(polytope.phi)).y *
+Spherical(sig2.range(0.001,1),~az[s2]*a2,~el[s2]*a2).y)+
+(Spherical(sig3.abs.range(0.001,1),(polytope.theta),(polytope.phi)).z *
+Spherical(sig3.range(0.001,1),~az[s2]*a2,~el[s2]*a2).z)
 );
 g_ch3 = (
-(Spherical(1,(polytope.theta),(polytope.phi)).x *
-Spherical(sig1.range(0,2.sqrt),~az[s3]*a3,~el[s3]*a3).x) +
-(Spherical(1,(polytope.theta),(polytope.phi)).y *
-Spherical(sig2.range(0,2.sqrt),~az[s3]*a3,~el[s3]*a3).y)+
-(Spherical(1,(polytope.theta),(polytope.phi)).z *
-Spherical(sig3.range(0,2.sqrt),~az[s3]*a3,~el[s3]*a3).z)
+(Spherical(sig1.abs.range(0.001,1),(polytope.theta),(polytope.phi)).x *
+Spherical(sig1.range(0.001,1),~az[s3]*a3,~el[s3]*a3).x) +
+(Spherical(sig2.abs.range(0.001,1),(polytope.theta),(polytope.phi)).y *
+Spherical(sig2.range(0.001,1),~az[s3]*a3,~el[s3]*a3).y)+
+(Spherical(sig3.abs.range(0.001,1),(polytope.theta),(polytope.phi)).z *
+Spherical(sig3.range(0.001,1),~az[s3]*a3,~el[s3]*a3).z)
 );
 g_ch4 = (
-(Spherical(1,(polytope.theta),(polytope.phi)).x *
-Spherical(sig1.range(0,2.sqrt),~az[s4]*a4,~el[s4]*a4).x) +
-(Spherical(1,(polytope.theta),(polytope.phi)).y *
-Spherical(sig2.range(0,2.sqrt),~az[s4]*a4,~el[s4]*a4).y)+
-(Spherical(1,(polytope.theta),(polytope.phi)).z *
-Spherical(sig3.range(0,2.sqrt),~az[s4]*a4,~el[s4]*a4).z)
+(Spherical(sig1.abs.range(0.001,1),(polytope.theta),(polytope.phi)).x *
+Spherical(sig1.range(0.001,1),~az[s4]*a4,~el[s4]*a4).x) +
+(Spherical(sig2.abs.range(0.001,1),(polytope.theta),(polytope.phi)).y *
+Spherical(sig2.range(0.001,1),~az[s4]*a4,~el[s4]*a4).y)+
+(Spherical(sig3.abs.range(0.001,1),(polytope.theta),(polytope.phi)).z *
+Spherical(sig3.range(0.001,1),~az[s4]*a4,~el[s4]*a4).z)
 );
 
 //Out.ar(0,sig1*env);Out.ar(1,sig2*env);Out.ar(0,(sig3*env*2.sqrt.reciprocal)!2);
