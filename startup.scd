@@ -13,7 +13,7 @@ Window.closeAll;
 s.makeGui(w);
 //s.meter;
 //s.freqscope;
-s.scope;
+//s.scope;
 );
 
 s.waitForBoot{
@@ -59,7 +59,7 @@ var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
 var b_x,b_y,b_z,polytope,env,expansion,sph1,sph2,xx,yy,zz;
 var g_ch1,g_ch2,g_ch3,g_ch4,s1,s2,s3,s4,a1,a2,a3,a4;
 
-s1=13.rand;s2=13.rand;s3=13.rand;s4=13.rand;
+s1=12.rand;s2=12.rand;s3=12.rand;s4=12.rand;
 env=EnvGen.ar(Env.perc(attack,dicay,gain),doneAction:2);
 
 expansion=2.pow(c.lag(0.001)/16256);
