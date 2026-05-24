@@ -135,8 +135,8 @@ s_z=2.pow(Select.kr(mps.z.round(1),~scale) /12);
 mod_x=polytope.x;
 mod_y=polytope.y;
 mod_z=polytope.z;
-phasex=(Complex(1,mod_x).theta*4);
-phasey=(Complex(1,mod_y).theta*4);
+phasex=(Complex(1,mod_x).theta*2);
+phasey=(Complex(1,mod_y).theta*2);
 phasez=(Complex(1,mod_z).theta*2);
 
 freq1=(fund)*b_x*s_x;
@@ -146,11 +146,11 @@ amp1=b_x.reciprocal*expansion.reciprocal*s_x.reciprocal;
 amp2=b_y.reciprocal*expansion.reciprocal*s_y.reciprocal;
 amp3=b_z.reciprocal*expansion.reciprocal*s_z.reciprocal;
 
-sig1=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex,mul:500).abs*
+sig1=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex,mul:600).abs*
 SinOsc.ar(freq1,phase:phasex)),freq1*heavy,amp1),mix,1);
-sig2=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq2,phase:phasey,mul:500).abs*
+sig2=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq2,phase:phasey,mul:600).abs*
 SinOsc.ar(freq2,phase:phasey)),freq2*heavy,amp2),mix,1);
-sig3=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez,mul:500).abs*
+sig3=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez,mul:600).abs*
 SinOsc.ar(freq3,phase:phasez)),freq3*heavy,amp3),mix,1);
 
 a1=(1/4).rand2;a2=(1/4).rand2;a3=(1/4).rand2;a4=(1/4).rand2;
