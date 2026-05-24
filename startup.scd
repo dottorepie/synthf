@@ -15,7 +15,7 @@ s.makeGui(w);
 //s.freqscope;
 //s.scope;
 );
-
+~img_print = Image.open("/home/pi/Desktop/synth/image1.jpg");///////////////paste image image1.jpg
 s.waitForBoot{
 Tdef(\drone, {
 //~controlBus = Bus.control(s, 1);
@@ -237,10 +237,10 @@ Pbind(\instrument, \synth,\dur, ~seq,\gain, Pfunc { ~gain }, \sc, Pfunc { ~ssc }
 var size,sk,compass,n,scl,r;
 size=700; sk=(size/30); n=(2pi/9).neg; scl=(size/4); r=2;
 w = Window("synthf", Rect(50, 50, size, size)).front;
-~vw = UserView(w, w.view.bounds).background_(Color.black);
+~vw = UserView(w, w.view.bounds).drawFunc_({ ~img_print.drawInRect(~vw.bounds)});
 
 
-compass=10.collect{n=n+(2pi/9); (exp(Complex(0,1)*n)*scl)};
+compass=9.collect{n=n+(2pi/9); (exp(Complex(0,1)*n)*scl)};
 (
 ~sl1=Knob.new(~vw, Rect.aboutPoint((compass.[0].real+(size/r)) @ (compass.[0].imag+(size/r)), sk, sk)).
 background_(Color.black).action_({
