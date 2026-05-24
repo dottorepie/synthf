@@ -91,15 +91,24 @@ wt = signal.asWavetable;
 //signal.plot;
 }.value;
 );
-
+(
+~note=28;
+(
+{
+var nn=1.neg;
+~scale=~note.collect{nn=nn+1;Scale.dorian.performDegreeToKey(nn,12)};
+}.value;
+);
+);
 /////////////////////////////////////////////////////////////////////////////////////////////////////sound
 (
 SynthDef.new(\synth,{
-arg gain=1,drive=0,c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20;
+arg gain=1,drive=0,c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20,ssc=1;
 var fund,fu=12,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
 var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
 var b_x,b_y,b_z,polytope,env,expansion,sph1,sph2,xx,yy,zz;
-var g_ch1,g_ch2,g_ch3,g_ch4,s1,s2,s3,s4,a1,a2,a3,a4,mp;
+var g_ch1,g_ch2,g_ch3,g_ch4,s1,s2,s3,s4,a1,a2,a3,a4,mp,mps;
+var s_x,s_y,s_z;
 
 s1=~vertices.rand;s2=~vertices.rand;s3=~vertices.rand;s4=~vertices.rand;
 env=EnvGen.ar(Env.perc(attack,dicay,gain),doneAction:2);
@@ -113,11 +122,14 @@ yy=Spherical(~vertices,az,el).y.round(1).asInteger;
 zz=Spherical(~vertices,az,el).z.round(1).asInteger;
 polytope=Cartesian(Select.kr(xx,~cx),Select.kr(yy,~cy),Select.kr(zz,~cz));
 mp=Spherical(sc,polytope.theta, polytope.phi);
-
+mps=Spherical(ssc,polytope.theta, polytope.phi);
 
 b_x=2.pow(mp.x.round(1)/16256);
 b_y=2.pow(mp.y.round(1)/16256);
 b_z=2.pow(mp.z.round(1)/16256);
+s_x=2.pow(Select.kr(mps.x.round(1),~scale) /12);
+s_y=2.pow(Select.kr(mps.y.round(1),~scale) /12);
+s_z=2.pow(Select.kr(mps.z.round(1),~scale) /12);
 mod_x=polytope.x;
 mod_y=polytope.y;
 mod_z=polytope.z;
@@ -125,12 +137,12 @@ phasex=(Complex(1,mod_x).theta*4);
 phasey=(Complex(1,mod_y).theta*4);
 phasez=(Complex(1,mod_z).theta*2);
 
-freq1=(fund)*b_x;
-freq2=(fund)*b_y;
-freq3=(fund)*b_z;
-amp1=b_x.reciprocal*expansion.reciprocal;
-amp2=b_y.reciprocal*expansion.reciprocal;
-amp3=b_z.reciprocal*expansion.reciprocal;
+freq1=(fund)*b_x*s_x;
+freq2=(fund)*b_y*s_y;
+freq3=(fund)*b_z*s_z;
+amp1=b_x.reciprocal*expansion.reciprocal*s_x.reciprocal;
+amp2=b_y.reciprocal*expansion.reciprocal*s_y.reciprocal;
+amp3=b_z.reciprocal*expansion.reciprocal*s_z.reciprocal;
 
 sig1=LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex,mul:300).abs*SinOsc.ar(freq1,phase:phasex)),freq1*heavy,amp1);
 sig2=LPF.ar((Osc.ar(~wt.bufnum,freq2,phase:phasey,mul:300).abs*SinOsc.ar(freq2,phase:phasey)),freq2*heavy,amp2);
@@ -218,7 +230,7 @@ bank.do{ ~dur3=~dur3++~dz.[n];n=n+1;};n=0;
 )}.value);
 );
 
-~gain=1;~drive=0;~c=0;~az=0;~el=0;~attack=0.01;~decay=1;~incr1=0;~incr2=0;
+~gain=1;~drive=0;~c=0;~az=0;~el=0;~attack=0.01;~decay=1;~incr1=0;~incr2=0;~ssc=1;
 ~gold=((1+5.sqrt)/2);~silver=(1+2.sqrt);~incr=0;~g=((1+5.sqrt)/2);~s=(1+2.sqrt);~ssc=26;
 ~seq= Pseq(~dur ,inf).asStream;
 TempoClock.default.tempo_(0.01);
@@ -227,7 +239,7 @@ TempoClock.default.tempo_(0.01);
 Pbind(\instrument, \synth,\dur, ~seq,\gain, Pfunc { ~gain }, \sc, Pfunc { ~ssc },\drive, Pfunc { ~drive },
 \c, Pfunc { ~c },\az, Pseries(0, Pfunc{~incr1}, inf).collect(_.wrap(pi.neg, pi)).asStream,
 \el, Pseries(0, Pfunc{~incr2}, inf).collect(_.wrap(0.5pi.neg, 0.5pi)).asStream,
-\attack,  Pfunc { ~attack }, \dicay, Pfunc { ~decay };
+					\attack,  Pfunc { ~attack }, \dicay, Pfunc { ~decay }, \ssc, Pfunc{~ssc};
 ));
 ~pattern.play;
 
@@ -246,7 +258,7 @@ compass=9.collect{n=n+(2pi/9); (exp(Complex(0,1)*n)*scl)};
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,1,16256*3).round(1).asInteger.postln;
+value=obj.value.linexp(0,1,1,16256).round(1).asInteger.postln;
 ~ssc=value;
 });
 );
@@ -261,11 +273,20 @@ value=obj.value.linlin(0,1,(16256*3).neg,(16256*5)).round(1).asInteger.postln;
 );
 (
 ~sl3=Knob.new(~vw, Rect.aboutPoint((compass.[2].real+(size/r)) @ (compass.[2].imag+(size/r)), sk, sk)).
-						background_(Color.black).action_({
+background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linexp(0,1,0.01,4).postln;
 ~attack=value;
+});
+);
+(
+~sl3=Knob.new(~vw, Rect.aboutPoint((compass.[3].real+(size/r)) @ (compass.[3].imag+(size/r)), sk, sk)).
+background_(Color.black).action_({
+arg obj;
+var value;
+value=obj.value.linexp(0,1,1,16256).round(1).asInteger.postln;
+~ssc=value;
 });
 );
 (
