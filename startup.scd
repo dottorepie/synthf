@@ -85,7 +85,7 @@ n=n+1;
 ~wt= Buffer.alloc(s,~bufferSize);
 {
 var signal,wt;
-signal=Signal.sineFill(~signalSize,~array,[0],~ph);
+signal=Signal.sineFill(~signalSize,~array,~array.reciprocal,~ph);
 wt = signal.asWavetable;
 ~wt.loadCollection(wt);
 //signal.plot;
