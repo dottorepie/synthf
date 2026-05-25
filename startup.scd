@@ -15,7 +15,7 @@ s.meter;
 s.freqscope;
 s.scope;
 );
-~img_print = Image.open("/home/pi/Desktop/synth/image1.jpg");///////////////paste image image1.jpg
+~img_print = Image.open();///////////////paste image image1.jpg
 s.waitForBoot{
 Tdef(\drone, {
 //~controlBus = Bus.control(s, 1);
@@ -237,7 +237,7 @@ bank.do{ ~dur3=~dur3++~dz.[n];n=n+1;};n=0;
 )}.value);
 );
 
-~gain=1;~drive=0;~c=0;~az=0;~el=0;~attack=0.01;~decay=1;
+~gain=1;~drive=0;~c=0;~attack=0.01;~decay=1;
 ~incr1=0;~incr2=0;~ssc=1;~gold=((1+5.sqrt)/2);~silver=(1+2.sqrt);
 ~incr=0;~ssc=26;~mix=0;
 ~seq= Pseq(~dur ,inf).asStream;
