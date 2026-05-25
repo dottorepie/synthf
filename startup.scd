@@ -15,7 +15,7 @@ s.meter;
 s.freqscope;
 s.scope;
 );
-~img_print = Image.open();///////////////paste image image1.jpg
+~img_print = Image.open("/Users/amimid/Documents/Literary/Portfolio/SUPERCOLLIDER/2026/synth/image1.jpg");///////////////paste image image1.jpg
 s.waitForBoot{
 Tdef(\drone, {
 //~controlBus = Bus.control(s, 1);
@@ -107,7 +107,7 @@ arg gain=1,drive=0,c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20,ssc=1,mix=0;
 var fund,fu=32,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
 var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
 var b_x,b_y,b_z,polytope,env,expansion,sph1,sph2,xx,yy,zz;
-var g_ch1,g_ch2,g_ch3,g_ch4,s1,s2,s3,s4,a1,a2,a3,a4,mp,mps;
+var g_ch1,g_ch2,g_ch3,g_ch4,s1,s2,s3,s4,a1,a2,a3,a4,mp,mps,mpf;
 var s_x,s_y,s_z,set;
 
 s1=~vertices.rand;s2=~vertices.rand;s3=~vertices.rand;s4=~vertices.rand;
@@ -124,6 +124,7 @@ polytope=Cartesian(Select.kr(xx,~cx),Select.kr(yy,~cy),Select.kr(zz,~cz));
 
 mp=Spherical(sc,polytope.theta, polytope.phi);
 mps=Spherical(ssc,polytope.theta, polytope.phi);
+mpf=Spherical(1,polytope.theta, polytope.phi);
 
 b_x=2.pow(mp.x.round(1)/16256);
 b_y=2.pow(mp.y.round(1)/16256);
@@ -132,9 +133,9 @@ s_x=2.pow(Select.kr(mps.x.round(1),~scale) /12);
 s_y=2.pow(Select.kr(mps.y.round(1),~scale) /12);
 s_z=2.pow(Select.kr(mps.z.round(1),~scale) /12);
 
-mod_x=polytope.x;
-mod_y=polytope.y;
-mod_z=polytope.z;
+mod_x=mpf.x;
+mod_y=mpf.y;
+mod_z=mpf.z;
 phasex=(Complex(1,mod_x).theta*2);
 phasey=(Complex(1,mod_y).theta*2);
 phasez=(Complex(1,mod_z).theta*2);
@@ -238,14 +239,14 @@ bank.do{ ~dur3=~dur3++~dz.[n];n=n+1;};n=0;
 );
 
 ~gain=1;~drive=0;~c=0;~attack=0.01;~decay=1;
-~incr1=0;~incr2=0;~ssc=1;~gold=((1+5.sqrt)/2);~silver=(1+2.sqrt);
+~incr1=0;~incr2=0;~sc=1;~gold=((1+5.sqrt)/2);~silver=(1+2.sqrt);
 ~incr=0;~ssc=26;~mix=0;
 ~seq= Pseq(~dur ,inf).asStream;
 TempoClock.default.tempo_(0.01);
 
 ~pattern = Pdef(\1,
 Pbind(\instrument, \synth,\dur, ~seq,\gain,
-Pfunc { ~gain }, \sc, Pfunc { ~ssc },\drive, Pfunc { ~drive },
+Pfunc { ~gain }, \sc, Pfunc { ~sc },\drive, Pfunc { ~drive },
 \c, Pfunc { ~c },\mix, Pfunc{~mix},
 \az, Pseries(0, Pfunc{~incr1}, inf).collect(_.wrap(pi.neg, pi)).asStream,
 \el, Pseries(0, Pfunc{~incr2}, inf).collect(_.wrap(0.5pi.neg, 0.5pi)).asStream,
@@ -269,7 +270,7 @@ background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linexp(0,1,1,16256).round(1).asInteger.postln;
-~ssc=value;
+~sc=value;
 });
 );
 (
