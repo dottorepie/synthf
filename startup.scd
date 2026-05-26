@@ -1,7 +1,7 @@
 
 (
 (
-s.options.numWireBufs = 1024*8;
+s.options.numWireBufs = 1024*2;
 s.options.numOutputBusChannels=4;
 s.options.numInputBusChannels=0;
 s.options.memSize = 8192*256;
@@ -15,7 +15,7 @@ s.meter;
 s.freqscope;
 s.scope;
 );
-~img_print = Image.open();///////////////paste image image1.jpg
+~img_print = Image.open("/Users/amimid/Documents/Literary/Portfolio/SUPERCOLLIDER/2026/synth/image1.jpg");///////////////paste image image1.jpg
 s.waitForBoot{
 Tdef(\drone, {
 //~controlBus = Bus.control(s, 1);
@@ -283,7 +283,7 @@ value=obj.value.linlin(0,1,(16256*2).neg,(16256*2)).round(1).asInteger.postln;
 });
 );
 (
-~sl3=Knob.new(~vw, Rect.aboutPoint((compass.[2].real+(size/r)) @ (compass.[2].imag+(size/r)), sk, sk)).
+~sl4=Knob.new(~vw, Rect.aboutPoint((compass.[2].real+(size/r)) @ (compass.[2].imag+(size/r)), sk, sk)).
 background_(Color.black).action_({
 arg obj;
 var value;
