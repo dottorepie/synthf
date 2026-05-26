@@ -29,6 +29,8 @@ Note that project sybthf builds against SuperCollider 3.13.0, only MathLib Quark
 ~synthf output is 4 independent channels of audio and 1024 virtual channels. According to audio interface, n(4) channels are audible, full range
 
 ~system runs on windows pc, mac, linux and or raspberry pi 5
+
+~if you set extreme value combinations that will crash the synth but not the server, just return knobs to normal and the sound will normalize 
  
 
 
