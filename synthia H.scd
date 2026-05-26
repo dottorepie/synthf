@@ -167,19 +167,19 @@ sig3=(sig3*mix.linlin(0,1,1,28)).softclip;
 chain1 =  FFT(LocalBuf(1024), sig1);
 chain2 =  FFT(LocalBuf(1024), sig2);
 chain3 =  FFT(LocalBuf(1024), sig3);
-follower1=Amplitude.kr(sig1,(343/60).reciprocal,(343/60).reciprocal*heavy,2);
-follower2=Amplitude.kr(sig2,(343/60).reciprocal,(343/60).reciprocal*heavy,2);
-follower3=Amplitude.kr(sig3,(343/60).reciprocal,(343/60).reciprocal*heavy,2);
+follower1=Amplitude.kr(sig1,343.reciprocal,343.reciprocal*heavy,4);
+follower2=Amplitude.kr(sig2,343.reciprocal,343.reciprocal*heavy,4);
+follower3=Amplitude.kr(sig3,343.reciprocal,343.reciprocal*heavy,4);
 threshold=(mix.linlin(0,1,1,0));  ////////trigger reflection threshold
 gate1=(follower1>threshold);
 gate2=(follower2>threshold);
 gate3=(follower3>threshold);
-env1=Decay2.kr(gate1,0.01, dicay);
-env2=Decay2.kr(gate2,0.01, dicay);
-env3=Decay2.kr(gate3,0.01, dicay);
-verb1 = PV_Freeze(chain1,gate1);
-verb2 = PV_Freeze(chain2,gate2);
-verb3 = PV_Freeze(chain3,gate3);
+env1=Decay2.kr(1,0.01, dicay);
+env2=Decay2.kr(1,0.01, dicay);
+env3=Decay2.kr(1,0.01, dicay);
+verb1 = PV_Freeze(chain1,gate1*env);
+verb2 = PV_Freeze(chain2,gate2*env);
+verb3 = PV_Freeze(chain3,gate3*env);
 sig4=IFFT(verb1);
 sig5=IFFT(verb2);
 sig6=IFFT(verb3);
@@ -319,7 +319,7 @@ TempoClock.default.tempo_(0.01);
 
 ~pattern = Pdef(\1,
 Pbind(\instrument, \synth,\dur, ~seq,\gain,
-Pfunc { ~gain }, \sc, Pfunc { ~sc },\drive, Pfunc { ~drive },\out,Pfunc{ [0,1,2,3,4,5,6,7].scramble},
+Pfunc { ~gain }, \sc, Pfunc { ~sc },\drive, Pfunc { ~drive },
 \c, Pfunc { ~c },\mix, Pfunc{~mix},
 \az, Pseries(0, Pfunc{~incr1}, inf).collect(_.wrap(pi.neg, pi)).asStream,
 \el, Pseries(0, Pfunc{~incr2}, inf).collect(_.wrap(0.5pi.neg, 0.5pi)).asStream,
