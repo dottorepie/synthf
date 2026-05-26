@@ -10,7 +10,7 @@ Note that project sybthf builds against SuperCollider 3.13.0, only MathLib Quark
 
 ~download files from synth folder from this Repository to a local new synth folder
 
-~find SuperCollider startup file in SuperCollider file in User Library, APPDATA on Windows, Application Support on Mac
+~find SuperCollider startup.scd file in SuperCollider file in User Library, APPDATA on Windows, Application Support on Mac
 
 ~open startup.scd and paste on the writing environment of SuperCollider, the contnet of startup.scd from this repository 
 
