@@ -104,7 +104,7 @@ var nn=1.neg;
 /////////////////////////////////////////////////////////////////////////////////////////////////////sound
 (
 SynthDef.new(\synth,{
-arg gain=1,drive=0,c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20,ssc=1,mix=0;
+arg gain=1,drive=0,c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20,ssc=1,mix=0,out = #[0,1,2,3,4,5,6,7];
 var fund,fu=32,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
 var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
 var b_x,b_y,b_z,polytope,env,expansion,sph1,sph2,xx,yy,zz;
@@ -112,9 +112,7 @@ var g_ch1,g_ch2,g_ch3,g_ch4,s1,s2,s3,s4,a1,a2,a3,a4,mp,mps;
 var s_x,s_y,s_z,g_ch5,g_ch6,g_ch7,g_ch8,verb1,verb2,verb3;
 var s5,s6,s7,s8,a5,a6,a7,a8,mpf,sig4,sig5,sig6,env1,env2,env3;
 var chain1,chain2,chain3,follower1,follower2,follower3,threshold,gate1,gate2,gate3;
-var out;
 
-out=Rand(0, 7 ! 8).round.asInteger;
 s1=~vertices.rand;s2=~vertices.rand;s3=~vertices.rand;s4=~vertices.rand;
 s5=~vertices.rand;s6=~vertices.rand;s7=~vertices.rand;s8=~vertices.rand;
 
@@ -321,7 +319,7 @@ TempoClock.default.tempo_(0.01);
 
 ~pattern = Pdef(\1,
 Pbind(\instrument, \synth,\dur, ~seq,\gain,
-Pfunc { ~gain }, \sc, Pfunc { ~sc },\drive, Pfunc { ~drive },
+Pfunc { ~gain }, \sc, Pfunc { ~sc },\drive, Pfunc { ~drive },\out,Pfunc{ [0,1,2,3,4,5,6,7].scramble},
 \c, Pfunc { ~c },\mix, Pfunc{~mix},
 \az, Pseries(0, Pfunc{~incr1}, inf).collect(_.wrap(pi.neg, pi)).asStream,
 \el, Pseries(0, Pfunc{~incr2}, inf).collect(_.wrap(0.5pi.neg, 0.5pi)).asStream,
