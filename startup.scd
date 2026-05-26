@@ -100,18 +100,16 @@ var nn=1.neg;
 }.value;
 );
 );
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////sound
 (
 SynthDef.new(\synth,{
-arg gain=1,drive=0,c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20,ssc=1,mix=0;
+	arg gain=1,drive=0,c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20,ssc=1,mix=0,out = #[0,1,2,3];
 var fund,fu=32,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
 var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
 var b_x,b_y,b_z,polytope,env,expansion,sph1,sph2,xx,yy,zz;
 var g_ch1,g_ch2,g_ch3,g_ch4,s1,s2,s3,s4,a1,a2,a3,a4,mp,mps,mpf;
 var s_x,s_y,s_z;
-var out;
-
-out=Rand(0, 3! 4).round.asInteger;
 
 s1=~vertices.rand;s2=~vertices.rand;s3=~vertices.rand;s4=~vertices.rand;
 env=EnvGen.ar(Env.perc(attack,dicay,gain),doneAction:2);
@@ -197,12 +195,12 @@ Spherical(sig3.range(0.001,1),~az[s4]*a4,~el[s4]*a4).z)
 );
 
 (
-Out.ar(out.[0],sig1*env*g_ch1);Out.ar(out.[1],sig1*env*g_ch2);
-Out.ar(out.[2],sig1*env*g_ch3);Out.ar(out.[3],sig1*env*g_ch4);
-Out.ar(out.[0],sig2*env*g_ch1);Out.ar(out.[1],sig2*env*g_ch2);
-Out.ar(out.[2],sig2*env*g_ch3);Out.ar(out.[3],sig2*env*g_ch4);
-Out.ar(out.[0],sig3*env*g_ch1);Out.ar(out.[1],sig3*env*g_ch2);
-Out.ar(out.[2],sig3*env*g_ch3);Out.ar(out.[3],sig3*env*g_ch4);
+Out.ar(Select.kr(0,out),sig1*env*g_ch1);Out.ar(Select.kr(1,out),sig1*env*g_ch2);
+Out.ar(Select.kr(2,out),sig1*env*g_ch3);Out.ar(Select.kr(3,out),sig1*env*g_ch4);
+Out.ar(Select.kr(0,out),sig2*env*g_ch1);Out.ar(Select.kr(1,out),sig2*env*g_ch2);
+Out.ar(Select.kr(2,out),sig2*env*g_ch3);Out.ar(Select.kr(3,out),sig2*env*g_ch4);
+Out.ar(Select.kr(0,out),sig3*env*g_ch1);Out.ar(Select.kr(1,out),sig3*env*g_ch2);
+Out.ar(Select.kr(2,out),sig3*env*g_ch3);Out.ar(Select.kr(3,out),sig3*env*g_ch4);
 )
 
 }).add;
@@ -253,7 +251,7 @@ TempoClock.default.tempo_(0.01);
 
 ~pattern = Pdef(\1,
 Pbind(\instrument, \synth,\dur, ~seq,\gain,
-Pfunc { ~gain }, \sc, Pfunc { ~sc },\drive, Pfunc { ~drive },
+					Pfunc { ~gain }, \sc, Pfunc { ~sc },\drive, Pfunc { ~drive },\out,Pfunc{ [0,1,2,3].scramble},
 \c, Pfunc { ~c },\mix, Pfunc{~mix},
 \az, Pseries(0, Pfunc{~incr1}, inf).collect(_.wrap(pi.neg, pi)).asStream,
 \el, Pseries(0, Pfunc{~incr2}, inf).collect(_.wrap(0.5pi.neg, 0.5pi)).asStream,
