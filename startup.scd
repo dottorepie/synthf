@@ -195,12 +195,12 @@ Spherical(sig3.range(0.001,1),~az[s4]*a4,~el[s4]*a4).z)
 );
 
 (
-Out.ar(Select.kr(0,out),sig1*env*g_ch1);Out.ar(Select.kr(1,out),sig1*env*g_ch2);
-Out.ar(Select.kr(2,out),sig1*env*g_ch3);Out.ar(Select.kr(3,out),sig1*env*g_ch4);
-Out.ar(Select.kr(0,out),sig2*env*g_ch1);Out.ar(Select.kr(1,out),sig2*env*g_ch2);
-Out.ar(Select.kr(2,out),sig2*env*g_ch3);Out.ar(Select.kr(3,out),sig2*env*g_ch4);
-Out.ar(Select.kr(0,out),sig3*env*g_ch1);Out.ar(Select.kr(1,out),sig3*env*g_ch2);
-Out.ar(Select.kr(2,out),sig3*env*g_ch3);Out.ar(Select.kr(3,out),sig3*env*g_ch4);
+Out.ar(out.[0],sig1*env*g_ch1);Out.ar(out.[1],sig1*env*g_ch2);
+Out.ar(out.[2],sig1*env*g_ch3);Out.ar(out.[3],sig1*env*g_ch4);
+Out.ar(out.[0],sig2*env*g_ch1);Out.ar(out.[1],sig2*env*g_ch2);
+Out.ar(out.[2],sig2*env*g_ch3);Out.ar(out.[3],sig2*env*g_ch4);
+Out.ar(out.[0],sig3*env*g_ch1);Out.ar(out.[1],sig3*env*g_ch2);
+Out.ar(out.[2],sig3*env*g_ch3);Out.ar(out.[3],sig3*env*g_ch4);
 )
 
 }).add;
@@ -251,7 +251,7 @@ TempoClock.default.tempo_(0.01);
 
 ~pattern = Pdef(\1,
 Pbind(\instrument, \synth,\dur, ~seq,\gain,
-					Pfunc { ~gain }, \sc, Pfunc { ~sc },\drive, Pfunc { ~drive },\out,Pfunc{ [0,1,2,3].scramble},
+					Pfunc { ~gain }, \sc, Pfunc { ~sc },\drive, Pfunc { ~drive },
 \c, Pfunc { ~c },\mix, Pfunc{~mix},
 \az, Pseries(0, Pfunc{~incr1}, inf).collect(_.wrap(pi.neg, pi)).asStream,
 \el, Pseries(0, Pfunc{~incr2}, inf).collect(_.wrap(0.5pi.neg, 0.5pi)).asStream,
