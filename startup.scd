@@ -136,9 +136,13 @@ s_z=2.pow(Select.kr(mps.z.round(1),~scale) /12);
 mod_x=mpf.x;
 mod_y=mpf.y;
 mod_z=mpf.z;
-phasex=(Complex(1,mod_x).theta*2);
-phasey=(Complex(1,mod_y).theta*2);
-phasez=(Complex(1,mod_z).theta*2);
+//phasex=(Complex(1,mod_x).theta*2);
+//phasey=(Complex(1,mod_y).theta*2);
+//phasez=(Complex(1,mod_z).theta*2);
+phasex = atan(mod_x);
+phasey = atan(mod_y);
+phasez = atan(mod_z);
+
 
 freq1=(fund)*b_x*s_x;
 freq2=(fund)*b_y*s_y;
