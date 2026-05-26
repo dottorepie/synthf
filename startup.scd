@@ -20,7 +20,7 @@ s.waitForBoot{
 Tdef(\drone, {
 //~controlBus = Bus.control(s, 1);
 
-////////////////////////////////////////////////////////////////////////////////////////// wavetable, scales, space,timbre///////////////////////////////////////cuboctahedron
+////////////////////////////////////////////////////////////////////////////////////////// wavetable, scales, space,timbre///////////////////////////////////////
 (
 /*(
 ~s1=pi.rand2;~s2=pi.rand2;~s3=pi.rand2;~s4=pi.rand2;
@@ -158,6 +158,10 @@ sig2=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq2,phase:phasey,mul:1000).abs*
 SinOsc.ar(freq2,phase:phasey)),freq2*heavy,amp2),mix,1);
 sig3=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez,mul:1000).abs*
 SinOsc.ar(freq3,phase:phasez)),freq3*heavy,amp3),mix,1);
+
+sig1=(sig1*mix.linlin(0,1,1,12)).softclip;
+sig2=(sig2*mix.linlin(0,1,1,12)).softclip;
+sig3=(sig3*mix.linlin(0,1,1,12)).softclip;
 
 a1=(1/4).rand2;a2=(1/4).rand2;a3=(1/4).rand2;a4=(1/4).rand2;
 
@@ -328,7 +332,7 @@ value=obj.value.linexp(0,1,1,8).postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,1-(1/~gold),28*~gold).postln;
+value=obj.value.linexp(0,1,(1/pi),24*pi).postln;
 TempoClock.default.tempo_(value);
 });
 );
@@ -337,7 +341,7 @@ TempoClock.default.tempo_(value);
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,0.degrad,2pi-(2pi/~gold)).round((2pi/992).degrad).postln;
+value=obj.value.linlin(0,1,0.degrad,2pi-(2pi/~silver)).round((2pi/992).degrad).postln;
 ~incr1=value;
 });
 );
