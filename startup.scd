@@ -104,7 +104,7 @@ var nn=1.neg;
 /////////////////////////////////////////////////////////////////////////////////////////////////////sound
 (
 SynthDef.new(\synth,{
-	arg gain=1,drive=0,c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20,ssc=1,mix=0,out = #[0,1,2,3];
+	arg gain=1,drive=0,c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20,ssc=1,mix=0,busArray = #[0,1,2,3];
 var fund,fu=32,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
 var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
 var b_x,b_y,b_z,polytope,env,expansion,sph1,sph2,xx,yy,zz;
@@ -199,12 +199,12 @@ Spherical(sig3.range(0.001,1),~az[s4]*a4,~el[s4]*a4).z)
 );
 
 (
-Out.ar(out.[0],sig1*env*g_ch1);Out.ar(out.[1],sig1*env*g_ch2);
-Out.ar(out.[2],sig1*env*g_ch3);Out.ar(out.[3],sig1*env*g_ch4);
-Out.ar(out.[0],sig2*env*g_ch1);Out.ar(out.[1],sig2*env*g_ch2);
-Out.ar(out.[2],sig2*env*g_ch3);Out.ar(out.[3],sig2*env*g_ch4);
-Out.ar(out.[0],sig3*env*g_ch1);Out.ar(out.[1],sig3*env*g_ch2);
-Out.ar(out.[2],sig3*env*g_ch3);Out.ar(out.[3],sig3*env*g_ch4);
+Out.ar(busArray.[0],sig1*env*g_ch1);Out.ar(busArray.[1],sig1*env*g_ch2);
+Out.ar(busArray.[2],sig1*env*g_ch3);Out.ar(busArray.[3],sig1*env*g_ch4);
+Out.ar(busArray.[0],sig2*env*g_ch1);Out.ar(busArray.[1],sig2*env*g_ch2);
+Out.ar(busArray.[2],sig2*env*g_ch3);Out.ar(busArray.[3],sig2*env*g_ch4);
+Out.ar(busArray.[0],sig3*env*g_ch1);Out.ar(busArray.[1],sig3*env*g_ch2);
+Out.ar(busArray.[2],sig3*env*g_ch3);Out.ar(busArray.[3],sig3*env*g_ch4);
 )
 
 }).add;
