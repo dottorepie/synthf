@@ -332,7 +332,7 @@ value=obj.value.linexp(0,1,1,8).postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,(1/pi),24*pi).postln;
+value=obj.value.linexp(0,1,1/16,64).round(1/8).postln;
 TempoClock.default.tempo_(value);
 });
 );
