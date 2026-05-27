@@ -39,18 +39,18 @@ Tdef(\drone, {
 )*/
 {
 var  sph1,sph2,az1=0,el1=0,az2=0,el2=0,angle=0;
-var silver_r=(1+2.sqrt),mag1=1,mag2=1,azimuth,elevation;
+var silver_r=(1+2.sqrt),g=((1+5.sqrt)/2),mag1=1,mag2=1,azimuth,elevation;
 ~az=[];~el=[];
 
 32.do{
 azimuth=32.collect{
 az1 = (az1+(2pi-(2pi/silver_r))).wrap(pi.neg,pi);
-el1 = (el1+(pi-(pi/silver_r))).wrap((pi/2).neg,(pi/2));
+el1 = (el1+(pi-(pi/g))).wrap((pi/2).neg,(pi/2));
 sph1=(Spherical(mag1,(az1+angle).wrap(pi.neg,pi),(el1+angle).wrap((pi/2).neg,(pi/2)))).theta;
 };
 elevation=32.collect{
 az2 = (az2+(2pi-(2pi/silver_r))).wrap(pi.neg,pi);
-el2 = (el2+(pi-(pi/silver_r))).wrap((pi/2).neg,(pi/2));
+el2 = (el2+(pi-(pi/g))).wrap((pi/2).neg,(pi/2));
 sph2=(Spherical(mag2,(az2+angle).wrap(pi.neg,pi),(el2+angle).wrap((pi/2).neg,(pi/2)))).phi;
 };
 angle=(angle+(2pi-(2pi/silver_r))).wrap(pi.neg,pi);
