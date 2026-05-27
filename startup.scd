@@ -153,11 +153,11 @@ amp2=b_y.reciprocal*expansion.reciprocal*s_y.reciprocal;
 amp3=b_z.reciprocal*expansion.reciprocal*s_z.reciprocal;
 
 sig1=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex,mul:1000).abs*
-SinOsc.ar(freq1,phase:phasex)),freq1*heavy,amp1),mix,1);
+SinOsc.ar(freq1,phase:phasex)),freq1*heavy,amp1),mix,0.6);
 sig2=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq2,phase:phasey,mul:1000).abs*
-SinOsc.ar(freq2,phase:phasey)),freq2*heavy,amp2),mix,1);
+SinOsc.ar(freq2,phase:phasey)),freq2*heavy,amp2),mix,0.6);
 sig3=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez,mul:1000).abs*
-SinOsc.ar(freq3,phase:phasez)),freq3*heavy,amp3),mix,1);
+SinOsc.ar(freq3,phase:phasez)),freq3*heavy,amp3),mix,0.6);
 
 sig1=(sig1*mix.linlin(0,1,1,12)).softclip;
 sig2=(sig2*mix.linlin(0,1,1,12)).softclip;
