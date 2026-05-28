@@ -232,7 +232,7 @@ Out.ar(busArray.[2],LeakDC.ar(sig6*env*g_ch3));Out.ar(busArray.[3],LeakDC.ar(sig
 
 ({
 var m1=1.neg, m2=1.neg, m3=1.neg,a,b,c,n=0,bank=4,time=32.reciprocal,beat=1,r=0;
-~r=pi.rand;~r1=pi.rand;	~r2=pi.rand;
+~r=0;~r1=0;	~r2=0;
 (
 ~azr=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad];
 ~elr=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad];
@@ -266,7 +266,7 @@ bank.do{ ~dur3=~dur3++~dz.[n];n=n+1;};n=0;
 ~gain=1;~drive=0;~c=0;~attack=0.01;~decay=1;
 ~incr1=0;~incr2=0;~sc=1;~gold=((1+5.sqrt)/2);~silver=(1+2.sqrt);
 ~incr=0;~ssc=26;~mix=0;
-~seq= Pseq([~dur.[0],Rest(~dur.[13.rand]),~dur.[1],Rest(~dur.[13.rand]),~dur.[2],Rest(~dur.[13.rand]),~dur.[3]] ,inf).asStream;
+~seq= Pseq([~dur.[0],Rest(~dur.[13.rand]),~dur.[1],Rest(~dur.[13.rand]),~dur.[2],Rest(~dur.[13.rand]),~dur.[3]] ,inf);
 TempoClock.default.tempo_(0.01);
 
 ~pattern = Pdef(\1,
