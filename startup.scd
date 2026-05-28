@@ -251,7 +251,7 @@ bank.do{ ~dur3=~dur3++~dz.[n];n=n+1;};n=0;
 ~gain=1;~drive=0;~c=0;~attack=0.01;~decay=1;
 ~incr1=0;~incr2=0;~sc=1;~gold=((1+5.sqrt)/2);~silver=(1+2.sqrt);
 ~incr=0;~ssc=26;~mix=0;
-~seq= Pseq([~dur.[0],Rest(~dur.[7.rand]),~dur.[1],Rest(~dur.[3.rand]),~dur.[2],Rest(~dur.[5.rand]),~dur.[3]] ,inf).asStream;
+~seq= Pseq([~dur.[0],Rest(~dur.[13.rand]),~dur.[1],Rest(~dur.[13.rand]),~dur.[2],Rest(~dur.[13.rand]),~dur.[3]] ,inf).asStream;
 TempoClock.default.tempo_(0.01);
 
 ~pattern = Pdef(\1,
