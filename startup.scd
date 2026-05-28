@@ -199,12 +199,12 @@ Spherical(sig3.range(0.001,1),~az[s4]*a4,~el[s4]*a4).z)
 );
 
 (
-Out.ar(busArray.[0],sig1*env*g_ch1);Out.ar(busArray.[1],sig1*env*g_ch2);
-Out.ar(busArray.[2],sig1*env*g_ch3);Out.ar(busArray.[3],sig1*env*g_ch4);
-Out.ar(busArray.[0],sig2*env*g_ch1);Out.ar(busArray.[1],sig2*env*g_ch2);
-Out.ar(busArray.[2],sig2*env*g_ch3);Out.ar(busArray.[3],sig2*env*g_ch4);
-Out.ar(busArray.[0],sig3*env*g_ch1);Out.ar(busArray.[1],sig3*env*g_ch2);
-Out.ar(busArray.[2],sig3*env*g_ch3);Out.ar(busArray.[3],sig3*env*g_ch4);
+Out.ar(busArray.[0],LeakDC.ar(sig1*env*g_ch1));Out.ar(busArray.[1],LeakDC.ar(sig1*env*g_ch2));
+Out.ar(busArray.[2],LeakDC.ar(sig1*env*g_ch3));Out.ar(busArray.[3],LeakDC.ar(sig1*env*g_ch4));
+Out.ar(busArray.[0],LeakDC.ar(sig2*env*g_ch1));Out.ar(busArray.[1],LeakDC.ar(sig2*env*g_ch2));
+Out.ar(busArray.[2],LeakDC.ar(sig2*env*g_ch3));Out.ar(busArray.[3],LeakDC.ar(sig2*env*g_ch4));
+Out.ar(busArray.[0],LeakDC.ar(sig3*env*g_ch1));Out.ar(busArray.[1],LeakDC.ar(sig3*env*g_ch2));
+Out.ar(busArray.[2],LeakDC.ar(sig3*env*g_ch3));Out.ar(busArray.[3],LeakDC.ar(sig3*env*g_ch4));
 )
 
 }).add;
