@@ -116,9 +116,9 @@ s3=Rand(0, ~vertices-1).round(1).asInteger;s4=Rand(0, ~vertices-1).round(1).asIn
 
 env=EnvGen.ar(Env.perc(attack,dicay,gain),doneAction:2);
 
-expansion=2.pow(c.lag(0.1)/16256);
+expansion=2.pow(c.lag(0.01)/16256);
 fund=(fu*(9/8))*expansion;
-heavy=2.pow(drive.lag(0.1)/16256);
+heavy=2.pow(drive.lag(0.01)/16256);
 
 xx=Spherical(~vertices,az,el).x.round(1).asInteger.abs;
 yy=Spherical(~vertices,az,el).y.round(1).asInteger.abs;
@@ -135,8 +135,6 @@ b_z=2.pow(mp.z.round(1)/16256);
 s_x=2.pow(Select.kr(mps.x.round(1).asInteger.abs,~scale).asInteger /12);
 s_y=2.pow(Select.kr(mps.y.round(1).asInteger.abs,~scale).asInteger /12);
 s_z=2.pow(Select.kr(mps.z.round(1).asInteger.abs,~scale).asInteger /12);
-
-
 
 mod_x=mpf.x;
 mod_y=mpf.y;
