@@ -128,12 +128,12 @@ mp=Spherical(sc,polytope.theta, polytope.phi);
 mps=Spherical(ssc,polytope.theta, polytope.phi);
 mpf=Spherical(1,polytope.theta, polytope.phi);
 
-b_x=2.pow(mp.x.round(1)/16256);
-b_y=2.pow(mp.y.round(1)/16256);
-b_z=2.pow(mp.z.round(1)/16256);
-s_x=2.pow(Select.kr(mps.x.round(1),~scale) /12);
-s_y=2.pow(Select.kr(mps.y.round(1),~scale) /12);
-s_z=2.pow(Select.kr(mps.z.round(1),~scale) /12);
+b_x=2.pow(mp.x.round(1).asInteger/16256);
+b_y=2.pow(mp.y.round(1).asInteger/16256);
+b_z=2.pow(mp.z.round(1).asInteger/16256);
+s_x=2.pow(Select.kr(mps.x.round(1).asInteger,~scale).asInteger /12);
+s_y=2.pow(Select.kr(mps.y.round(1).asInteger,~scale).asInteger /12);
+s_z=2.pow(Select.kr(mps.z.round(1).asInteger,~scale).asInteger /12);
 
 mod_x=mpf.x;
 mod_y=mpf.y;
@@ -152,25 +152,25 @@ amp1=b_x.reciprocal*expansion.reciprocal*s_x.reciprocal;
 amp2=b_y.reciprocal*expansion.reciprocal*s_y.reciprocal;
 amp3=b_z.reciprocal*expansion.reciprocal*s_z.reciprocal;
 
-w1=Rand(0, pi);
-w2=Rand(0, 0.5pi);
-w3=Rand(0, pi);
-w4=Rand(0, 0.5pi);
-w5=Rand(0, pi);
-w6=Rand(0, 0.5pi);
+w1=Rand(0, pi).round(pi/56);
+w2=Rand(0, 0.5pi).round(0.5pi/56);
+w3=Rand(0, pi).round(pi/56);
+w4=Rand(0, 0.5pi).round(0.5pi/56);
+w5=Rand(0, pi).round(pi/56);
+w6=Rand(0, 0.5pi).round(0.5pi/56);
 
 sig1=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex+w1,mul:1200).abs*
 SinOsc.ar(freq1,phase:phasex+w1)),freq1*heavy,amp1),mix,0.5);
-sig2=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq2,phase:phasex+w2,mul:1200).abs*
-SinOsc.ar(freq2,phase:phasex+w2)),freq2*heavy,amp2),mix,0.5);
-sig3=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasey+w3,mul:1200).abs*
-SinOsc.ar(freq3,phase:phasey+w3)),freq3*heavy,amp3),mix,0.5);
-sig4=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasey+w4,mul:1200).abs*
-SinOsc.ar(freq1,phase:phasey+w4)),freq1*heavy,amp1),mix,0.5);
+sig2=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex+w2,mul:1200).abs*
+SinOsc.ar(freq1,phase:phasex+w2)),freq1*heavy,amp1),mix,0.5);
+sig3=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq2,phase:phasey+w3,mul:1200).abs*
+SinOsc.ar(freq2,phase:phasey+w3)),freq2*heavy,amp2),mix,0.5);
+sig4=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq2,phase:phasey+w4,mul:1200).abs*
+SinOsc.ar(freq2,phase:phasey+w4)),freq2*heavy,amp2),mix,0.5);
 sig5=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez+w5,mul:1200).abs*
 SinOsc.ar(freq3,phase:phasez+w5)),freq3*heavy,amp3),mix,0.5);
-sig6=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasez+w6,mul:1200).abs*
-SinOsc.ar(freq1,phase:phasez+w6)),freq1*heavy,amp1),mix,0.5);
+sig6=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez+w6,mul:1200).abs*
+SinOsc.ar(freq3,phase:phasez+w6)),freq3*heavy,amp3),mix,0.5);
 
 sig1=(sig1*mix.linlin(0,1,1,32)).softclip;
 sig2=(sig2*mix.linlin(0,1,1,32)).softclip;
