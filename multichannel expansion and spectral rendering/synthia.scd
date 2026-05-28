@@ -142,9 +142,9 @@ expansion=2.pow(c.lag(0.001)/16256);
 fund=(fu*(9/8))*expansion;
 heavy=2.pow(drive.lag(0.001)/16256);
 
-xx=Spherical(~vertices,az,el).x.round(1).asInteger;
-yy=Spherical(~vertices,az,el).y.round(1).asInteger;
-zz=Spherical(~vertices,az,el).z.round(1).asInteger;
+xx=Spherical(~vertices,az,el).x.round(1).asInteger.abs;
+yy=Spherical(~vertices,az,el).y.round(1).asInteger.abs;
+zz=Spherical(~vertices,az,el).z.round(1).asIntege.abs;
 polytope=Cartesian(Select.kr(xx,~cx),Select.kr(yy,~cy),Select.kr(zz,~cz));
 
 mp=Spherical(sc,polytope.theta, polytope.phi);
