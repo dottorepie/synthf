@@ -152,16 +152,16 @@ amp1=b_x.reciprocal*expansion.reciprocal*s_x.reciprocal;
 amp2=b_y.reciprocal*expansion.reciprocal*s_y.reciprocal;
 amp3=b_z.reciprocal*expansion.reciprocal*s_z.reciprocal;
 
-sig1=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex,mul:1000).abs*
+sig1=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex,mul:1200).abs*
 SinOsc.ar(freq1,phase:phasex)),freq1*heavy,amp1),mix,0.6);
-sig2=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq2,phase:phasey,mul:1000).abs*
+sig2=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq2,phase:phasey,mul:1200).abs*
 SinOsc.ar(freq2,phase:phasey)),freq2*heavy,amp2),mix,0.6);
-sig3=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez,mul:1000).abs*
+sig3=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez,mul:1200).abs*
 SinOsc.ar(freq3,phase:phasez)),freq3*heavy,amp3),mix,0.6);
 
-sig1=(sig1*mix.linlin(0,1,1,12)).softclip;
-sig2=(sig2*mix.linlin(0,1,1,12)).softclip;
-sig3=(sig3*mix.linlin(0,1,1,12)).softclip;
+sig1=(sig1*mix.linlin(0,1,1,32)).softclip;
+sig2=(sig2*mix.linlin(0,1,1,32)).softclip;
+sig3=(sig3*mix.linlin(0,1,1,32)).softclip;
 
 a1=(1/4).rand2;a2=(1/4).rand2;a3=(1/4).rand2;a4=(1/4).rand2;
 
