@@ -111,7 +111,8 @@ var b_x,b_y,b_z,polytope,env,expansion,sph1,sph2,xx,yy,zz;
 var g_ch1,g_ch2,g_ch3,g_ch4,s1,s2,s3,s4,a1,a2,a3,a4,mp,mps,mpf;
 var s_x,s_y,s_z;
 
-s1=~vertices.rand;s2=~vertices.rand;s3=~vertices.rand;s4=~vertices.rand;
+s1=Rand(0, ~vertices-1).round(1).asInteger;s2=Rand(0, ~vertices-1).round(1).asInteger;
+s3=Rand(0, ~vertices-1).round(1).asInteger;s4=Rand(0, ~vertices-1).round(1).asInteger;
 env=EnvGen.ar(Env.perc(attack,dicay,gain),doneAction:2);
 
 expansion=2.pow(c.lag(0.001)/16256);
@@ -167,35 +168,35 @@ sig3=(sig3*mix.linlin(0,1,1,32)).softclip;
 
 g_ch1 = (
 (Spherical(sig1.abs.range(0.001,1),(polytope.theta),(polytope.phi)).x *
-Spherical(sig1.range(0.001,1),~az[s1]*a1,~el[s1]*a1).x) +
+Spherical(sig1.range(0.001,1),Select.kr(s1, ~az)*a1,Select.kr(s1, ~el)*a1).x) +
 (Spherical(sig2.abs.range(0.001,1),(polytope.theta),(polytope.phi)).y *
-Spherical(sig2.range(0.001,1),~az[s1]*a1,~el[s1]*a1).y)+
+Spherical(sig2.range(0.001,1),Select.kr(s1, ~az)*a1,Select.kr(s1, ~el)*a1).y)+
 (Spherical(sig3.abs.range(0.001,1),(polytope.theta),(polytope.phi)).z *
-Spherical(sig3.range(0.001,1),~az[s1]*a1,~el[s1]*a1).z)
+Spherical(sig3.range(0.001,1),Select.kr(s1, ~az)*a1,Select.kr(s1, ~el)*a1).z)
 );
 g_ch2 = (
 (Spherical(sig1.abs.range(0.001,1),(polytope.theta),(polytope.phi)).x *
-Spherical(sig1.range(0.001,1),~az[s2]*a2,~el[s2]*a2).x) +
+Spherical(sig1.range(0.001,1),Select.kr(s2, ~az)*a2,Select.kr(s2, ~el)*a2).x) +
 (Spherical(sig2.abs.range(0.001,1),(polytope.theta),(polytope.phi)).y *
-Spherical(sig2.range(0.001,1),~az[s2]*a2,~el[s2]*a2).y)+
+Spherical(sig2.range(0.001,1),Select.kr(s2, ~az)*a2,Select.kr(s2,~el)*a2).y)+
 (Spherical(sig3.abs.range(0.001,1),(polytope.theta),(polytope.phi)).z *
-Spherical(sig3.range(0.001,1),~az[s2]*a2,~el[s2]*a2).z)
+Spherical(sig3.range(0.001,1),Select.kr(s2, ~az)*a2,Select.kr(s2, ~el)*a2).z)
 );
 g_ch3 = (
 (Spherical(sig1.abs.range(0.001,1),(polytope.theta),(polytope.phi)).x *
-Spherical(sig1.range(0.001,1),~az[s3]*a3,~el[s3]*a3).x) +
+Spherical(sig1.range(0.001,1),Select.kr(s3, ~az)*a3,Select.kr(s3, ~el)*a3).x) +
 (Spherical(sig2.abs.range(0.001,1),(polytope.theta),(polytope.phi)).y *
-Spherical(sig2.range(0.001,1),~az[s3]*a3,~el[s3]*a3).y)+
+Spherical(sig2.range(0.001,1),Select.kr(s3, ~az)*a3,Select.kr(s3, ~el)*a3).y)+
 (Spherical(sig3.abs.range(0.001,1),(polytope.theta),(polytope.phi)).z *
-Spherical(sig3.range(0.001,1),~az[s3]*a3,~el[s3]*a3).z)
+Spherical(sig3.range(0.001,1),Select.kr(s3, ~az)*a3,Select.kr(s3, ~el)*a3).z)
 );
 g_ch4 = (
 (Spherical(sig1.abs.range(0.001,1),(polytope.theta),(polytope.phi)).x *
-Spherical(sig1.range(0.001,1),~az[s4]*a4,~el[s4]*a4).x) +
+Spherical(sig1.range(0.001,1),Select.kr(s4, ~az)*a4,Select.kr(s4, ~el)*a4).x) +
 (Spherical(sig2.abs.range(0.001,1),(polytope.theta),(polytope.phi)).y *
-Spherical(sig2.range(0.001,1),~az[s4]*a4,~el[s4]*a4).y)+
+Spherical(sig2.range(0.001,1),Select.kr(s4, ~az)*a4,Select.kr(s4, ~el)*a4).y)+
 (Spherical(sig3.abs.range(0.001,1),(polytope.theta),(polytope.phi)).z *
-Spherical(sig3.range(0.001,1),~az[s4]*a4,~el[s4]*a4).z)
+Spherical(sig3.range(0.001,1),Select.kr(s4, ~az)*a4,Select.kr(s4, ~el)*a4).z)
 );
 
 (
