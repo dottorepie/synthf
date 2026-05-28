@@ -4,7 +4,7 @@
 s.options.numWireBufs = 1024*2;
 s.options.numOutputBusChannels=4;
 s.options.numInputBusChannels=0;
-s.options.memSize = 8192*256;
+s.options.memSize = 8192*64;
 s.options.blockSize = 64;
 s.options.maxNodes = 8192*2;
 Quarks.install("MathLib");
