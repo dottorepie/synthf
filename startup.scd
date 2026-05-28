@@ -95,7 +95,7 @@ wt = signal.asWavetable;
 ~note=32;
 (
 {
-var nn=2.neg;
+var nn=4.neg;
 ~scale=~note.collect{nn=nn+1;Scale.phrygian.performDegreeToKey(nn,12)};
 }.value;
 );
