@@ -160,9 +160,9 @@ SinOsc.ar(freq2,phase:phasey)),freq2,heavy,amp2),mix,0.6);
 sig3=FreeVerb.ar(BPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez,mul:1200).abs*
 SinOsc.ar(freq3,phase:phasez)),freq3,heavy,amp3),mix,0.6);
 
-sig1=(sig1*mix.linlin(0,1,0.01,32)).softclip;
-sig2=(sig2*mix.linlin(0,1,0.01,32)).softclip;
-sig3=(sig3*mix.linlin(0,1,0.01,32)).softclip;
+sig1=(sig1*mix.linlin(0,1,0.1,32)).softclip;
+sig2=(sig2*mix.linlin(0,1,0.1,32)).softclip;
+sig3=(sig3*mix.linlin(0,1,0.1,32)).softclip;
 
 				a1=a2=a3=a4=1;
 
