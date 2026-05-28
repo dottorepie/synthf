@@ -95,7 +95,7 @@ wt = signal.asWavetable;
 ~note=32;
 (
 {
-var nn=8.neg;
+var nn=6.neg;
 ~scale=~note.collect{nn=nn+1;Scale.phrygian.performDegreeToKey(nn,12)};
 }.value;
 );
@@ -225,27 +225,27 @@ var m1=1.neg, m2=1.neg, m3=1.neg,a,b,c,n=0,bank=4,time=32.reciprocal,beat=1,r=0;
 );
 (
 ~dur1=[];~dur2=[];~dur3=[]; ~dx=[];~dy=[]; ~dz=[]; ~durx=[]; ~dury=[]; ~durz=[]; ~dur=[];
-3.do{
+4.do{
 							m1=m2=m3=~vertices.rand;
-~x=bank.collect{
-m1=m1+1;
+~x=1.collect{
+//m1=m1+1;
 b=Spherical(beat,~az.[m1],~el.[m1]).rotate(~r).tilt(~r1).tumble(~r2).x;
 2.pow(b).round(time);
 };
-~y=bank.collect{
-m2=m2+1;
+~y=1.collect{
+//m2=m2+1;
 c=Spherical(beat,~az.[m2],~el.[m2]).rotate(~r).tilt(~r1).tumble(~r2).y;
 2.pow(c).round(time);
 };
-~z=bank.collect{
-m3=m3+1;
+~z=1.collect{
+//m3=m3+1;
 d=Spherical(beat,~az.[m3],~el.[m3]).rotate(~r).tilt(~r1).tumble(~r2).z;
 2.pow(d).round(time);
 };
 m1=1.neg; m2=1.neg; m3=1.neg; ~dx=~dx++~x; ~dy=~dy++~y;  ~dz=~dz++~z;   ~x=[]; ~y=[]; ~z=[];  r=r+90.degrad; };
-12.do{ ~dur1=~dur1++~dx.[n];n=n+1;};n=0;
-12.do{ ~dur2=~dur2++~dy.[n];n=n+1;};n=0;
-12.do{ ~dur3=~dur3++~dz.[n];n=n+1;};n=0;
+4.do{ ~dur1=~dur1++~dx.[n];n=n+1;};n=0;
+4.do{ ~dur2=~dur2++~dy.[n];n=n+1;};n=0;
+4.do{ ~dur3=~dur3++~dz.[n];n=n+1;};n=0;
 ~dur=~dur++~dur1++~dur2++~dur3;
 )}.value);
 );
