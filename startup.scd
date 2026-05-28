@@ -96,7 +96,7 @@ wt = signal.asWavetable;
 (
 {
 var nn=1.neg;
-~scale=~note.collect{nn=nn+1;Scale.dorian.performDegreeToKey(nn,12)};
+~scale=~note.collect{nn=nn+1;Scale.phrygian.performDegreeToKey(nn,12)};
 }.value;
 );
 );
