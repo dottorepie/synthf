@@ -159,25 +159,25 @@ w4=Rand(0, 0.5pi).round(0.5pi/56);
 w5=Rand(0, pi).round(pi/56);
 w6=Rand(0, 0.5pi).round(0.5pi/56);
 
-sig1=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex+w1,mul:1200).abs*
-SinOsc.ar(freq1,phase:phasex+w1)),freq1*heavy,amp1),mix,0.5);
-sig2=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex+w2,mul:1200).abs*
-SinOsc.ar(freq1,phase:phasex+w2)),freq1*heavy,amp1),mix,0.5);
-sig3=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq2,phase:phasey+w3,mul:1200).abs*
-SinOsc.ar(freq2,phase:phasey+w3)),freq2*heavy,amp2),mix,0.5);
-sig4=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq2,phase:phasey+w4,mul:1200).abs*
-SinOsc.ar(freq2,phase:phasey+w4)),freq2*heavy,amp2),mix,0.5);
-sig5=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez+w5,mul:1200).abs*
-SinOsc.ar(freq3,phase:phasez+w5)),freq3*heavy,amp3),mix,0.5);
-sig6=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez+w6,mul:1200).abs*
-SinOsc.ar(freq3,phase:phasez+w6)),freq3*heavy,amp3),mix,0.5);
+sig1=FreeVerb.ar(BPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex+w1,mul:1200).abs*
+SinOsc.ar(freq1,phase:phasex+w1)),freq1,heavy,amp1),mix,0.5);
+sig2=FreeVerb.ar(BPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex+w2,mul:1200).abs*
+SinOsc.ar(freq1,phase:phasex+w2)),freq1,heavy,amp1),mix,0.5);
+sig3=FreeVerb.ar(BPF.ar((Osc.ar(~wt.bufnum,freq2,phase:phasey+w3,mul:1200).abs*
+SinOsc.ar(freq2,phase:phasey+w3)),freq2,heavy,amp2),mix,0.5);
+sig4=FreeVerb.ar(BPF.ar((Osc.ar(~wt.bufnum,freq2,phase:phasey+w4,mul:1200).abs*
+SinOsc.ar(freq2,phase:phasey+w4)),freq2,heavy,amp2),mix,0.5);
+sig5=FreeVerb.ar(BPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez+w5,mul:1200).abs*
+SinOsc.ar(freq3,phase:phasez+w5)),freq3,heavy,amp3),mix,0.5);
+sig6=FreeVerb.ar(BPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez+w6,mul:1200).abs*
+SinOsc.ar(freq3,phase:phasez+w6)),freq3,heavy,amp3),mix,0.5);
 
-sig1=(sig1*mix.linlin(0,1,1,32)).softclip;
-sig2=(sig2*mix.linlin(0,1,1,32)).softclip;
-sig3=(sig3*mix.linlin(0,1,1,32)).softclip;
-sig4=(sig4*mix.linlin(0,1,1,32)).softclip;
-sig5=(sig5*mix.linlin(0,1,1,32)).softclip;
-sig6=(sig6*mix.linlin(0,1,1,32)).softclip;
+sig1=(sig1*mix.linlin(0,1,0.1,32)).softclip;
+sig2=(sig2*mix.linlin(0,1,0.1,32)).softclip;
+sig3=(sig3*mix.linlin(0,1,0.1,32)).softclip;
+sig4=(sig4*mix.linlin(0,1,0.1,32)).softclip;
+sig5=(sig5*mix.linlin(0,1,0.1,32)).softclip;
+sig6=(sig6*mix.linlin(0,1,0.1,32)).softclip;
 
 a1=a2=a3=a4=1;
 
@@ -303,7 +303,7 @@ value=obj.value.linexp(0,1,1,16256).round(1).asInteger.postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,(16256*2).neg,(16256*2)).round(1).asInteger.postln;
+value=obj.value.linlin(0,1,(16256*8).neg,(16256*4)).round(1).asInteger.postln;
 ~drive=value;
 });
 );
