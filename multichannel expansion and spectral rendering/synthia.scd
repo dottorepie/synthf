@@ -539,15 +539,15 @@ bank.do{ ~dur3=~dur3++~dz.[n];n=n+1;};n=0;
 ~gain=1;~drive=0;~c=0;~attack=0.01;~decay=1;~sc=1;
 ~incr1=0;~incr2=0;~gold=((1+5.sqrt)/2);~silver=(1+2.sqrt);
 ~incr=0;~ssc=26;~mix=0;
-~seq= Pseq([~dur.[0],Rest(~dur.[13.rand]),~dur.[1],Rest(~dur.[13.rand]),~dur.[2],Rest(~dur.[13.rand]),~dur.[3]] ,inf).asStream;
+~seq= Pseq([~dur.[0],Rest(~dur.[13.rand]),~dur.[1],Rest(~dur.[13.rand]),~dur.[2],Rest(~dur.[13.rand]),~dur.[3]] ,inf);
 TempoClock.default.tempo_(0.01);
 
 ~pattern = Pdef(\1,
 Pbind(\instrument, \synth,\dur, ~seq,\gain,
 Pfunc { ~gain }, \sc, Pfunc { ~sc },\drive, Pfunc { ~drive },
 \c, Pfunc { ~c },\mix, Pfunc{~mix},
-\az, Pseries(0, Pfunc{~incr1}, inf).collect(_.wrap(pi.neg, pi)).asStream,
-\el, Pseries(0, Pfunc{~incr2}, inf).collect(_.wrap(0.5pi.neg, 0.5pi)).asStream,
+\az, Pseries(0, Pfunc{~incr1}, inf).collect(_.wrap(pi.neg, pi)),
+\el, Pseries(0, Pfunc{~incr2}, inf).collect(_.wrap(0.5pi.neg, 0.5pi)),
 \attack,  Pfunc { ~attack }, \dicay, Pfunc { ~decay }, \ssc, Pfunc{~ssc};
 ));
 ~pattern.play;
