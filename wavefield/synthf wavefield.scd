@@ -154,25 +154,25 @@ amp3=b_z.reciprocal*expansion.reciprocal*s_z.reciprocal;
 w1=pi.rand2;
 w2=0.5pi.rand2;
 
-sig1=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex+w1,mul:1000).abs*
+sig1=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex+w1,mul:1200).abs*
 SinOsc.ar(freq1,phase:phasex+w1)),freq1*heavy,amp1),mix,0.5);
-sig2=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq2,phase:phasex+w2,mul:1000).abs*
+sig2=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq2,phase:phasex+w2,mul:1200).abs*
 SinOsc.ar(freq2,phase:phasex+w2)),freq2*heavy,amp2),mix,0.5);
-sig3=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasey+w1,mul:1000).abs*
+sig3=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasey+w1,mul:1200).abs*
 SinOsc.ar(freq3,phase:phasey+w1)),freq3*heavy,amp3),mix,0.5);
-sig4=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasey+w2,mul:1000).abs*
+sig4=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasey+w2,mul:1200).abs*
 SinOsc.ar(freq1,phase:phasey+w2)),freq1*heavy,amp1),mix,0.5);
-sig5=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez+w1,mul:1000).abs*
+sig5=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez+w1,mul:1200).abs*
 SinOsc.ar(freq3,phase:phasez+w1)),freq3*heavy,amp3),mix,0.5);
-sig6=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasez+w2,mul:1000).abs*
+sig6=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasez+w2,mul:1200).abs*
 SinOsc.ar(freq1,phase:phasez+w2)),freq1*heavy,amp1),mix,0.5);
 
-sig1=(sig1*mix.linlin(0,1,1,16)).softclip;
-sig2=(sig2*mix.linlin(0,1,1,16)).softclip;
-sig3=(sig3*mix.linlin(0,1,1,16)).softclip;
-sig4=(sig4*mix.linlin(0,1,1,16)).softclip;
-sig5=(sig5*mix.linlin(0,1,1,16)).softclip;
-sig6=(sig6*mix.linlin(0,1,1,16)).softclip;
+sig1=(sig1*mix.linlin(0,1,1,32)).softclip;
+sig2=(sig2*mix.linlin(0,1,1,32)).softclip;
+sig3=(sig3*mix.linlin(0,1,1,32)).softclip;
+sig4=(sig4*mix.linlin(0,1,1,32)).softclip;
+sig5=(sig5*mix.linlin(0,1,1,32)).softclip;
+sig6=(sig6*mix.linlin(0,1,1,32)).softclip;
 
 a1=(1/4).rand2;a2=(1/4).rand2;a3=(1/4).rand2;a4=(1/4).rand2;
 
