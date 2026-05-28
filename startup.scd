@@ -216,7 +216,7 @@ Out.ar(busArray.[2],sig3*env*g_ch3);Out.ar(busArray.[3],sig3*env*g_ch4);
 
 ({
 var m1=1.neg, m2=1.neg, m3=1.neg,a,b,c,n=0,bank=4,time=32.reciprocal,beat=1,r=0;
-~r=0;~r1=0;	~r2=0;
+~r=pi.rand;~r1=pi.rand;	~r2=pi.rand;
 (
 ~azr=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad];
 ~elr=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad];
