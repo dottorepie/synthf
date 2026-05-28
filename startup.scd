@@ -163,7 +163,7 @@ sig1=(sig1*mix.linlin(0,1,1,32)).softclip;
 sig2=(sig2*mix.linlin(0,1,1,32)).softclip;
 sig3=(sig3*mix.linlin(0,1,1,32)).softclip;
 
-a1=(1/4).rand2;a2=(1/4).rand2;a3=(1/4).rand2;a4=(1/4).rand2;
+				a1=a2=a3=a4=1;
 
 g_ch1 = (
 (Spherical(sig1.abs.range(0.001,1),(polytope.theta),(polytope.phi)).x *
