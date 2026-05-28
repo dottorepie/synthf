@@ -152,12 +152,12 @@ amp1=b_x.reciprocal*expansion.reciprocal*s_x.reciprocal;
 amp2=b_y.reciprocal*expansion.reciprocal*s_y.reciprocal;
 amp3=b_z.reciprocal*expansion.reciprocal*s_z.reciprocal;
 
-w1=pi.rand2;
-w2=0.5pi.rand2;
-w3=pi.rand2;
-w4=0.5pi.rand2;
-w5=pi.rand2;
-w6=0.5pi.rand2;
+w1=Rand(0, pi);
+w2=Rand(0, 0.5pi);
+w3=Rand(0, pi);
+w4=Rand(0, 0.5pi);
+w5=Rand(0, pi);
+w6=Rand(0, 0.5pi);
 
 sig1=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex+w1,mul:1200).abs*
 SinOsc.ar(freq1,phase:phasex+w1)),freq1*heavy,amp1),mix,0.5);
