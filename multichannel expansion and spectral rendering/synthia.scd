@@ -175,16 +175,16 @@ amp1=b_x.reciprocal*expansion.reciprocal*s_x.reciprocal;
 amp2=b_y.reciprocal*expansion.reciprocal*s_y.reciprocal;
 amp3=b_z.reciprocal*expansion.reciprocal*s_z.reciprocal;
 
-sig1=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex,mul:1024).abs*
-SinOsc.ar(freq1,phase:phasex)),freq1*heavy,amp1),mix,1);
-sig2=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq2,phase:phasey,mul:1024).abs*
-SinOsc.ar(freq2,phase:phasey)),freq2*heavy,amp2),mix,1);
-sig3=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez,mul:1024).abs*
-SinOsc.ar(freq3,phase:phasez)),freq3*heavy,amp3),mix,1);
+sig1=FreeVerb.ar(BPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex,mul:1024).abs*
+SinOsc.ar(freq1,phase:phasex)),freq1,heavy,amp1),mix,1);
+sig2=FreeVerb.ar(BPF.ar((Osc.ar(~wt.bufnum,freq2,phase:phasey,mul:1024).abs*
+SinOsc.ar(freq2,phase:phasey)),freq2,heavy,amp2),mix,1);
+sig3=FreeVerb.ar(BPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez,mul:1024).abs*
+SinOsc.ar(freq3,phase:phasez)),freq3,heavy,amp3),mix,1);
 
-sig1=(sig1*mix.linlin(0,1,1,32)).softclip;
-sig2=(sig2*mix.linlin(0,1,1,32)).softclip;
-sig3=(sig3*mix.linlin(0,1,1,32)).softclip;
+sig1=(sig1*mix.linlin(0,1,0.1,32)).softclip;
+sig2=(sig2*mix.linlin(0,1,0.1,32)).softclip;
+sig3=(sig3*mix.linlin(0,1,0.1,32)).softclip;
 
 /*a1=(1/4).rand2;a2=(1/4).rand2;a3=(1/4).rand2;a4=(1/4).rand2;
 a5=(1/4).rand2;a6=(1/4).rand2;a7=(1/4).rand2;a8=(1/4).rand2;
@@ -576,7 +576,7 @@ value=obj.value.linexp(0,1,1,16256).round(1).asInteger.postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,(16256*2).neg,(16256*2)).round(1).asInteger.postln;
+value=obj.value.linlin(0,1,(16256*8).neg,(16256*4)).round(1).asInteger.postln;
 ~drive=value;
 });
 );
