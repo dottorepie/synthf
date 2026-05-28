@@ -109,7 +109,7 @@ var fund,fu=32,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
 var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
 var b_x,b_y,b_z,polytope,env,expansion,sph1,sph2,xx,yy,zz;
 var g_ch1,g_ch2,g_ch3,g_ch4,s1,s2,s3,s4,a1,a2,a3,a4,mp,mps,mpf;
-var s_x,s_y,s_z,sig4,sig5,sig6,sig7,sig8,sig9;
+var s_x,s_y,s_z,sig4,sig5,sig6,w1,w2;
 
 s1=~vertices.rand;s2=~vertices.rand;s3=~vertices.rand;s4=~vertices.rand;
 env=EnvGen.ar(Env.perc(attack,dicay,gain),doneAction:2);
@@ -144,7 +144,6 @@ phasex = atan(mod_x);
 phasey = atan(mod_y);
 phasez = atan(mod_z);
 
-
 freq1=(fund)*b_x*s_x;
 freq2=(fund)*b_y*s_y;
 freq3=(fund)*b_z*s_z;
@@ -152,25 +151,21 @@ amp1=b_x.reciprocal*expansion.reciprocal*s_x.reciprocal;
 amp2=b_y.reciprocal*expansion.reciprocal*s_y.reciprocal;
 amp3=b_z.reciprocal*expansion.reciprocal*s_z.reciprocal;
 
+w1=pi.rand2;
+w2=0.5pi.rand2;
 
-sig1=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex,mul:1000).abs*
-SinOsc.ar(freq1,phase:phasex)),freq1*heavy,amp1),mix,0.5);
-sig2=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq2,phase:phasex+0.5pi,mul:1000).abs*
-SinOsc.ar(freq2,phase:phasex+0.5pi)),freq2*heavy,amp2),mix,0.5);
-sig3=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasex+pi,mul:1000).abs*
-SinOsc.ar(freq3,phase:phasex+pi)),freq3*heavy,amp3),mix,0.5);
-sig4=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq2,phase:phasey,mul:1000).abs*
-SinOsc.ar(freq2,phase:phasey)),freq2*heavy,amp2),mix,0.5);
-sig5=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasey+0.5pi,mul:1000).abs*
-SinOsc.ar(freq3,phase:phasey+0.5pi)),freq3*heavy,amp3),mix,0.5);
-sig6=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasey+pi,mul:1000).abs*
-SinOsc.ar(freq1,phase:phasey+pi)),freq1*heavy,amp1),mix,0.5);
-sig7=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez,mul:1000).abs*
-SinOsc.ar(freq3,phase:phasez)),freq3*heavy,amp3),mix,0.5);
-sig8=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasez+0.5pi,mul:1000).abs*
-SinOsc.ar(freq1,phase:phasez+0.5pi)),freq1*heavy,amp1),mix,0.5);
-sig9=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq2,phase:phasez+pi,mul:1000).abs*
-SinOsc.ar(freq2,phase:phasez+pi)),freq2*heavy,amp2),mix,0.5);
+sig1=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex+w1,mul:1000).abs*
+SinOsc.ar(freq1,phase:phasex+w1)),freq1*heavy,amp1),mix,0.5);
+sig2=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq2,phase:phasex+w2,mul:1000).abs*
+SinOsc.ar(freq2,phase:phasex+w2)),freq2*heavy,amp2),mix,0.5);
+sig3=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasey+w1,mul:1000).abs*
+SinOsc.ar(freq3,phase:phasey+w1)),freq3*heavy,amp3),mix,0.5);
+sig4=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasey+w2,mul:1000).abs*
+SinOsc.ar(freq1,phase:phasey+w2)),freq1*heavy,amp1),mix,0.5);
+sig5=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez+w1,mul:1000).abs*
+SinOsc.ar(freq3,phase:phasez+w1)),freq3*heavy,amp3),mix,0.5);
+sig6=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasez+w2,mul:1000).abs*
+SinOsc.ar(freq1,phase:phasez+w2)),freq1*heavy,amp1),mix,0.5);
 
 sig1=(sig1*mix.linlin(0,1,1,16)).softclip;
 sig2=(sig2*mix.linlin(0,1,1,16)).softclip;
@@ -178,9 +173,6 @@ sig3=(sig3*mix.linlin(0,1,1,16)).softclip;
 sig4=(sig4*mix.linlin(0,1,1,16)).softclip;
 sig5=(sig5*mix.linlin(0,1,1,16)).softclip;
 sig6=(sig6*mix.linlin(0,1,1,16)).softclip;
-sig7=(sig7*mix.linlin(0,1,1,16)).softclip;
-sig8=(sig8*mix.linlin(0,1,1,16)).softclip;
-sig9=(sig9*mix.linlin(0,1,1,16)).softclip;
 
 a1=(1/4).rand2;a2=(1/4).rand2;a3=(1/4).rand2;a4=(1/4).rand2;
 
@@ -219,11 +211,11 @@ Spherical(sig3.range(0.001,1),~az[s4]*a4,~el[s4]*a4).z)
 
 (
 Out.ar(busArray.[0],sig1*env*g_ch1);Out.ar(busArray.[1],sig2*env*g_ch2);
-Out.ar(busArray.[2],sig3*env*g_ch3);Out.ar(busArray.[3],sig1*env*g_ch4);
-Out.ar(busArray.[0],sig4*env*g_ch1);Out.ar(busArray.[1],sig5*env*g_ch2);
-Out.ar(busArray.[2],sig6*env*g_ch3);Out.ar(busArray.[3],sig4*env*g_ch4);
-Out.ar(busArray.[0],sig7*env*g_ch1);Out.ar(busArray.[1],sig8*env*g_ch2);
-Out.ar(busArray.[2],sig9*env*g_ch3);Out.ar(busArray.[3],sig7*env*g_ch4);
+Out.ar(busArray.[2],sig2*env*g_ch3);Out.ar(busArray.[3],sig1*env*g_ch4);
+Out.ar(busArray.[0],sig3*env*g_ch1);Out.ar(busArray.[1],sig4*env*g_ch2);
+Out.ar(busArray.[2],sig4*env*g_ch3);Out.ar(busArray.[3],sig3*env*g_ch4);
+Out.ar(busArray.[0],sig5*env*g_ch1);Out.ar(busArray.[1],sig6*env*g_ch2);
+Out.ar(busArray.[2],sig6*env*g_ch3);Out.ar(busArray.[3],sig5*env*g_ch4);
 )
 
 }).add;
@@ -235,7 +227,7 @@ Out.ar(busArray.[2],sig9*env*g_ch3);Out.ar(busArray.[3],sig7*env*g_ch4);
 
 ({
 var m1=1.neg, m2=1.neg, m3=1.neg,a,b,c,n=0,bank=4,time=32.reciprocal,beat=1,r=0;
-~r=0;~r1=0;	~r2=0;
+~r=pi.rand;~r1=pi.rand;	~r2=pi.rand;
 (
 ~azr=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad];
 ~elr=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad];
