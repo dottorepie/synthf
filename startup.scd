@@ -257,7 +257,7 @@ bank.do{ ~dur3=~dur3++~dz.[n];n=n+1;};n=0;
 TempoClock.default.tempo_(0.01);
 
 ~pattern = Pdef(\1,
-Pbind(\instrument, \synth,\dur, ~seq,\gain,
+Pbind(\instrument, \synth,\dur, Pseq([~dur.[0],Rest(~dur.[13.rand]),~dur.[1],Rest(~dur.[13.rand]),~dur.[2],Rest(~dur.[13.rand]),~dur.[3]] ,inf),\gain,
 					Pfunc { ~gain }, \sc, Pfunc { ~sc },\drive, Pfunc { ~drive },
 \c, Pfunc { ~c },\mix, Pfunc{~mix},
 \az, Pseries(0, Pfunc{~incr1}, inf).collect(_.wrap(pi.neg, pi)),
