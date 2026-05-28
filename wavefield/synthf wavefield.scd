@@ -109,7 +109,7 @@ var fund,fu=32,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
 var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
 var b_x,b_y,b_z,polytope,env,expansion,sph1,sph2,xx,yy,zz;
 var g_ch1,g_ch2,g_ch3,g_ch4,s1,s2,s3,s4,a1,a2,a3,a4,mp,mps,mpf;
-var s_x,s_y,s_z,sig4,sig5,sig6,w1,w2;
+var s_x,s_y,s_z,sig4,sig5,sig6,w1,w2,w3,w4,w5,w6;
 
 s1=~vertices.rand;s2=~vertices.rand;s3=~vertices.rand;s4=~vertices.rand;
 env=EnvGen.ar(Env.perc(attack,dicay,gain),doneAction:2);
@@ -153,19 +153,23 @@ amp3=b_z.reciprocal*expansion.reciprocal*s_z.reciprocal;
 
 w1=pi.rand2;
 w2=0.5pi.rand2;
+w3=pi.rand2;
+w4=0.5pi.rand2;
+w5=pi.rand2;
+w6=0.5pi.rand2;
 
 sig1=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex+w1,mul:1200).abs*
 SinOsc.ar(freq1,phase:phasex+w1)),freq1*heavy,amp1),mix,0.5);
 sig2=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq2,phase:phasex+w2,mul:1200).abs*
 SinOsc.ar(freq2,phase:phasex+w2)),freq2*heavy,amp2),mix,0.5);
-sig3=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasey+w1,mul:1200).abs*
-SinOsc.ar(freq3,phase:phasey+w1)),freq3*heavy,amp3),mix,0.5);
-sig4=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasey+w2,mul:1200).abs*
-SinOsc.ar(freq1,phase:phasey+w2)),freq1*heavy,amp1),mix,0.5);
-sig5=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez+w1,mul:1200).abs*
-SinOsc.ar(freq3,phase:phasez+w1)),freq3*heavy,amp3),mix,0.5);
-sig6=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasez+w2,mul:1200).abs*
-SinOsc.ar(freq1,phase:phasez+w2)),freq1*heavy,amp1),mix,0.5);
+sig3=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasey+w3,mul:1200).abs*
+SinOsc.ar(freq3,phase:phasey+w3)),freq3*heavy,amp3),mix,0.5);
+sig4=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasey+w4,mul:1200).abs*
+SinOsc.ar(freq1,phase:phasey+w4)),freq1*heavy,amp1),mix,0.5);
+sig5=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez+w5,mul:1200).abs*
+SinOsc.ar(freq3,phase:phasez+w5)),freq3*heavy,amp3),mix,0.5);
+sig6=FreeVerb.ar(LPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasez+w6,mul:1200).abs*
+SinOsc.ar(freq1,phase:phasez+w6)),freq1*heavy,amp1),mix,0.5);
 
 sig1=(sig1*mix.linlin(0,1,1,32)).softclip;
 sig2=(sig2*mix.linlin(0,1,1,32)).softclip;
