@@ -266,11 +266,11 @@ bank.do{ ~dur3=~dur3++~dz.[n];n=n+1;};n=0;
 ~gain=1;~drive=0;~c=0;~attack=0.01;~decay=1;
 ~incr1=0;~incr2=0;~sc=1;~gold=((1+5.sqrt)/2);~silver=(1+2.sqrt);
 ~incr=0;~ssc=26;~mix=0;
-~seq= Pseq([~dur.[0],Rest(~dur.[13.rand]),~dur.[1],Rest(~dur.[13.rand]),~dur.[2],Rest(~dur.[13.rand]),~dur.[3]] ,inf);
+//~seq= Pseq([~dur.[0],Rest(~dur.[13.rand]),~dur.[1],Rest(~dur.[13.rand]),~dur.[2],Rest(~dur.[13.rand]),~dur.[3]] ,inf);
 TempoClock.default.tempo_(0.01);
 
 ~pattern = Pdef(\1,
-Pbind(\instrument, \synth,\dur, ~seq,\gain,
+Pbind(\instrument, \synth,\dur, Pseq([~dur.[0],Rest(~dur.[13.rand]),~dur.[1],Rest(~dur.[13.rand]),~dur.[2],Rest(~dur.[13.rand]),~dur.[3]] ,inf),\gain,
 					Pfunc { ~gain }, \sc, Pfunc { ~sc },\drive, Pfunc { ~drive },
 \c, Pfunc { ~c },\mix, Pfunc{~mix},
 \az, Pseries(0, Pfunc{~incr1}, inf).collect(_.wrap(pi.neg, pi)),
