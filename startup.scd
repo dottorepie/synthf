@@ -226,19 +226,20 @@ var m1=1.neg, m2=1.neg, m3=1.neg,a,b,c,n=0,bank=4,time=32.reciprocal,beat=1,r=0;
 (
 ~dur1=[];~dur2=[];~dur3=[]; ~dx=[];~dy=[]; ~dz=[]; ~durx=[]; ~dury=[]; ~durz=[]; ~dur=[];
 3.do{
+							m1=m2=m3=~vertices.rand;
 ~x=bank.collect{
-m1=m1+1;
-b=Spherical(beat,~azr.[m1],~elr.[m1]).rotate(~r).tilt(~r1).tumble(~r2).x;
+//m1=~vertices.rand;
+b=Spherical(beat,~az.[m1],~el.[m1]).rotate(~r).tilt(~r1).tumble(~r2).x;
 2.pow(b).round(time);
 };
 ~y=bank.collect{
-m2=m2+1;
-c=Spherical(beat,~azr.[m2],~elr.[m2]).rotate(~r).tilt(~r1).tumble(~r2).y;
+//m2=m2+1;
+c=Spherical(beat,~az.[m2],~el.[m2]).rotate(~r).tilt(~r1).tumble(~r2).y;
 2.pow(c).round(time);
 };
 ~z=bank.collect{
-m3=m3+1;
-d=Spherical(beat,~azr.[m3],~elr.[m3]).rotate(~r).tilt(~r1).tumble(~r2).z;
+//m3=m3+1;
+d=Spherical(beat,~az.[m3],~el.[m3]).rotate(~r).tilt(~r1).tumble(~r2).z;
 2.pow(d).round(time);
 };
 m1=1.neg; m2=1.neg; m3=1.neg; ~dx=~dx++~x; ~dy=~dy++~y;  ~dz=~dz++~z;   ~x=[]; ~y=[]; ~z=[];  r=r+90.degrad; };
