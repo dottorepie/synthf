@@ -8,11 +8,11 @@ very low fundamental will slow cook speaker driver coil, if unsure on speaker sy
 ~download and install SuperCollider  https://supercollider.github.io
 Note that project sybthf builds against SuperCollider 3.13.0, only MathLib Quark is required, other than core SuperCollider Objects and Ugens
 
-~download files from synth folder from this Repository to a local new synth folder
+~download startup.scd
 
 ~find SuperCollider startup.scd file in SuperCollider file in User Library, APPDATA on Windows, Application Support on Mac
 
-~open startup.scd and paste on the writing environment of SuperCollider, the contnet of startup.scd from this repository 
+~open startup.scd and paste on the writing environment of SuperCollider, the content of startup.scd from this repository 
 
 ~on this line in the file ~img_print = Image.open("/home/pi/Desktop/synth/image1.jpg");///////////////paste image image1.jpg , copy paste or drag and drop in the parentheses image1.jpg from your location. You should see in the parentheses only the new file path in ""
 
