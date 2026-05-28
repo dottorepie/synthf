@@ -95,7 +95,7 @@ wt = signal.asWavetable;
 ~note=32;
 (
 {
-var nn=1.neg;
+var nn=8.neg;
 ~scale=~note.collect{nn=nn+1;Scale.dorian.performDegreeToKey(nn,12)};
 }.value;
 );
