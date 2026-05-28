@@ -113,15 +113,16 @@ var s_x,s_y,s_z;
 
 s1=Rand(0, ~vertices-1).round(1).asInteger;s2=Rand(0, ~vertices-1).round(1).asInteger;
 s3=Rand(0, ~vertices-1).round(1).asInteger;s4=Rand(0, ~vertices-1).round(1).asInteger;
+
 env=EnvGen.ar(Env.perc(attack,dicay,gain),doneAction:2);
 
 expansion=2.pow(c.lag(0.1)/16256);
 fund=(fu*(9/8))*expansion;
 heavy=2.pow(drive.lag(0.1)/16256);
 
-xx=Spherical(~vertices,az,el).x.round(1).asInteger;
-yy=Spherical(~vertices,az,el).y.round(1).asInteger;
-zz=Spherical(~vertices,az,el).z.round(1).asInteger;
+xx=Spherical(~vertices,az,el).x.round(1).asInteger.abs;
+yy=Spherical(~vertices,az,el).y.round(1).asInteger.abs;
+zz=Spherical(~vertices,az,el).z.round(1).asInteger.abs;
 polytope=Cartesian(Select.kr(xx,~cx),Select.kr(yy,~cy),Select.kr(zz,~cz));
 
 mp=Spherical(sc,polytope.theta, polytope.phi);
