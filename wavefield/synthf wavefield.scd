@@ -131,9 +131,9 @@ mpf=Spherical(1,polytope.theta, polytope.phi);
 b_x=2.pow(mp.x.round(1).asInteger/16256);
 b_y=2.pow(mp.y.round(1).asInteger/16256);
 b_z=2.pow(mp.z.round(1).asInteger/16256);
-s_x=2.pow(Select.kr(mps.x.round(1).asInteger,~scale).asInteger /12);
-s_y=2.pow(Select.kr(mps.y.round(1).asInteger,~scale).asInteger /12);
-s_z=2.pow(Select.kr(mps.z.round(1).asInteger,~scale).asInteger /12);
+s_x=2.pow(Select.kr(mps.x.round(1).asInteger.abs,~scale).asInteger /12);
+s_y=2.pow(Select.kr(mps.y.round(1).asInteger.abs,~scale).asInteger /12);
+s_z=2.pow(Select.kr(mps.z.round(1).asInteger.abs,~scale).asInteger /12);
 
 mod_x=mpf.x;
 mod_y=mpf.y;
