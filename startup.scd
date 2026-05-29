@@ -301,7 +301,7 @@ compass=10.collect{n=n+(2pi/10); (exp(Complex(0,1)*n)*scl)};
 w = Window("synthf", Rect(50, 50, size*2, size)).front;
 ~vw = UserView(w, Rect(0,0,size,size)).drawFunc_({ ~img_print.drawInRect(~vw.bounds)});
 ~vw1 = UserView(w,Rect(size,0,size,size)).background_(Color.black);
-~logView = ListView( ~vw1, Rect(0, 0, 50, 750))
+~logView = ListView( ~vw1, Rect(0, 0, 40, 750))
 .background_(Color.black).stringColor_(Color.white)
 .font_(Font("Arial", 20))
 .items_([]);
