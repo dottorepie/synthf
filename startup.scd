@@ -175,9 +175,9 @@ SinOsc.ar(freq3,phase:phasez)),freq3*4,heavy,amp3/4)+amp3).abs*
 (BPF.ar((Osc.ar(~wt.bufnum,freq3*2,phase:phasez,mul:1200).abs*
 					SinOsc.ar(freq3,phase:phasez)),freq3*2,heavy,amp3/2)))+amp3).abs*sig3;
 
-sig1=(sig1*mix.linlin(0,0.6,0.1,128)).softclip;
-sig2=(sig2*mix.linlin(0,0.6,0.1,128)).softclip;
-sig3=(sig3*mix.linlin(0,0.6,0.1,128)).softclip;
+sig1=(sig1*mix.linlin(0,0.7,0.1,128)).softclip;
+sig2=(sig2*mix.linlin(0,0.7,0.1,128)).softclip;
+sig3=(sig3*mix.linlin(0,0.7,0.1,128)).softclip;
 				a1=a2=a3=a4=1;
 
 g_ch1 = (
