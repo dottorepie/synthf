@@ -168,9 +168,9 @@ sig1=(SinOsc.ar(freq1*4,phase:phasex,mul:amp1/4)+(amp1)).abs*c1;
 sig2=(SinOsc.ar(freq2*4,phase:phasey,mul:amp2/4)+(amp2)).abs*c2;
 sig3=(SinOsc.ar(freq3*4,phase:phasez,mul:amp3/4)+(amp3)).abs*c3;
 
-sig1=(sig1*mix.linlin(0,1,0.1,32)*heavy).softclip;
-sig2=(sig2*mix.linlin(0,1,0.1,32)*heavy).softclip;
-sig3=(sig3*mix.linlin(0,1,0.1,32)*heavy).softclip;
+sig1=(sig1*mix.linlin(0,1,0.1,32)).softclip;
+sig2=(sig2*mix.linlin(0,1,0.1,32)).softclip;
+sig3=(sig3*mix.linlin(0,1,0.1,32)).softclip;
 
 ///spectral compensation
 //sig1=BRF.ar(c1,freq1/2,heavy);
