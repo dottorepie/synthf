@@ -11,9 +11,9 @@ Quarks.install("MathLib");
 Buffer.freeAll;
 Window.closeAll;
 s.makeGui(w);
-s.meter;
-s.freqscope;
-s.scope;
+//s.meter;
+//s.freqscope;
+//s.scope;
 );
 ~img_print = Image.open("/Users/amimid/Documents/Literary/Portfolio/SUPERCOLLIDER/2026/synth/image1.jpg");///////////////paste image image1.jpg
 s.waitForBoot{
@@ -105,12 +105,13 @@ var nn=2.neg;
 /////////////////////////////////////////////////////////////////////////////////////////////////////sound
 (
 SynthDef.new(\synth,{
-arg gain=1,drive=0,c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20,ssc=1,mix=0,busArray = #[0,1,2,3];
+arg gain=1,lowend=20,s_size=1,room=1,drive=0,
+c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20,ssc=1,mix=0,busArray = #[0,1,2,3];
 var fund,fu=32,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
 var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
 var b_x,b_y,b_z,polytope,env,expansion,sph1,sph2,xx,yy,zz;
 var g_ch1,g_ch2,g_ch3,g_ch4,s1,s2,s3,s4,a1,a2,a3,a4,mp,mps,mpf;
-var s_x,s_y,s_z;
+var s_x,s_y,s_z,threshold,c1,c2,c3;
 
 s1=Rand(0, ~vertices-1).round(1).asInteger;s2=Rand(0, ~vertices-1).round(1).asInteger;
 s3=Rand(0, ~vertices-1).round(1).asInteger;s4=Rand(0, ~vertices-1).round(1).asInteger;
@@ -126,6 +127,7 @@ yy=Spherical(~vertices,az,el).y.round(1).asInteger.abs;
 zz=Spherical(~vertices,az,el).z.round(1).asInteger.abs;
 polytope=Cartesian(Select.kr(xx,~cx),Select.kr(yy,~cy),Select.kr(zz,~cz));
 
+///osc
 mp=Spherical(sc,polytope.theta, polytope.phi);
 mps=Spherical(ssc,polytope.theta, polytope.phi);
 mpf=Spherical(1,polytope.theta, polytope.phi);
@@ -147,7 +149,6 @@ phasex = atan(mod_x);
 phasey = atan(mod_y);
 phasez = atan(mod_z);
 
-
 freq1=(fund)*b_x*s_x;
 freq2=(fund)*b_y*s_y;
 freq3=(fund)*b_z*s_z;
@@ -155,31 +156,36 @@ amp1=b_x.reciprocal*expansion.reciprocal*s_x.reciprocal;
 amp2=b_y.reciprocal*expansion.reciprocal*s_y.reciprocal;
 amp3=b_z.reciprocal*expansion.reciprocal*s_z.reciprocal;
 
-sig1=FreeVerb.ar(BPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex,mul:1200).abs*
-SinOsc.ar(freq1,phase:phasex)),freq1,heavy,amp1),mix,1);
-sig2=FreeVerb.ar(BPF.ar((Osc.ar(~wt.bufnum,freq2,phase:phasey,mul:1200).abs*
-SinOsc.ar(freq2,phase:phasey)),freq2,heavy,amp2),mix,1);
-sig3=FreeVerb.ar(BPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez,mul:1200).abs*
-SinOsc.ar(freq3,phase:phasez)),freq3,heavy,amp3),mix,1);
+c1=FreeVerb.ar(BPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex,mul:1200).abs*
+SinOsc.ar(freq1,phase:phasex)),freq1,heavy,amp1),mix,room);
+c2=FreeVerb.ar(BPF.ar((Osc.ar(~wt.bufnum,freq2,phase:phasey,mul:1200).abs*
+SinOsc.ar(freq2,phase:phasey)),freq2,heavy,amp2),mix,room);
+c3=FreeVerb.ar(BPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez,mul:1200).abs*
+SinOsc.ar(freq3,phase:phasez)),freq3,heavy,amp3),mix,room);
 
-sig1=(((BPF.ar((Osc.ar(~wt.bufnum,freq1*4,phase:phasex,mul:1200).abs*
-SinOsc.ar(freq1,phase:phasex)),freq1*4,heavy,amp1/4)+amp1).abs*
-(BPF.ar((Osc.ar(~wt.bufnum,freq1*2,phase:phasex,mul:1200).abs*
-					SinOsc.ar(freq1,phase:phasex)),freq1*2,heavy,amp1/2)))+amp1).abs*sig1;
-sig2=(((BPF.ar((Osc.ar(~wt.bufnum,freq2*4,phase:phasey,mul:1200).abs*
-SinOsc.ar(freq2,phase:phasey)),freq2*4,heavy,amp2/4)+amp2).abs*
-(BPF.ar((Osc.ar(~wt.bufnum,freq2*2,phase:phasey,mul:1200).abs*
-					SinOsc.ar(freq2,phase:phasey)),freq2*2,heavy,amp2/2)))+amp2).abs*sig2;
-sig3=(((BPF.ar((Osc.ar(~wt.bufnum,freq3*4,phase:phasez,mul:1200).abs*
-SinOsc.ar(freq3,phase:phasez)),freq3*4,heavy,amp3/4)+amp3).abs*
-(BPF.ar((Osc.ar(~wt.bufnum,freq3*2,phase:phasez,mul:1200).abs*
-					SinOsc.ar(freq3,phase:phasez)),freq3*2,heavy,amp3/2)))+amp3).abs*sig3;
+////distortion
+sig1=(BPF.ar(Osc.ar(~wt.bufnum,freq1*2,phase:phasex,mul:600).abs*
+SinOsc.ar(freq1,phase:phasex),freq1*2,heavy,amp1/2)+amp1).abs*c1;
+sig2=(BPF.ar(Osc.ar(~wt.bufnum,freq2*2,phase:phasey,mul:600).abs*
+SinOsc.ar(freq2,phase:phasey),freq2*2,heavy,amp2/2)+amp2).abs*c2;
+sig3=(BPF.ar(Osc.ar(~wt.bufnum,freq3*2,phase:phasez,mul:600).abs*
+SinOsc.ar(freq3,phase:phasez),freq3*2,heavy,amp3/2)+amp3).abs*c3;
 
-sig1=(sig1*mix.linlin(0,1,0.1,128)).softclip;
-sig2=(sig2*mix.linlin(0,1,0.1,128)).softclip;
-sig3=(sig3*mix.linlin(0,1,0.1,128)).softclip;
-				a1=a2=a3=a4=1;
+sig1=(sig1*mix.linlin(0,1,0.1,32)).softclip;
+sig2=(sig2*mix.linlin(0,1,0.1,32)).softclip;
+sig3=(sig3*mix.linlin(0,1,0.1,32)).softclip;
 
+/////compresion
+sig1=HPF.ar(sig1,lowend);
+sig2=HPF.ar(sig2, lowend);
+sig3=HPF.ar(sig3, lowend);
+threshold=(((343/s_size)/fund).reciprocal.ampdb/2.sqrt).dbamp;
+sig1=Compander.ar(sig1,c1,threshold,1.2,1/3,0.03,0.15)+BrownNoise.ar(0.000001);
+sig2=Compander.ar(sig2,c2,threshold,1.2,1/3,0.03,0.15)+BrownNoise.ar(0.000001);
+sig3=Compander.ar(sig3,c3,threshold,1.2,1/3,0.03,0.15)+BrownNoise.ar(0.000001);
+
+/////spat
+a1=a2=a3=a4=1;
 g_ch1 = (
 (Spherical(sig1.abs.range(0.001,1),(polytope.theta),(polytope.phi)).x *
 Spherical(sig1.range(0.001,1),Select.kr(s1, ~az)*a1,Select.kr(s1, ~el)*a1).x) +
@@ -263,7 +269,7 @@ bank.do{ ~dur3=~dur3++~dz.[n];n=n+1;};n=0;
 )}.value);
 );
 
-~gain=1;~drive=0;~c=0;~attack=0.01;~decay=1;
+~gain=1;~drive=0;~c=0;~attack=0.01;~decay=1;~s_size=1;~lowend=20;~room=0;
 ~incr1=0;~incr2=0;~sc=1;~gold=((1+5.sqrt)/2);~silver=(1+2.sqrt);
 ~incr=0;~ssc=26;~mix=0;
 //~seq= Pseq([~dur.[0],Rest(~dur.[13.rand]),~dur.[1],Rest(~dur.[13.rand]),~dur.[2],Rest(~dur.[13.rand]),~dur.[3]] ,inf);
@@ -271,7 +277,7 @@ TempoClock.default.tempo_(0.01);
 
 ~pattern = Pdef(\1,
 Pbind(\instrument, \synth,
-\dur, Pseq(~dur ,inf),
+\dur, Pseq(~dur ,inf),\s_size,Pfunc { ~s_size }, \lowend,Pfunc { ~lowend }, \room,Pfunc { ~room },
 \gain,Pfunc { ~gain }, \sc, Pfunc { ~sc },\drive, Pfunc { ~drive },
 \c, Pfunc { ~c },\mix, Pfunc{~mix},
 \az, Pseries(0, Pfunc{~incr1}, inf).collect(_.wrap(pi.neg, pi)),
@@ -283,13 +289,13 @@ Pbind(\instrument, \synth,
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////gui
 (
 {
-var size,sk,compass,n,scl,r;
+var size,sk,compass,n,scl,r,ssk=20;
 size=700; sk=(size/30); n=(2pi/9).neg; scl=(size/4); r=2;
-w = Window("synthf", Rect(50, 50, size, size)).front;
-~vw = UserView(w, w.view.bounds).drawFunc_({ ~img_print.drawInRect(~vw.bounds)});
-
-
+w = Window("synthf", Rect(50, 50, size*2, size)).front;
+~vw = UserView(w, Rect(0,0,size,size)).drawFunc_({ ~img_print.drawInRect(~vw.bounds)});
+~vw1 = UserView(w,Rect(size,0,size,size)).background_(Color.black);
 compass=10.collect{n=n+(2pi/10); (exp(Complex(0,1)*n)*scl)};
+
 (
 ~sl1=Knob.new(~vw, Rect.aboutPoint((compass.[0].real+(size/r)) @ (compass.[0].imag+(size/r)), sk, sk)).
 background_(Color.black).action_({
@@ -304,7 +310,7 @@ value=obj.value.linexp(0,1,1,16256).round(1).asInteger.postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,(16256*8).neg,(16256*3)).round(1).asInteger.postln;
+value=obj.value.linlin(0,1,(16256*12).neg,(16256*2)).round(1).asInteger.postln;
 ~drive=value;
 });
 );
@@ -376,12 +382,49 @@ value=obj.value.linlin(0,1,0.degrad,pi-(pi/~gold)).round((pi/992).degrad).postln
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,0.001,1).postln;
+value=obj.value.linexp(0,1,0.01,1).postln;
 ~mix=value;
+});
+);
+(
+~sl01=Knob.new(~vw1, Rect.new(sk+50,sk+ssk, sk+ssk, sk+ssk)).
+background_(Color.black).action_({
+arg obj;
+var value;
+value=obj.value.linlin(0,1,0.001,10).postln;
+~gain=value;
+});
+);
+(
+~sl02=Knob.new(~vw1, Rect.new(sk+150,sk+ssk, sk+ssk, sk+ssk)).
+background_(Color.black).action_({
+arg obj;
+var value;
+value=obj.value.linlin(0,1,0.05,100).postln;
+~s_size=value;
+});
+);
+(
+~sl03=Knob.new(~vw1, Rect.new(sk+250,sk+ssk, sk+ssk, sk+ssk)).
+background_(Color.black).action_({
+arg obj;
+var value;
+value=obj.value.linlin(0,1,10,100).postln;
+~lowend=value;
+});
+);
+(
+~sl04=Knob.new(~vw1, Rect.new(sk+350,sk+ssk, sk+ssk, sk+ssk)).
+background_(Color.black).action_({
+arg obj;
+var value;
+value=obj.value.linexp(0,1,0.01,1).postln;
+~room=value;
 });
 )
 }.defer
-		))
+)
+)
 }); Tdef(\drone).play;
 }
 )
