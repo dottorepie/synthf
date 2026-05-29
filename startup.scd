@@ -301,6 +301,13 @@ compass=10.collect{n=n+(2pi/10); (exp(Complex(0,1)*n)*scl)};
 w = Window("synthf", Rect(50, 50, size*2, size)).front;
 ~vw = UserView(w, Rect(0,0,size,size)).drawFunc_({ ~img_print.drawInRect(~vw.bounds)});
 ~vw1 = UserView(w,Rect(size,0,size,size)).background_(Color.black);
+~logView = ListView( ~vw1, Rect(0, 0, 60, 750))
+.background_(Color.black).stringColor_(Color.white)
+.font_(Font("Arial", 20))
+.items_([]);
+~logItems = List.new;
+~log = { |msg| {~logItems.add(msg); if(~logItems.size > 200) { ~logItems.removeAt(0);  };
+ ~logView.items_(~logItems.asArray); ~logView.value_(~logItems.size - 1); }.defer;};
 
 scope1 = FreqScopeView(~vw1, Rect(sk+100+50,sk+ssk+30,  sk+350, sk+100));
 scope1.active_(true);scope1.dbRange_(120);scope1.inBus_(0);scope1.freqMode_(1);
@@ -317,6 +324,7 @@ arg obj;
 var value;
 value=obj.value.linexp(0,1,1,16256).round(1).asInteger.postln;
 ~sc=value;
+~log.(value.asString);
 });
 );
 (
@@ -326,6 +334,7 @@ arg obj;
 var value;
 value=obj.value.linlin(0,1,(16256*8).neg,(16256*4)).round(1).asInteger.postln;
 ~drive=value;
+~log.(value.asString);
 });
 );
 (
@@ -335,6 +344,7 @@ arg obj;
 var value;
 value=obj.value.linexp(0,1,0.01,4).postln;
 ~attack=value;
+~log.(value.asString);
 });
 );
 (
@@ -344,6 +354,7 @@ arg obj;
 var value;
 value=obj.value.linexp(0,1,1,~note).round(1).asInteger.postln;
 ~ssc=value;
+~log.(value.asString);
 });
 );
 (
@@ -353,6 +364,7 @@ arg obj;
 var value;
 value=obj.value.linlin(0,1,0,16256*3).round(1).asInteger.postln;
 ~c=value;
+~log.(value.asString);
 });
 );
 (
@@ -362,6 +374,7 @@ arg obj;
 var value;
 value=obj.value.linexp(0,1,1,8).postln;
 ~decay=value;
+~log.(value.asString);
 });
 );
 (
@@ -371,6 +384,7 @@ arg obj;
 var value;
 value=obj.value.linexp(0,1,1/16,64).round(1/64).postln;
 TempoClock.default.tempo_(value);
+~log.(value.asString);
 });
 );
 (
@@ -380,6 +394,7 @@ arg obj;
 var value;
 value=obj.value.linlin(0,1,0.degrad,2pi-(2pi/~silver)).round((2pi/992).degrad).postln;
 ~incr1=value;
+~log.(value.asString);
 });
 );
 (
@@ -389,6 +404,7 @@ arg obj;
 var value;
 value=obj.value.linlin(0,1,0.degrad,pi-(pi/~gold)).round((pi/992).degrad).postln;
 ~incr2=value;
+~log.(value.asString);
 });
 );
 (
@@ -398,6 +414,7 @@ arg obj;
 var value;
 value=obj.value.linexp(0,1,0.01,1).postln;
 ~mix=value;
+~log.(value.asString);
 });
 );
 (
@@ -407,6 +424,7 @@ arg obj;
 var value;
 value=obj.value.linlin(0,1,0.001,10).postln;
 ~gain=value;
+~log.(value.asString);
 });
 );
 (
@@ -416,6 +434,7 @@ arg obj;
 var value;
 value=obj.value.linlin(0,1,0.05,10).postln;
 ~s_size=value;
+~log.(value.asString);
 });
 );
 (
@@ -425,6 +444,7 @@ arg obj;
 var value;
 value=obj.value.linlin(0,1,10,100).postln;
 ~lowend=value;
+~log.(value.asString);
 });
 );
 (
@@ -434,6 +454,7 @@ arg obj;
 var value;
 value=obj.value.linexp(0,1,0.01,1).postln;
 ~room=value;
+~log.(value.asString);
 });
 )
 }.defer
