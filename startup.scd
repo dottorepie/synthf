@@ -311,11 +311,11 @@ w = Window("synthf", Rect(50, 50, size*2, size)).front;
 
 scope1 = FreqScopeView(~vw1, Rect(sk+100+50,sk+ssk+30,  sk+350, sk+100));
 scope1.active_(true);scope1.dbRange_(120);scope1.inBus_(0);scope1.freqMode_(1);
-scope2 = FreqScopeView(~vw1, Rect(sk+100+50, sk+ssk+170,  sk+350, sk+100));
+scope2 = FreqScopeView(~vw1, Rect(sk+100+50, sk+ssk+180,  sk+350, sk+100));
 scope2.active_(true);scope2.dbRange_(120);scope2.inBus_(1);scope2.freqMode_(1);
-scope3 = FreqScopeView(~vw1, Rect(sk+100+50, sk+ssk+320, sk+350, sk+100));
+scope3 = FreqScopeView(~vw1, Rect(sk+100+50, sk+ssk+330, sk+350, sk+100));
 scope3.active_(true);scope3.dbRange_(120);scope3.inBus_(2);scope3.freqMode_(1);
-scope4 = FreqScopeView(~vw1, Rect(sk+100+50, sk+ssk+500,  sk+350, sk+100));
+scope4 = FreqScopeView(~vw1, Rect(sk+100+50, sk+ssk+480,  sk+350, sk+100));
 scope4.active_(true);scope4.dbRange_(120);scope4.inBus_(3);scope4.freqMode_(1);
 (
 ~sl1=Knob.new(~vw, Rect.aboutPoint((compass.[0].real+(size/r)) @ (compass.[0].imag+(size/r)), sk, sk)).
