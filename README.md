@@ -22,7 +22,9 @@ Note that project sybthf builds against SuperCollider 3.13.0, only MathLib Quark
 
 ~terminate the synth either by closing SuperCollider or quiting the server on the server window 
 
-~knobs are clockwise 0 to 9 with 0 being 11o clock. 0 and 1 are quantized tone variation in complex relation and localization,2 reverb mix and gain, 3 is tone variation range, 4 is drive, 5 is envelope attack,6 scale tonal range, 7 is tempered fundamental from sub low to mid/high, 8 is decay and 9 tempo.
+~audio knobs are clockwise 0 to 9 with 0 being 11o clock. 0 and 1 are quantized tone variation in complex relation and localization,2 reverb mix and softclip gain, 3 is tone variation range, 4 is drive, 5 is envelope attack,6 scale tonal range, 7 is tempered fundamental from sub low to mid/high, 8 is decay and 9 tempo.
+
+~control knobs on the right pannel are in series from left to right gain, compressor wavelength size, lowend cutt, reverb room size
 
 ~if turning tempo to max, preferably do not set max long attack and decay at the same time so the sound engine does not crash
 
