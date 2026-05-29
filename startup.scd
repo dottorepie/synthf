@@ -164,25 +164,30 @@ c3=FreeVerb.ar(BPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez,mul:1200).abs*
 SinOsc.ar(freq3,phase:phasez)),freq3,heavy,amp3),mix,room);
 
 ////distortion
-sig1=(BPF.ar(Osc.ar(~wt.bufnum,freq1*2,phase:phasex,mul:600).abs*
-SinOsc.ar(freq1,phase:phasex),freq1*2,heavy,amp1/2)+amp1).abs*c1;
-sig2=(BPF.ar(Osc.ar(~wt.bufnum,freq2*2,phase:phasey,mul:600).abs*
-SinOsc.ar(freq2,phase:phasey),freq2*2,heavy,amp2/2)+amp2).abs*c2;
-sig3=(BPF.ar(Osc.ar(~wt.bufnum,freq3*2,phase:phasez,mul:600).abs*
-SinOsc.ar(freq3,phase:phasez),freq3*2,heavy,amp3/2)+amp3).abs*c3;
+sig1=(SinOsc.ar(freq1*4,phase:phasex,mul:amp1/4)+(amp1)).abs*c1;
+sig2=(SinOsc.ar(freq2*4,phase:phasey,mul:amp2/4)+(amp2)).abs*c2;
+sig3=(SinOsc.ar(freq3*4,phase:phasez,mul:amp3/4)+(amp3)).abs*c3;
 
 sig1=(sig1*mix.linlin(0,1,0.1,32)).softclip;
 sig2=(sig2*mix.linlin(0,1,0.1,32)).softclip;
 sig3=(sig3*mix.linlin(0,1,0.1,32)).softclip;
+
+///spectral ring
+//sig1=BRF.ar(c1,freq1/2,heavy);
+//sig2=BRF.ar(c2,freq2/2,heavy);
+//sig3=BRF.ar(c3,freq3/2,heavy);
+//sig1=BRF.ar(c1,freq1*2,heavy);
+//sig2=BRF.ar(c2,freq2*2,heavy);
+//sig3=BRF.ar(c3,freq3*2,heavy);
 
 /////compresion
 sig1=HPF.ar(sig1,lowend);
 sig2=HPF.ar(sig2, lowend);
 sig3=HPF.ar(sig3, lowend);
 threshold=(((343/s_size)/fund).reciprocal.ampdb/2.sqrt).dbamp;
-sig1=Compander.ar(sig1,c1,threshold,1.2,1/3,0.03,0.15)+BrownNoise.ar(0.000001);
-sig2=Compander.ar(sig2,c2,threshold,1.2,1/3,0.03,0.15)+BrownNoise.ar(0.000001);
-sig3=Compander.ar(sig3,c3,threshold,1.2,1/3,0.03,0.15)+BrownNoise.ar(0.000001);
+sig1=Compander.ar(sig1,c1*env,threshold,1.2,1/3,0.03,0.15)+BrownNoise.ar(0.000001);
+sig2=Compander.ar(sig2,c2*env,threshold,1.2,1/3,0.03,0.15)+BrownNoise.ar(0.000001);
+sig3=Compander.ar(sig3,c3*env,threshold,1.2,1/3,0.03,0.15)+BrownNoise.ar(0.000001);
 
 /////spat
 a1=a2=a3=a4=1;
@@ -310,7 +315,7 @@ value=obj.value.linexp(0,1,1,16256).round(1).asInteger.postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,(16256*12).neg,(16256*2)).round(1).asInteger.postln;
+value=obj.value.linlin(0,1,(16256*8).neg,(16256*4)).round(1).asInteger.postln;
 ~drive=value;
 });
 );
@@ -400,7 +405,7 @@ value=obj.value.linlin(0,1,0.001,10).postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,0.05,100).postln;
+value=obj.value.linlin(0,1,0.05,10).postln;
 ~s_size=value;
 });
 );
