@@ -218,7 +218,7 @@ Out.ar(busArray.[2],LeakDC.ar(sig3*env*g_ch3));Out.ar(busArray.[3],LeakDC.ar(sig
 (
 
 ({
-var m1=1.neg, m2=1.neg, m3=1.neg,a,b,c,n=0,bank=12,time=32.reciprocal,beat=1,r=0;
+var m1=1.neg, m2=1.neg, m3=1.neg,a,b,c,n=0,bank=6,time=32.reciprocal,beat=1,r=0;
 ~r=0;~r1=0;	~r2=0;
 (
 ~azr=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad];
