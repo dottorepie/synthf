@@ -218,7 +218,7 @@ Out.ar(busArray.[2],LeakDC.ar(sig3*env*g_ch3));Out.ar(busArray.[3],LeakDC.ar(sig
 (
 
 ({
-var m1=1.neg, m2=1.neg, m3=1.neg,a,b,c,n=0,bank=4,time=32.reciprocal,beat=1,r=0;
+var m1=1.neg, m2=1.neg, m3=1.neg,a,b,c,n=0,bank=12,time=32.reciprocal,beat=1,r=0;
 ~r=0;~r1=0;	~r2=0;
 (
 ~azr=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad];
@@ -226,7 +226,7 @@ var m1=1.neg, m2=1.neg, m3=1.neg,a,b,c,n=0,bank=4,time=32.reciprocal,beat=1,r=0;
 );
 (
 ~dur1=[];~dur2=[];~dur3=[]; ~dx=[];~dy=[]; ~dz=[]; ~durx=[]; ~dury=[]; ~durz=[]; ~dur=[];
-4.do{
+bank.do{
 							m1=m2=m3=~vertices.rand;
 ~x=1.collect{
 //m1=m1+1;
@@ -244,9 +244,9 @@ d=Spherical(beat,~az.[m3],~el.[m3]).rotate(~r).tilt(~r1).tumble(~r2).z;
 2.pow(d).round(time);
 };
 m1=1.neg; m2=1.neg; m3=1.neg; ~dx=~dx++~x; ~dy=~dy++~y;  ~dz=~dz++~z;   ~x=[]; ~y=[]; ~z=[];  r=r+90.degrad; };
-4.do{ ~dur1=~dur1++~dx.[n];n=n+1;};n=0;
-4.do{ ~dur2=~dur2++~dy.[n];n=n+1;};n=0;
-4.do{ ~dur3=~dur3++~dz.[n];n=n+1;};n=0;
+bank.do{ ~dur1=~dur1++~dx.[n];n=n+1;};n=0;
+bank.do{ ~dur2=~dur2++~dy.[n];n=n+1;};n=0;
+bank.do{ ~dur3=~dur3++~dz.[n];n=n+1;};n=0;
 ~dur=~dur++~dur1++~dur2++~dur3;
 )}.value);
 );
