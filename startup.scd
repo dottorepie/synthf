@@ -172,13 +172,13 @@ sig1=(sig1*mix.linlin(0,1,0.1,32)).softclip;
 sig2=(sig2*mix.linlin(0,1,0.1,32)).softclip;
 sig3=(sig3*mix.linlin(0,1,0.1,32)).softclip;
 
-///spectral ring
+///spectral compensation
 //sig1=BRF.ar(c1,freq1/2,heavy);
 //sig2=BRF.ar(c2,freq2/2,heavy);
 //sig3=BRF.ar(c3,freq3/2,heavy);
-//sig1=BRF.ar(c1,freq1*2,heavy);
-//sig2=BRF.ar(c2,freq2*2,heavy);
-//sig3=BRF.ar(c3,freq3*2,heavy);
+//sig1=BRF.ar(c1,freq1*4,heavy);
+//sig2=BRF.ar(c2,freq2*4,heavy);
+//sig3=BRF.ar(c3,freq3*4,heavy);
 
 /////compresion
 sig1=HPF.ar(sig1,lowend);
