@@ -294,13 +294,22 @@ Pbind(\instrument, \synth,
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////gui
 (
 {
-var size,sk,compass,n,scl,r,ssk=20;
+var size,sk,compass,n,scl,r,ssk=20,scope1,scope2,scope3,scope4,meter;
 size=700; sk=(size/30); n=(2pi/9).neg; scl=(size/4); r=2;
+compass=10.collect{n=n+(2pi/10); (exp(Complex(0,1)*n)*scl)};
+
 w = Window("synthf", Rect(50, 50, size*2, size)).front;
 ~vw = UserView(w, Rect(0,0,size,size)).drawFunc_({ ~img_print.drawInRect(~vw.bounds)});
 ~vw1 = UserView(w,Rect(size,0,size,size)).background_(Color.black);
-compass=10.collect{n=n+(2pi/10); (exp(Complex(0,1)*n)*scl)};
 
+scope1 = FreqScopeView(~vw1, Rect(sk+100+50,sk+ssk+120,  sk+350, sk+100));
+scope1.active_(true);scope1.dbRange_(120);scope1.inBus_(0);scope1.freqMode_(1);
+scope2 = FreqScopeView(~vw1, Rect(sk+100+50, sk+ssk+250,  sk+350, sk+100));
+scope2.active_(true);scope2.dbRange_(120);scope2.inBus_(1);scope2.freqMode_(1);
+scope3 = FreqScopeView(~vw1, Rect(sk+100+50, sk+ssk+360, sk+350, sk+100));
+scope3.active_(true);scope3.dbRange_(120);scope3.inBus_(2);scope3.freqMode_(1);
+scope4 = FreqScopeView(~vw1, Rect(sk+100+50, sk+ssk+480,  sk+350, sk+100));
+scope4.active_(true);scope4.dbRange_(120);scope4.inBus_(3);scope4.freqMode_(1);
 (
 ~sl1=Knob.new(~vw, Rect.aboutPoint((compass.[0].real+(size/r)) @ (compass.[0].imag+(size/r)), sk, sk)).
 background_(Color.black).action_({
@@ -392,7 +401,7 @@ value=obj.value.linexp(0,1,0.01,1).postln;
 });
 );
 (
-~sl01=Knob.new(~vw1, Rect.new(sk+50,sk+ssk, sk+ssk, sk+ssk)).
+~sl01=Knob.new(~vw1, Rect.new(sk+sk+50+50+sk,sk+ssk+sk, sk+ssk, sk+ssk)).
 background_(Color.black).action_({
 arg obj;
 var value;
@@ -401,7 +410,7 @@ value=obj.value.linlin(0,1,0.001,10).postln;
 });
 );
 (
-~sl02=Knob.new(~vw1, Rect.new(sk+150,sk+ssk, sk+ssk, sk+ssk)).
+~sl02=Knob.new(~vw1, Rect.new(sk+sk+150+50+sk,sk+ssk+sk, sk+ssk, sk+ssk)).
 background_(Color.black).action_({
 arg obj;
 var value;
@@ -410,7 +419,7 @@ value=obj.value.linlin(0,1,0.05,10).postln;
 });
 );
 (
-~sl03=Knob.new(~vw1, Rect.new(sk+250,sk+ssk, sk+ssk, sk+ssk)).
+~sl03=Knob.new(~vw1, Rect.new(sk+sk+250+50+sk,sk+ssk+sk, sk+ssk, sk+ssk)).
 background_(Color.black).action_({
 arg obj;
 var value;
@@ -419,7 +428,7 @@ value=obj.value.linlin(0,1,10,100).postln;
 });
 );
 (
-~sl04=Knob.new(~vw1, Rect.new(sk+350,sk+ssk, sk+ssk, sk+ssk)).
+~sl04=Knob.new(~vw1, Rect.new(sk+sk+350+50+sk,sk+ssk+sk, sk+ssk, sk+ssk)).
 background_(Color.black).action_({
 arg obj;
 var value;
@@ -439,7 +448,7 @@ value=obj.value.linexp(0,1,0.01,1).postln;
 
 
 
-
+/////space symmetric, for keys
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////spaces
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*
