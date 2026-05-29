@@ -162,16 +162,24 @@ SinOsc.ar(freq2,phase:phasey)),freq2,heavy,amp2),mix,1);
 sig3=FreeVerb.ar(BPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez,mul:1200).abs*
 SinOsc.ar(freq3,phase:phasez)),freq3,heavy,amp3),mix,1);
 
-////////distortion
-sig1=(((sig1.abs+amp1)*sig1)+amp1).abs*sig1;
-sig2=(((sig2.abs+amp2)*sig2)+amp2).abs*sig2;
-sig3=(((sig3.abs+amp3)*sig3)+amp3).abs*sig3;
+sig1=(((BPF.ar((Osc.ar(~wt.bufnum,freq1*4,phase:phasex,mul:1200).abs*
+SinOsc.ar(freq1,phase:phasex)),freq1*4,heavy,amp1/4)+amp1).abs*
+(BPF.ar((Osc.ar(~wt.bufnum,freq1*2,phase:phasex,mul:1200).abs*
+					SinOsc.ar(freq1,phase:phasex)),freq1*2,heavy,amp1/2)))+amp1).abs*sig1;
+sig2=(((BPF.ar((Osc.ar(~wt.bufnum,freq2*4,phase:phasey,mul:1200).abs*
+SinOsc.ar(freq2,phase:phasey)),freq2*4,heavy,amp2/4)+amp2).abs*
+(BPF.ar((Osc.ar(~wt.bufnum,freq2*2,phase:phasey,mul:1200).abs*
+					SinOsc.ar(freq2,phase:phasey)),freq2*2,heavy,amp2/2)))+amp2).abs*sig2;
+sig3=(((BPF.ar((Osc.ar(~wt.bufnum,freq3*4,phase:phasez,mul:1200).abs*
+SinOsc.ar(freq3,phase:phasez)),freq3*4,heavy,amp3/4)+amp3).abs*
+(BPF.ar((Osc.ar(~wt.bufnum,freq3*2,phase:phasez,mul:1200).abs*
+					SinOsc.ar(freq3,phase:phasez)),freq3*2,heavy,amp3/2)))+amp3).abs*sig3;
+
 sig1=(sig1*mix.linlin(0,1,0.1,128)).softclip;
 sig2=(sig2*mix.linlin(0,1,0.1,128)).softclip;
 sig3=(sig3*mix.linlin(0,1,0.1,128)).softclip;
+				a1=a2=a3=a4=1;
 
-////spat
-a1=a2=a3=a4=1;
 g_ch1 = (
 (Spherical(sig1.abs.range(0.001,1),(polytope.theta),(polytope.phi)).x *
 Spherical(sig1.range(0.001,1),Select.kr(s1, ~az)*a1,Select.kr(s1, ~el)*a1).x) +
