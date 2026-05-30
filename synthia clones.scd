@@ -544,7 +544,7 @@ bank.do{ ~dur3=~dur3++~dz.[n];n=n+1;};n=0;
 ~incr1=0;~incr2=0;~ssc=1;~incr11=0;~incr21=0;~ssc1=1;
 ~incr12=0;~incr22=0;~ssc2=1;~mix=0;~mix1=0;~mix2=0;
 
-~seq= Pseq(~dur ,inf).asStream;
+//~seq= Pseq(~dur ,inf).asStream;
 ~clock1 = TempoClock.new(0.1);
 ~clock2 = TempoClock.new(0.1);
 ~clock3 = TempoClock.new(0.1);
@@ -583,13 +583,13 @@ Pbind(\instrument, \synth2,
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////gui
 (
 {
-var size,sk,compass,n,scl,r,ssk=20,scope1,scope2,scope3,scope4,meter;
+var size,sk,compass,n,scl,r,ssk=20,scope1,scope2,scope3,scope4,meter,w1;
 size=700; sk=(size/30); n=(2pi/9).neg; scl=(size/4); r=2;
 compass=10.collect{n=n+(2pi/10); (exp(Complex(0,1)*n)*scl)};
 
-w = Window("synthf", Rect(50, 50, size*2, size)).front;
-~vw = UserView(w, Rect(0,0,size,size)).drawFunc_({ ~img_print.drawInRect(~vw.bounds)});
-~vw1 = UserView(w,Rect(size,0,size,size)).background_(Color.black);
+w1 = Window("synthf0", Rect(50, 50, size*2, size)).front;
+~vw = UserView(w1, Rect(0,0,size,size)).drawFunc_({ ~img_print.drawInRect(~vw.bounds)});
+~vw1 = UserView(w1,Rect(size,0,size,size)).background_(Color.black);
 ~logView = ListView( ~vw1, Rect(0, 0, 40, 750))
 .background_(Color.black).stringColor_(Color.white)
 .font_(Font("Arial", 20))
@@ -750,13 +750,13 @@ value=obj.value.linexp(0,1,0.01,1).postln;
 );
 			(
 {
-var size,sk,compass,n,scl,r,ssk=20,scope1,scope2,scope3,scope4,meter;
+var size,sk,compass,n,scl,r,ssk=20,scope1,scope2,scope3,scope4,meter,w2;
 size=700; sk=(size/30); n=(2pi/9).neg; scl=(size/4); r=2;
 compass=10.collect{n=n+(2pi/10); (exp(Complex(0,1)*n)*scl)};
 
-w = Window("synthf", Rect(100, 50, size*2, size)).front;
-~vw3 = UserView(w, Rect(0,0,size,size)).drawFunc_({ ~img_print.drawInRect(~vw3.bounds)});
-~vw13 = UserView(w,Rect(size,0,size,size)).background_(Color.black);
+w2 = Window("synthf1", Rect(100, 50, size*2, size)).front;
+~vw3 = UserView(w2, Rect(0,0,size,size)).drawFunc_({ ~img_print.drawInRect(~vw3.bounds)});
+~vw13 = UserView(w2,Rect(size,0,size,size)).background_(Color.black);
 ~logView2 = ListView( ~vw13, Rect(0, 0, 40, 750))
 .background_(Color.black).stringColor_(Color.white)
 .font_(Font("Arial", 20))
@@ -917,13 +917,13 @@ value=obj.value.linexp(0,1,0.01,1).postln;
 );
 (
 {
-var size,sk,compass,n,scl,r,ssk=20,scope1,scope2,scope3,scope4,meter;
+var size,sk,compass,n,scl,r,ssk=20,scope1,scope2,scope3,scope4,meter,w3;
 size=700; sk=(size/30); n=(2pi/9).neg; scl=(size/4); r=2;
 compass=10.collect{n=n+(2pi/10); (exp(Complex(0,1)*n)*scl)};
 
-w = Window("synthf", Rect(200, 50, size*2, size)).front;
-~vw2 = UserView(w, Rect(0,0,size,size)).drawFunc_({ ~img_print.drawInRect(~vw2.bounds)});
-~vw12 = UserView(w,Rect(size,0,size,size)).background_(Color.black);
+w3 = Window("synthf2", Rect(200, 50, size*2, size)).front;
+~vw2 = UserView(w3, Rect(0,0,size,size)).drawFunc_({ ~img_print.drawInRect(~vw2.bounds)});
+~vw12 = UserView(w3,Rect(size,0,size,size)).background_(Color.black);
 ~logView1 = ListView( ~vw12, Rect(0, 0, 40, 750))
 .background_(Color.black).stringColor_(Color.white)
 .font_(Font("Arial", 20))
