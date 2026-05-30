@@ -672,7 +672,7 @@ background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linexp(0,1,1/16,64).round(1/64).postln;
-TempoClock.default.tempo_(value);
+~clock1.tempo = value;
 ~log.(value.asString);
 });
 );
@@ -755,162 +755,162 @@ size=700; sk=(size/30); n=(2pi/9).neg; scl=(size/4); r=2;
 compass=10.collect{n=n+(2pi/10); (exp(Complex(0,1)*n)*scl)};
 
 w = Window("synthf", Rect(100, 50, size*2, size)).front;
-~vw = UserView(w, Rect(0,0,size,size)).drawFunc_({ ~img_print.drawInRect(~vw.bounds)});
-~vw1 = UserView(w,Rect(size,0,size,size)).background_(Color.black);
-~logView = ListView( ~vw1, Rect(0, 0, 40, 750))
+~vw3 = UserView(w, Rect(0,0,size,size)).drawFunc_({ ~img_print.drawInRect(~vw3.bounds)});
+~vw13 = UserView(w,Rect(size,0,size,size)).background_(Color.black);
+~logView2 = ListView( ~vw1, Rect(0, 0, 40, 750))
 .background_(Color.black).stringColor_(Color.white)
 .font_(Font("Arial", 20))
 .items_([]);
-~logItems = List.new;
-~log = { |msg| {~logItems.add(msg); if(~logItems.size > 200) { ~logItems.removeAt(0);  };
- ~logView.items_(~logItems.asArray); ~logView.value_(~logItems.size - 1); }.defer;};
+~logItems2 = List.new;
+~log2 = { |msg| {~logItems2.add(msg); if(~logItems2.size > 200) { ~logItems2.removeAt(0);  };
+ ~logView2.items_(~logItems2.asArray); ~logView2.value_(~logItems2.size - 1); }.defer;};
 
-scope1 = FreqScopeView(~vw1, Rect(sk+100+50,sk+ssk+30,  sk+350, sk+100));
+scope1 = FreqScopeView(~vw13, Rect(sk+100+50,sk+ssk+30,  sk+350, sk+100));
 scope1.active_(true);scope1.dbRange_(120);scope1.inBus_(0);scope1.freqMode_(1);
-scope2 = FreqScopeView(~vw1, Rect(sk+100+50, sk+ssk+180,  sk+350, sk+100));
+scope2 = FreqScopeView(~vw13, Rect(sk+100+50, sk+ssk+180,  sk+350, sk+100));
 scope2.active_(true);scope2.dbRange_(120);scope2.inBus_(1);scope2.freqMode_(1);
-scope3 = FreqScopeView(~vw1, Rect(sk+100+50, sk+ssk+330, sk+350, sk+100));
+scope3 = FreqScopeView(~vw13, Rect(sk+100+50, sk+ssk+330, sk+350, sk+100));
 scope3.active_(true);scope3.dbRange_(120);scope3.inBus_(2);scope3.freqMode_(1);
-scope4 = FreqScopeView(~vw1, Rect(sk+100+50, sk+ssk+480,  sk+350, sk+100));
+scope4 = FreqScopeView(~vw13, Rect(sk+100+50, sk+ssk+480,  sk+350, sk+100));
 scope4.active_(true);scope4.dbRange_(120);scope4.inBus_(3);scope4.freqMode_(1);
 (
-~sl1=Knob.new(~vw, Rect.aboutPoint((compass.[0].real+(size/r)) @ (compass.[0].imag+(size/r)), sk, sk)).
+~sl12=Knob.new(~vw3, Rect.aboutPoint((compass.[0].real+(size/r)) @ (compass.[0].imag+(size/r)), sk, sk)).
 background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linexp(0,1,1,16256).round(1).asInteger.postln;
-~sc=value;
-~log.(value.asString);
+~sc2=value;
+~log2.(value.asString);
 });
 );
 (
-~sl2=Knob.new(~vw, Rect.aboutPoint((compass.[1].real+(size/r)) @ (compass.[1].imag+(size/r)), sk, sk)).
+~sl22=Knob.new(~vw3, Rect.aboutPoint((compass.[1].real+(size/r)) @ (compass.[1].imag+(size/r)), sk, sk)).
 background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linlin(0,1,(16256*8).neg,(16256*4)).round(1).asInteger.postln;
-~drive=value;
-~log.(value.asString);
+~drive2=value;
+~log2.(value.asString);
 });
 );
 (
-~sl4=Knob.new(~vw, Rect.aboutPoint((compass.[2].real+(size/r)) @ (compass.[2].imag+(size/r)), sk, sk)).
+~sl42=Knob.new(~vw3, Rect.aboutPoint((compass.[2].real+(size/r)) @ (compass.[2].imag+(size/r)), sk, sk)).
 background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linexp(0,1,0.01,4).postln;
-~attack=value;
-~log.(value.asString);
+~attack2=value;
+~log2.(value.asString);
 });
 );
 (
-~sl3=Knob.new(~vw, Rect.aboutPoint((compass.[3].real+(size/r)) @ (compass.[3].imag+(size/r)), sk, sk)).
+~sl32=Knob.new(~vw3, Rect.aboutPoint((compass.[3].real+(size/r)) @ (compass.[3].imag+(size/r)), sk, sk)).
 background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linexp(0,1,1,~note).round(1).asInteger.postln;
-~ssc=value;
-~log.(value.asString);
+~ssc2=value;
+~log2.(value.asString);
 });
 );
 (
-~sl5=Knob.new(~vw, Rect.aboutPoint((compass.[4].real+(size/r)) @ (compass.[4].imag+(size/r)), sk, sk)).
+~sl52=Knob.new(~vw3, Rect.aboutPoint((compass.[4].real+(size/r)) @ (compass.[4].imag+(size/r)), sk, sk)).
 background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linlin(0,1,0,16256*3).round(1).asInteger.postln;
-~c=value;
-~log.(value.asString);
+~c2=value;
+~log2.(value.asString);
 });
 );
 (
-~sl6=Knob.new(~vw, Rect.aboutPoint((compass.[5].real+(size/r)) @ (compass.[5].imag+(size/r)), sk, sk)).
+~sl62=Knob.new(~vw3, Rect.aboutPoint((compass.[5].real+(size/r)) @ (compass.[5].imag+(size/r)), sk, sk)).
 background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linexp(0,1,1,8).postln;
-~decay=value;
-~log.(value.asString);
+~decay2=value;
+~log2.(value.asString);
 });
 );
 (
-~sl7=Knob.new(~vw, Rect.aboutPoint((compass.[6].real+(size/r))@ (compass.[6].imag+(size/r)), sk, sk)).
+~sl72=Knob.new(~vw3, Rect.aboutPoint((compass.[6].real+(size/r))@ (compass.[6].imag+(size/r)), sk, sk)).
 background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linexp(0,1,1/16,64).round(1/64).postln;
-TempoClock.default.tempo_(value);
-~log.(value.asString);
+~clock3.tempo = value;
+~log2.(value.asString);
 });
 );
 (
-~sl8=Knob.new(~vw, Rect.aboutPoint((compass.[7].real+(size/r))@ (compass.[7].imag+(size/r)), sk, sk)).
+~sl82=Knob.new(~vw3, Rect.aboutPoint((compass.[7].real+(size/r))@ (compass.[7].imag+(size/r)), sk, sk)).
 background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linlin(0,1,0.degrad,2pi-(2pi/~silver)).round((2pi/992).degrad).postln;
-~incr1=value;
-~log.(value.asString);
+~incr122=value;
+~log22.(value.asString);
 });
 );
 (
-~sl9=Knob.new(~vw, Rect.aboutPoint((compass.[8].real+(size/r))@ (compass.[8].imag+(size/r)), sk, sk)).
+~sl92=Knob.new(~vw3, Rect.aboutPoint((compass.[8].real+(size/r))@ (compass.[8].imag+(size/r)), sk, sk)).
 background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linlin(0,1,0.degrad,pi-(pi/~gold)).round((pi/992).degrad).postln;
-~incr2=value;
-~log.(value.asString);
+~incr22=value;
+~log2.(value.asString);
 });
 );
 (
-~sl10=Knob.new(~vw, Rect.aboutPoint((compass.[9].real+(size/r))@ (compass.[9].imag+(size/r)), sk, sk)).
+~sl102=Knob.new(~vw3, Rect.aboutPoint((compass.[9].real+(size/r))@ (compass.[9].imag+(size/r)), sk, sk)).
 background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linexp(0,1,0.01,1).postln;
-~mix=value;
-~log.(value.asString);
+~mix2=value;
+~log2.(value.asString);
 });
 );
 (
-~sl01=Knob.new(~vw1, Rect.new(sk+sk+50+50+sk,sk+sk, sk+ssk, sk+ssk)).
+~sl012=Knob.new(~vw13, Rect.new(sk+sk+50+50+sk,sk+sk, sk+ssk, sk+ssk)).
 background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linlin(0,1,0.001,10).postln;
-~gain=value;
-~log.(value.asString);
+~gain2=value;
+~log2.(value.asString);
 });
 );
 (
-~sl02=Knob.new(~vw1, Rect.new(sk+sk+150+50+sk,sk+sk, sk+ssk, sk+ssk)).
+~sl022=Knob.new(~vw13, Rect.new(sk+sk+150+50+sk,sk+sk, sk+ssk, sk+ssk)).
 background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linlin(0,1,0.05,10).postln;
-~s_size=value;
-~log.(value.asString);
+~s_size2=value;
+~log2.(value.asString);
 });
 );
 (
-~sl03=Knob.new(~vw1, Rect.new(sk+sk+250+50+sk,sk+sk, sk+ssk, sk+ssk)).
+~sl032=Knob.new(~vw13, Rect.new(sk+sk+250+50+sk,sk+sk, sk+ssk, sk+ssk)).
 background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linlin(0,1,10,100).postln;
-~lowend=value;
-~log.(value.asString);
+~lowend2=value;
+~log2.(value.asString);
 });
 );
 (
-~sl04=Knob.new(~vw1, Rect.new(sk+sk+350+50+sk,sk+sk, sk+ssk, sk+ssk)).
+~sl042=Knob.new(~vw13, Rect.new(sk+sk+350+50+sk,sk+sk, sk+ssk, sk+ssk)).
 background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linexp(0,1,0.01,1).postln;
-~room=value;
-~log.(value.asString);
+~room2=value;
+~log2.(value.asString);
 });
 )
 }.defer
@@ -922,162 +922,162 @@ size=700; sk=(size/30); n=(2pi/9).neg; scl=(size/4); r=2;
 compass=10.collect{n=n+(2pi/10); (exp(Complex(0,1)*n)*scl)};
 
 w = Window("synthf", Rect(200, 50, size*2, size)).front;
-~vw = UserView(w, Rect(0,0,size,size)).drawFunc_({ ~img_print.drawInRect(~vw.bounds)});
-~vw1 = UserView(w,Rect(size,0,size,size)).background_(Color.black);
-~logView = ListView( ~vw1, Rect(0, 0, 40, 750))
+~vw2 = UserView(w, Rect(0,0,size,size)).drawFunc_({ ~img_print.drawInRect(~vw2.bounds)});
+~vw12 = UserView(w,Rect(size,0,size,size)).background_(Color.black);
+~logView1 = ListView( ~vw1, Rect(0, 0, 40, 750))
 .background_(Color.black).stringColor_(Color.white)
 .font_(Font("Arial", 20))
 .items_([]);
-~logItems = List.new;
-~log = { |msg| {~logItems.add(msg); if(~logItems.size > 200) { ~logItems.removeAt(0);  };
- ~logView.items_(~logItems.asArray); ~logView.value_(~logItems.size - 1); }.defer;};
+~logItems1 = List.new;
+~log1 = { |msg| {~logItems1.add(msg); if(~logItems1.size > 200) { ~logItems1.removeAt(0);  };
+ ~logView1.items_(~logItems1.asArray); ~logView1.value_(~logItems1.size - 1); }.defer;};
 
-scope1 = FreqScopeView(~vw1, Rect(sk+100+50,sk+ssk+30,  sk+350, sk+100));
+scope1 = FreqScopeView(~vw12, Rect(sk+100+50,sk+ssk+30,  sk+350, sk+100));
 scope1.active_(true);scope1.dbRange_(120);scope1.inBus_(0);scope1.freqMode_(1);
-scope2 = FreqScopeView(~vw1, Rect(sk+100+50, sk+ssk+180,  sk+350, sk+100));
+scope2 = FreqScopeView(~vw12, Rect(sk+100+50, sk+ssk+180,  sk+350, sk+100));
 scope2.active_(true);scope2.dbRange_(120);scope2.inBus_(1);scope2.freqMode_(1);
-scope3 = FreqScopeView(~vw1, Rect(sk+100+50, sk+ssk+330, sk+350, sk+100));
+scope3 = FreqScopeView(~vw12, Rect(sk+100+50, sk+ssk+330, sk+350, sk+100));
 scope3.active_(true);scope3.dbRange_(120);scope3.inBus_(2);scope3.freqMode_(1);
-scope4 = FreqScopeView(~vw1, Rect(sk+100+50, sk+ssk+480,  sk+350, sk+100));
+scope4 = FreqScopeView(~vw12, Rect(sk+100+50, sk+ssk+480,  sk+350, sk+100));
 scope4.active_(true);scope4.dbRange_(120);scope4.inBus_(3);scope4.freqMode_(1);
 (
-~sl1=Knob.new(~vw, Rect.aboutPoint((compass.[0].real+(size/r)) @ (compass.[0].imag+(size/r)), sk, sk)).
+~sl11=Knob.new(~vw2, Rect.aboutPoint((compass.[0].real+(size/r)) @ (compass.[0].imag+(size/r)), sk, sk)).
 background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linexp(0,1,1,16256).round(1).asInteger.postln;
-~sc=value;
-~log.(value.asString);
+~sc1=value;
+~log1.(value.asString);
 });
 );
 (
-~sl2=Knob.new(~vw, Rect.aboutPoint((compass.[1].real+(size/r)) @ (compass.[1].imag+(size/r)), sk, sk)).
+~sl21=Knob.new(~vw2, Rect.aboutPoint((compass.[1].real+(size/r)) @ (compass.[1].imag+(size/r)), sk, sk)).
 background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linlin(0,1,(16256*8).neg,(16256*4)).round(1).asInteger.postln;
-~drive=value;
-~log.(value.asString);
+~drive1=value;
+~log1.(value.asString);
 });
 );
 (
-~sl4=Knob.new(~vw, Rect.aboutPoint((compass.[2].real+(size/r)) @ (compass.[2].imag+(size/r)), sk, sk)).
+~sl41=Knob.new(~vw2, Rect.aboutPoint((compass.[2].real+(size/r)) @ (compass.[2].imag+(size/r)), sk, sk)).
 background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linexp(0,1,0.01,4).postln;
-~attack=value;
-~log.(value.asString);
+~attack1=value;
+~log1.(value.asString);
 });
 );
 (
-~sl3=Knob.new(~vw, Rect.aboutPoint((compass.[3].real+(size/r)) @ (compass.[3].imag+(size/r)), sk, sk)).
+~sl31=Knob.new(~vw2, Rect.aboutPoint((compass.[3].real+(size/r)) @ (compass.[3].imag+(size/r)), sk, sk)).
 background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linexp(0,1,1,~note).round(1).asInteger.postln;
-~ssc=value;
-~log.(value.asString);
+~ssc1=value;
+~log1.(value.asString);
 });
 );
 (
-~sl5=Knob.new(~vw, Rect.aboutPoint((compass.[4].real+(size/r)) @ (compass.[4].imag+(size/r)), sk, sk)).
+~sl51=Knob.new(~vw2, Rect.aboutPoint((compass.[4].real+(size/r)) @ (compass.[4].imag+(size/r)), sk, sk)).
 background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linlin(0,1,0,16256*3).round(1).asInteger.postln;
-~c=value;
-~log.(value.asString);
+~c1=value;
+~log1.(value.asString);
 });
 );
 (
-~sl6=Knob.new(~vw, Rect.aboutPoint((compass.[5].real+(size/r)) @ (compass.[5].imag+(size/r)), sk, sk)).
+~sl61=Knob.new(~vw2, Rect.aboutPoint((compass.[5].real+(size/r)) @ (compass.[5].imag+(size/r)), sk, sk)).
 background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linexp(0,1,1,8).postln;
-~decay=value;
-~log.(value.asString);
+~decay1=value;
+~log1.(value.asString);
 });
 );
 (
-~sl7=Knob.new(~vw, Rect.aboutPoint((compass.[6].real+(size/r))@ (compass.[6].imag+(size/r)), sk, sk)).
+~sl71=Knob.new(~vw2, Rect.aboutPoint((compass.[6].real+(size/r))@ (compass.[6].imag+(size/r)), sk, sk)).
 background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linexp(0,1,1/16,64).round(1/64).postln;
-TempoClock.default.tempo_(value);
-~log.(value.asString);
+~clock1.tempo = value;
+~log1.(value.asString);
 });
 );
 (
-~sl8=Knob.new(~vw, Rect.aboutPoint((compass.[7].real+(size/r))@ (compass.[7].imag+(size/r)), sk, sk)).
+~sl81=Knob.new(~vw2, Rect.aboutPoint((compass.[7].real+(size/r))@ (compass.[7].imag+(size/r)), sk, sk)).
 background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linlin(0,1,0.degrad,2pi-(2pi/~silver)).round((2pi/992).degrad).postln;
-~incr1=value;
-~log.(value.asString);
+~incr11=value;
+~log1.(value.asString);
 });
 );
 (
-~sl9=Knob.new(~vw, Rect.aboutPoint((compass.[8].real+(size/r))@ (compass.[8].imag+(size/r)), sk, sk)).
+~sl91=Knob.new(~vw2, Rect.aboutPoint((compass.[8].real+(size/r))@ (compass.[8].imag+(size/r)), sk, sk)).
 background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linlin(0,1,0.degrad,pi-(pi/~gold)).round((pi/992).degrad).postln;
-~incr2=value;
-~log.(value.asString);
+~incr21=value;
+~log1.(value.asString);
 });
 );
 (
-~sl10=Knob.new(~vw, Rect.aboutPoint((compass.[9].real+(size/r))@ (compass.[9].imag+(size/r)), sk, sk)).
+~sl101=Knob.new(~vw2, Rect.aboutPoint((compass.[9].real+(size/r))@ (compass.[9].imag+(size/r)), sk, sk)).
 background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linexp(0,1,0.01,1).postln;
-~mix=value;
-~log.(value.asString);
+~mix1=value;
+~log1.(value.asString);
 });
 );
 (
-~sl01=Knob.new(~vw1, Rect.new(sk+sk+50+50+sk,sk+sk, sk+ssk, sk+ssk)).
+~sl011=Knob.new(~vw12, Rect.new(sk+sk+50+50+sk,sk+sk, sk+ssk, sk+ssk)).
 background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linlin(0,1,0.001,10).postln;
-~gain=value;
-~log.(value.asString);
+~gain1=value;
+~log1.(value.asString);
 });
 );
 (
-~sl02=Knob.new(~vw1, Rect.new(sk+sk+150+50+sk,sk+sk, sk+ssk, sk+ssk)).
+~sl021=Knob.new(~vw12, Rect.new(sk+sk+150+50+sk,sk+sk, sk+ssk, sk+ssk)).
 background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linlin(0,1,0.05,10).postln;
-~s_size=value;
-~log.(value.asString);
+~s_size1=value;
+~log1.(value.asString);
 });
 );
 (
-~sl03=Knob.new(~vw1, Rect.new(sk+sk+250+50+sk,sk+sk, sk+ssk, sk+ssk)).
+~sl031=Knob.new(~vw12, Rect.new(sk+sk+250+50+sk,sk+sk, sk+ssk, sk+ssk)).
 background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linlin(0,1,10,100).postln;
-~lowend=value;
-~log.(value.asString);
+~lowend1=value;
+~log1.(value.asString);
 });
 );
 (
-~sl04=Knob.new(~vw1, Rect.new(sk+sk+350+50+sk,sk+sk, sk+ssk, sk+ssk)).
+~sl041=Knob.new(~vw12, Rect.new(sk+sk+350+50+sk,sk+sk, sk+ssk, sk+ssk)).
 background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linexp(0,1,0.01,1).postln;
-~room=value;
-~log.(value.asString);
+~room1=value;
+~log1.(value.asString);
 });
 )
 }.defer
