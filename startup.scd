@@ -163,7 +163,7 @@ SinOsc.ar(freq2,phase:phasey)),freq2,heavy,amp2),mix,room);
 c3=FreeVerb.ar(BPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez,mul:1200).abs*
 SinOsc.ar(freq3,phase:phasez)),freq3,heavy,amp3),mix,room);
 
-////distortion
+////distortion rectifier
 sig1=((((SinOsc.ar(freq1*4,phase:phasex,mul:amp1/4)).abs+(amp1))*
 (SinOsc.ar(freq1*2,phase:phasex,mul:amp1/2))).abs+(amp1))*c1;
 sig2=((((SinOsc.ar(freq2*4,phase:phasey,mul:amp2/4)).abs+(amp2))*
