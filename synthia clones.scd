@@ -13,7 +13,7 @@ Window.closeAll;
 s.makeGui(w);
 //s.meter;
 //s.freqscope;
-//s.scope;
+s.scope;
 );
 ~img_print = Image.open("/Users/amimid/Documents/Literary/Portfolio/SUPERCOLLIDER/2026/synth/image1.jpg");///////////////paste image image1.jpg
 s.waitForBoot{
@@ -233,7 +233,7 @@ Out.ar(busArray1.[2],LeakDC.ar(sig3*env*g_ch3));Out.ar(busArray1.[3],LeakDC.ar(s
 )
 
 }).add;
-);
+);1.wait;
 (
 SynthDef.new(\synth1,{
 arg gain=1,lowend=20,s_size=1,room=1,drive=0,
@@ -498,7 +498,7 @@ Out.ar(busArray.[2],LeakDC.ar(sig3*env*g_ch3));Out.ar(busArray.[3],LeakDC.ar(sig
 )
 
 }).add;
-);
+);1.wait;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////sequencer,pattern
 (
 (
@@ -1150,7 +1150,7 @@ value=obj.value.linexp(0,1,0.01,1).postln;
 });
 )
 }.defer
-);s.scope;
+);
 		);
 }); Tdef(\drone).play;
 }
