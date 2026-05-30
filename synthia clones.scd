@@ -105,7 +105,7 @@ var nn=1.neg;
 (
 SynthDef.new(\synth,{
 arg gain=1,lowend=20,s_size=1,room=1,drive=0,
-c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20,ssc=1,mix=0,busArray = #[0,1,2,3];
+c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20,ssc=1,mix=0,busArray1 = #[0,1,2,3];
 var fund,fu=32,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
 var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
 var b_x,b_y,b_z,polytope,env,expansion,sph1,sph2,xx,yy,zz;
@@ -224,12 +224,12 @@ Spherical(sig3.range(0.001,1),Select.kr(s4, ~az)*a4,Select.kr(s4, ~el)*a4).z)
 );
 
 (
-Out.ar(busArray.[0],LeakDC.ar(sig1*env*g_ch1));Out.ar(busArray.[1],LeakDC.ar(sig1*env*g_ch2));
-Out.ar(busArray.[2],LeakDC.ar(sig1*env*g_ch3));Out.ar(busArray.[3],LeakDC.ar(sig1*env*g_ch4));
-Out.ar(busArray.[0],LeakDC.ar(sig2*env*g_ch1));Out.ar(busArray.[1],LeakDC.ar(sig2*env*g_ch2));
-Out.ar(busArray.[2],LeakDC.ar(sig2*env*g_ch3));Out.ar(busArray.[3],LeakDC.ar(sig2*env*g_ch4));
-Out.ar(busArray.[0],LeakDC.ar(sig3*env*g_ch1));Out.ar(busArray.[1],LeakDC.ar(sig3*env*g_ch2));
-Out.ar(busArray.[2],LeakDC.ar(sig3*env*g_ch3));Out.ar(busArray.[3],LeakDC.ar(sig3*env*g_ch4));
+Out.ar(busArray1.[0],LeakDC.ar(sig1*env*g_ch1));Out.ar(busArray1.[1],LeakDC.ar(sig1*env*g_ch2));
+Out.ar(busArray1.[2],LeakDC.ar(sig1*env*g_ch3));Out.ar(busArray1.[3],LeakDC.ar(sig1*env*g_ch4));
+Out.ar(busArray1.[0],LeakDC.ar(sig2*env*g_ch1));Out.ar(busArray1.[1],LeakDC.ar(sig2*env*g_ch2));
+Out.ar(busArray1.[2],LeakDC.ar(sig2*env*g_ch3));Out.ar(busArray1.[3],LeakDC.ar(sig2*env*g_ch4));
+Out.ar(busArray1.[0],LeakDC.ar(sig3*env*g_ch1));Out.ar(busArray1.[1],LeakDC.ar(sig3*env*g_ch2));
+Out.ar(busArray1.[2],LeakDC.ar(sig3*env*g_ch3));Out.ar(busArray1.[3],LeakDC.ar(sig3*env*g_ch4));
 )
 
 }).add;
@@ -237,7 +237,7 @@ Out.ar(busArray.[2],LeakDC.ar(sig3*env*g_ch3));Out.ar(busArray.[3],LeakDC.ar(sig
 (
 SynthDef.new(\synth1,{
 arg gain=1,lowend=20,s_size=1,room=1,drive=0,
-c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20,ssc=1,mix=0,busArray = #[0,1,2,3];
+c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20,ssc=1,mix=0,busArray2= #[0,1,2,3];
 var fund,fu=32,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
 var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
 var b_x,b_y,b_z,polytope,env,expansion,sph1,sph2,xx,yy,zz;
@@ -356,12 +356,12 @@ Spherical(sig3.range(0.001,1),Select.kr(s4, ~az)*a4,Select.kr(s4, ~el)*a4).z)
 );
 
 (
-Out.ar(busArray.[0],LeakDC.ar(sig1*env*g_ch1));Out.ar(busArray.[1],LeakDC.ar(sig1*env*g_ch2));
-Out.ar(busArray.[2],LeakDC.ar(sig1*env*g_ch3));Out.ar(busArray.[3],LeakDC.ar(sig1*env*g_ch4));
-Out.ar(busArray.[0],LeakDC.ar(sig2*env*g_ch1));Out.ar(busArray.[1],LeakDC.ar(sig2*env*g_ch2));
-Out.ar(busArray.[2],LeakDC.ar(sig2*env*g_ch3));Out.ar(busArray.[3],LeakDC.ar(sig2*env*g_ch4));
-Out.ar(busArray.[0],LeakDC.ar(sig3*env*g_ch1));Out.ar(busArray.[1],LeakDC.ar(sig3*env*g_ch2));
-Out.ar(busArray.[2],LeakDC.ar(sig3*env*g_ch3));Out.ar(busArray.[3],LeakDC.ar(sig3*env*g_ch4));
+Out.ar(busArray2.[0],LeakDC.ar(sig1*env*g_ch1));Out.ar(busArray2.[1],LeakDC.ar(sig1*env*g_ch2));
+Out.ar(busArray2.[2],LeakDC.ar(sig1*env*g_ch3));Out.ar(busArray2.[3],LeakDC.ar(sig1*env*g_ch4));
+Out.ar(busArray2.[0],LeakDC.ar(sig2*env*g_ch1));Out.ar(busArray2.[1],LeakDC.ar(sig2*env*g_ch2));
+Out.ar(busArray2.[2],LeakDC.ar(sig2*env*g_ch3));Out.ar(busArray2.[3],LeakDC.ar(sig2*env*g_ch4));
+Out.ar(busArray2.[0],LeakDC.ar(sig3*env*g_ch1));Out.ar(busArray2.[1],LeakDC.ar(sig3*env*g_ch2));
+Out.ar(busArray2.[2],LeakDC.ar(sig3*env*g_ch3));Out.ar(busArray2.[3],LeakDC.ar(sig3*env*g_ch4));
 )
 
 }).add;
@@ -511,7 +511,76 @@ var m1=1.neg, m2=1.neg, m3=1.neg,a,b,c,n=0,bank=8,time=32.reciprocal,beat=1,r=0;
 ~elr=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad];
 );
 (
-~dur1=[];~dur2=[];~dur3=[]; ~dx=[];~dy=[]; ~dz=[]; ~durx=[]; ~dury=[]; ~durz=[]; ~dur=[];
+~dur1b=[];~dur2b=[];~dur3b=[]; ~dxb=[];~dyb=[]; ~dzb=[]; ~durxb=[]; ~duryb=[]; ~durzb=[]; ~seq2=[];
+bank.do{
+							m1=m2=m3=~vertices.rand;
+~xb=1.collect{
+//m1=m1+1;
+b=Spherical(beat,~az.[m1],~el.[m1]).rotate(~r).tilt(~r1).tumble(~r2).x;
+2.pow(b).round(time);
+};
+~yb=1.collect{
+//m2=m2+1;
+c=Spherical(beat,~az.[m2],~el.[m2]).rotate(~r).tilt(~r1).tumble(~r2).y;
+2.pow(c).round(time);
+};
+~zb=1.collect{
+//m3=m3+1;
+d=Spherical(beat,~az.[m3],~el.[m3]).rotate(~r).tilt(~r1).tumble(~r2).z;
+2.pow(d).round(time);
+};
+m1=1.neg; m2=1.neg; m3=1.neg; ~dxb=~dxb++~xb; ~dyb=~dyb++~yb;  ~dzb=~dzb++~zb;   ~xb=[]; ~yb=[]; ~zb=[];  r=r+90.degrad; };
+bank.do{ ~dur1b=~dur1b++~dxb.[n];n=n+1;};n=0;
+bank.do{ ~dur2b=~dur2b++~dyb.[n];n=n+1;};n=0;
+bank.do{ ~dur3b=~dur3b++~dzb.[n];n=n+1;};n=0;
+~seq2=~seq2++~dur1b++~dur2b++~dur3b;
+)}.value);
+);
+(
+({
+var m1=1.neg, m2=1.neg, m3=1.neg,a,b,c,n=0,bank=8,time=32.reciprocal,beat=1,r=0;
+~r=0;~r1=0;	~r2=0;
+(
+~azr=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad];
+~elr=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad];
+);
+(
+~dur1c=[];~dur2c=[];~dur3c=[]; ~dxc=[];~dyc=[]; ~dzc=[]; ~durxc=[]; ~duryc=[]; ~durzc=[]; ~seq3=[];
+bank.do{
+							m1=m2=m3=~vertices.rand;
+~xc=1.collect{
+//m1=m1+1;
+b=Spherical(beat,~az.[m1],~el.[m1]).rotate(~r).tilt(~r1).tumble(~r2).x;
+2.pow(b).round(time);
+};
+~yc=1.collect{
+//m2=m2+1;
+c=Spherical(beat,~az.[m2],~el.[m2]).rotate(~r).tilt(~r1).tumble(~r2).y;
+2.pow(c).round(time);
+};
+~zc=1.collect{
+//m3=m3+1;
+d=Spherical(beat,~az.[m3],~el.[m3]).rotate(~r).tilt(~r1).tumble(~r2).z;
+2.pow(d).round(time);
+};
+m1=1.neg; m2=1.neg; m3=1.neg; ~dxc=~dxc++~xc; ~dyc=~dyc++~yc;  ~dzc=~dz++~zc;   ~xc=[]; ~yc=[]; ~zc=[];  r=r+90.degrad; };
+bank.do{ ~dur1c=~dur1c++~dxc.[n];n=n+1;};n=0;
+bank.do{ ~dur2c=~dur2c++~dyc.[n];n=n+1;};n=0;
+bank.do{ ~dur3c=~dur3c++~dzc.[n];n=n+1;};n=0;
+~seq3=~seq3++~dur1c++~dur2c++~dur3c;
+)}.value);
+);
+(
+
+({
+var m1=1.neg, m2=1.neg, m3=1.neg,a,b,c,n=0,bank=8,time=32.reciprocal,beat=1,r=0;
+~r=0;~r1=0;	~r2=0;
+(
+~azr=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad];
+~elr=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad];
+);
+(
+~dur1=[];~dur2=[];~dur3=[]; ~dx=[];~dy=[]; ~dz=[]; ~durx=[]; ~dury=[]; ~durz=[]; ~seq1=[];
 bank.do{
 							m1=m2=m3=~vertices.rand;
 ~x=1.collect{
@@ -533,7 +602,7 @@ m1=1.neg; m2=1.neg; m3=1.neg; ~dx=~dx++~x; ~dy=~dy++~y;  ~dz=~dz++~z;   ~x=[]; ~
 bank.do{ ~dur1=~dur1++~dx.[n];n=n+1;};n=0;
 bank.do{ ~dur2=~dur2++~dy.[n];n=n+1;};n=0;
 bank.do{ ~dur3=~dur3++~dz.[n];n=n+1;};n=0;
-~dur=~dur++~dur1++~dur2++~dur3;
+~seq1=~seq1++~dur1++~dur2++~dur3;
 )}.value);
 );
 
@@ -544,14 +613,14 @@ bank.do{ ~dur3=~dur3++~dz.[n];n=n+1;};n=0;
 ~incr1=0;~incr2=0;~ssc=1;~incr11=0;~incr21=0;~ssc1=1;
 ~incr12=0;~incr22=0;~ssc2=1;~mix=0;~mix1=0;~mix2=0;
 
-//~seq= Pseq(~dur ,inf).asStream;
+
 ~clock1 = TempoClock.new(0.1);
 ~clock2 = TempoClock.new(0.1);
 ~clock3 = TempoClock.new(0.1);
 
 ~pattern1 = Pdef(\1,
 Pbind(\instrument, \synth,
-\dur, Pseq(~dur ,inf),\s_size,Pfunc { ~s_size }, \lowend,Pfunc { ~lowend }, \room,Pfunc { ~room },
+\dur, Pseq(~seq1 ,inf),\s_size,Pfunc { ~s_size }, \lowend,Pfunc { ~lowend }, \room,Pfunc { ~room },
 \gain,Pfunc { ~gain }, \sc, Pfunc { ~sc },\drive, Pfunc { ~drive },
 \c, Pfunc { ~c },\mix, Pfunc{~mix},
 \az, Pseries(0, Pfunc{~incr1}, inf).collect(_.wrap(pi.neg, pi)),
@@ -560,7 +629,7 @@ Pbind(\instrument, \synth,
 ));
 ~pattern2 = Pdef(\2,
 Pbind(\instrument, \synth1,
-\dur, Pseq(~dur ,inf),\s_size,Pfunc { ~s_size1}, \lowend,Pfunc { ~lowend1 }, \room,Pfunc { ~room1},
+\dur, Pseq(~seq2 ,inf),\s_size,Pfunc { ~s_size1}, \lowend,Pfunc { ~lowend1 }, \room,Pfunc { ~room1},
 \gain,Pfunc { ~gain1 }, \sc, Pfunc { ~sc1},\drive, Pfunc { ~drive1 },
 \c, Pfunc { ~c1},\mix, Pfunc{~mix1},
 \az, Pseries(0, Pfunc{~incr11}, inf).collect(_.wrap(pi.neg, pi)),
@@ -569,7 +638,7 @@ Pbind(\instrument, \synth1,
 ));
 ~pattern3 = Pdef(\3,
 Pbind(\instrument, \synth2,
-\dur, Pseq(~dur ,inf),\s_size,Pfunc { ~s_size2 }, \lowend,Pfunc { ~lowend2 }, \room,Pfunc { ~room2 },
+\dur, Pseq(~seq3 ,inf),\s_size,Pfunc { ~s_size2 }, \lowend,Pfunc { ~lowend2 }, \room,Pfunc { ~room2 },
 \gain,Pfunc { ~gain2 }, \sc, Pfunc { ~sc2 },\drive, Pfunc { ~drive2 },
 \c, Pfunc { ~c2 },\mix, Pfunc{~mix2},
 \az, Pseries(0, Pfunc{~incr12}, inf).collect(_.wrap(pi.neg, pi)),
@@ -850,7 +919,7 @@ arg obj;
 var value;
 value=obj.value.linlin(0,1,0.degrad,2pi-(2pi/~silver)).round((2pi/992).degrad).postln;
 ~incr12=value;
-~log22.(value.asString);
+~log2.(value.asString);
 });
 );
 (
@@ -1006,7 +1075,7 @@ background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linexp(0,1,1/16,64).round(1/64).postln;
-~clock1.tempo = value;
+~clock2.tempo = value;
 ~log1.(value.asString);
 });
 );
