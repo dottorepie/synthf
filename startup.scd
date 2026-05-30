@@ -164,9 +164,12 @@ c3=FreeVerb.ar(BPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez,mul:1200).abs*
 SinOsc.ar(freq3,phase:phasez)),freq3,heavy,amp3),mix,room);
 
 ////distortion
-sig1=(SinOsc.ar(freq1*4,phase:phasex,mul:amp1/4)+(amp1)).abs*c1;
-sig2=(SinOsc.ar(freq2*4,phase:phasey,mul:amp2/4)+(amp2)).abs*c2;
-sig3=(SinOsc.ar(freq3*4,phase:phasez,mul:amp3/4)+(amp3)).abs*c3;
+sig1=((((SinOsc.ar(freq1*4,phase:phasex,mul:amp1/4)).abs+(amp1))*
+(SinOsc.ar(freq1*2,phase:phasex,mul:amp1/2))).abs+(amp1))*c1;
+sig2=((((SinOsc.ar(freq2*4,phase:phasey,mul:amp2/4)).abs+(amp2))*
+(SinOsc.ar(freq2*2,phase:phasey,mul:amp2/2))).abs+(amp2))*c2;
+sig3=((((SinOsc.ar(freq3*4,phase:phasez,mul:amp3/4)).abs+(amp3))*
+(SinOsc.ar(freq3*2,phase:phasez,mul:amp3/2))).abs+(amp3))*c3;
 
 sig1=(sig1*mix.linlin(0,1,0.1,32)).softclip;
 sig2=(sig2*mix.linlin(0,1,0.1,32)).softclip;
