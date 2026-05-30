@@ -2,7 +2,7 @@
 (
 (
 s.options.numWireBufs = 1024*2;
-s.options.numOutputBusChannels=8;
+s.options.numOutputBusChannels=12;
 s.options.numInputBusChannels=0;
 s.options.memSize = 8192*256;
 s.options.blockSize = 64;
@@ -237,7 +237,7 @@ Out.ar(busArray1.[2],LeakDC.ar(sig3*env*g_ch3));Out.ar(busArray1.[3],LeakDC.ar(s
 (
 SynthDef.new(\synth1,{
 arg gain=1,lowend=20,s_size=1,room=1,drive=0,
-c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20,ssc=1,mix=0,busArray2= #[0,1,2,3];
+c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20,ssc=1,mix=0,busArray2= #[4,5,6,7];
 var fund,fu=32,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
 var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
 var b_x,b_y,b_z,polytope,env,expansion,sph1,sph2,xx,yy,zz;
@@ -370,7 +370,7 @@ Out.ar(busArray2.[2],LeakDC.ar(sig3*env*g_ch3));Out.ar(busArray2.[3],LeakDC.ar(s
 (
 SynthDef.new(\synth2,{
 arg gain=1,lowend=20,s_size=1,room=1,drive=0,
-c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20,ssc=1,mix=0,busArray = #[0,1,2,3];
+c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20,ssc=1,mix=0,busArray = #[8,9,10,11];
 var fund,fu=32,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
 var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
 var b_x,b_y,b_z,polytope,env,expansion,sph1,sph2,xx,yy,zz;
@@ -835,13 +835,13 @@ w2 = Window("synthf1", Rect(100, 50, size*2, size)).front;
  ~logView2.items_(~logItems2.asArray); ~logView2.value_(~logItems2.size - 1); }.defer;};
 
 scope1 = FreqScopeView(~vw13, Rect(sk+100+50,sk+ssk+30,  sk+350, sk+100));
-scope1.active_(true);scope1.dbRange_(120);scope1.inBus_(0);scope1.freqMode_(1);
+scope1.active_(true);scope1.dbRange_(120);scope1.inBus_(8);scope1.freqMode_(1);
 scope2 = FreqScopeView(~vw13, Rect(sk+100+50, sk+ssk+180,  sk+350, sk+100));
-scope2.active_(true);scope2.dbRange_(120);scope2.inBus_(1);scope2.freqMode_(1);
+scope2.active_(true);scope2.dbRange_(120);scope2.inBus_(9);scope2.freqMode_(1);
 scope3 = FreqScopeView(~vw13, Rect(sk+100+50, sk+ssk+330, sk+350, sk+100));
-scope3.active_(true);scope3.dbRange_(120);scope3.inBus_(2);scope3.freqMode_(1);
+scope3.active_(true);scope3.dbRange_(120);scope3.inBus_(10);scope3.freqMode_(1);
 scope4 = FreqScopeView(~vw13, Rect(sk+100+50, sk+ssk+480,  sk+350, sk+100));
-scope4.active_(true);scope4.dbRange_(120);scope4.inBus_(3);scope4.freqMode_(1);
+scope4.active_(true);scope4.dbRange_(120);scope4.inBus_(11);scope4.freqMode_(1);
 (
 ~sl12=Knob.new(~vw3, Rect.aboutPoint((compass.[0].real+(size/r)) @ (compass.[0].imag+(size/r)), sk, sk)).
 background_(Color.black).action_({
@@ -1002,13 +1002,13 @@ w3 = Window("synthf2", Rect(200, 50, size*2, size)).front;
  ~logView1.items_(~logItems1.asArray); ~logView1.value_(~logItems1.size - 1); }.defer;};
 
 scope1 = FreqScopeView(~vw12, Rect(sk+100+50,sk+ssk+30,  sk+350, sk+100));
-scope1.active_(true);scope1.dbRange_(120);scope1.inBus_(0);scope1.freqMode_(1);
+scope1.active_(true);scope1.dbRange_(120);scope1.inBus_(4);scope1.freqMode_(1);
 scope2 = FreqScopeView(~vw12, Rect(sk+100+50, sk+ssk+180,  sk+350, sk+100));
-scope2.active_(true);scope2.dbRange_(120);scope2.inBus_(1);scope2.freqMode_(1);
+scope2.active_(true);scope2.dbRange_(120);scope2.inBus_(5);scope2.freqMode_(1);
 scope3 = FreqScopeView(~vw12, Rect(sk+100+50, sk+ssk+330, sk+350, sk+100));
-scope3.active_(true);scope3.dbRange_(120);scope3.inBus_(2);scope3.freqMode_(1);
+scope3.active_(true);scope3.dbRange_(120);scope3.inBus_(6);scope3.freqMode_(1);
 scope4 = FreqScopeView(~vw12, Rect(sk+100+50, sk+ssk+480,  sk+350, sk+100));
-scope4.active_(true);scope4.dbRange_(120);scope4.inBus_(3);scope4.freqMode_(1);
+scope4.active_(true);scope4.dbRange_(120);scope4.inBus_(7);scope4.freqMode_(1);
 (
 ~sl11=Knob.new(~vw2, Rect.aboutPoint((compass.[0].real+(size/r)) @ (compass.[0].imag+(size/r)), sk, sk)).
 background_(Color.black).action_({
@@ -1150,7 +1150,7 @@ value=obj.value.linexp(0,1,0.01,1).postln;
 });
 )
 }.defer
-)
+);s.scope;
 		);
 }); Tdef(\drone).play;
 }
