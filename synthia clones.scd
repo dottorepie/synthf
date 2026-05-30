@@ -537,19 +537,19 @@ bank.do{ ~dur3=~dur3++~dz.[n];n=n+1;};n=0;
 )}.value);
 );
 
+~gold=((1+5.sqrt)/2);~silver=(1+2.sqrt);
 ~gain=1;~drive=0;~c=0;~attack=0.01;~decay=1;~sc=1;~s_size=1;~lowend=20;~room=0;
 ~gain1=1;~drive1=0;~c1=0;~attack1=0.01;~decay1=1;~sc1=1;~s_size1=1;~lowend1=20;~room1=0;
 ~gain2=1;~drive2=0;~c2=0;~attack2=0.01;~decay2=1;~sc2=1;~s_size2=1;~lowend2=20;~room2=0;
-~incr1=0;~incr2=0;~ssc=1;~gold=((1+5.sqrt)/2);~silver=(1+2.sqrt);
-~incr11=0;~incr21=0;~ssc1=1;
-~incr12=0;~incr22=0;~ssc2=1;
-~mix=0;~mix1=0;~mix2=0;
+~incr1=0;~incr2=0;~ssc=1;~incr11=0;~incr21=0;~ssc1=1;
+~incr12=0;~incr22=0;~ssc2=1;~mix=0;~mix1=0;~mix2=0;
+
 ~seq= Pseq(~dur ,inf).asStream;
 ~clock1 = TempoClock.new(0.1);
-~clock2 = TempoClock.new(0.2);
-~clock3 = TempoClock.new(0.2);
+~clock2 = TempoClock.new(0.1);
+~clock3 = TempoClock.new(0.1);
 
-~pattern = Pdef(\1,
+~pattern1 = Pdef(\1,
 Pbind(\instrument, \synth,
 \dur, Pseq(~dur ,inf),\s_size,Pfunc { ~s_size }, \lowend,Pfunc { ~lowend }, \room,Pfunc { ~room },
 \gain,Pfunc { ~gain }, \sc, Pfunc { ~sc },\drive, Pfunc { ~drive },
@@ -576,9 +576,9 @@ Pbind(\instrument, \synth2,
 \el, Pseries(0, Pfunc{~incr22}, inf).collect(_.wrap(0.5pi.neg, 0.5pi)),
 \attack,  Pfunc { ~attack2 }, \dicay, Pfunc { ~decay2 }, \ssc, Pfunc{~ssc2};
 ));
-~pattern.play(~clock1);
-~pattern1.play(~clock2);
-~pattern1.play(~clock3);
+~pattern1.play(~clock1);
+~pattern2.play(~clock2);
+~pattern3.play(~clock3);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////gui
 (
@@ -757,7 +757,7 @@ compass=10.collect{n=n+(2pi/10); (exp(Complex(0,1)*n)*scl)};
 w = Window("synthf", Rect(100, 50, size*2, size)).front;
 ~vw3 = UserView(w, Rect(0,0,size,size)).drawFunc_({ ~img_print.drawInRect(~vw3.bounds)});
 ~vw13 = UserView(w,Rect(size,0,size,size)).background_(Color.black);
-~logView2 = ListView( ~vw1, Rect(0, 0, 40, 750))
+~logView2 = ListView( ~vw13, Rect(0, 0, 40, 750))
 .background_(Color.black).stringColor_(Color.white)
 .font_(Font("Arial", 20))
 .items_([]);
@@ -849,7 +849,7 @@ background_(Color.black).action_({
 arg obj;
 var value;
 value=obj.value.linlin(0,1,0.degrad,2pi-(2pi/~silver)).round((2pi/992).degrad).postln;
-~incr122=value;
+~incr12=value;
 ~log22.(value.asString);
 });
 );
@@ -924,7 +924,7 @@ compass=10.collect{n=n+(2pi/10); (exp(Complex(0,1)*n)*scl)};
 w = Window("synthf", Rect(200, 50, size*2, size)).front;
 ~vw2 = UserView(w, Rect(0,0,size,size)).drawFunc_({ ~img_print.drawInRect(~vw2.bounds)});
 ~vw12 = UserView(w,Rect(size,0,size,size)).background_(Color.black);
-~logView1 = ListView( ~vw1, Rect(0, 0, 40, 750))
+~logView1 = ListView( ~vw12, Rect(0, 0, 40, 750))
 .background_(Color.black).stringColor_(Color.white)
 .font_(Font("Arial", 20))
 .items_([]);
