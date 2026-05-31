@@ -6,7 +6,7 @@ very low fundamental will slow cook speaker driver coil, if unsure on speaker sy
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ~download and install SuperCollider  https://supercollider.github.io
-Note that project sybthf builds against SuperCollider 3.13.0, only MathLib Quark is required, other than core SuperCollider Objects and Ugens
+Note that project sybthf builds against SuperCollider 3.13.0, only MathLib Quark is required, other than core SuperCollider Objects and Ugens. so make sure there is access to quarks, git for mac and similarly for windows, or install MathLib manually 
 
 ~download startup.scd
 
