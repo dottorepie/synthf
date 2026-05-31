@@ -9,7 +9,7 @@ very low fundamental will slow cook speaker driver coil, if unsure on speaker sy
 
 ~Note that project sybthf builds against SuperCollider 3.13.0,  
 
-~MathLib Quark is required,so make sure there is access to quarks, install git for mac and similarly for windows. Synthf startup file installs MathLib automatically and then reboot of SuperCollider is needed. If facing any problems just install MathLib manually via selecting on the options panel Language then Quarks and look for MathLib then software reboot. Synthf will not execute if MathLib is not installed and compiled.
+~MathLib Quark is required,so make sure there is access to quarks, install git for mac and similarly for windows. Synthf startup file installs MathLib automatically. If facing any problems just install MathLib manually via selecting on the options panel Language then Quarks and look for MathLib, after installing it, then close and reopen SuperCollider. Synthf will not execute if MathLib is not installed and compiled.
 
 ~download startup.scd
 
