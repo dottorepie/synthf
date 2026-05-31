@@ -1,4 +1,4 @@
-
+Quarks.install("MathLib");
 (
 (
 s.options.numWireBufs = 1024*2;
@@ -15,7 +15,7 @@ s.makeGui(w);
 //s.freqscope;
 //s.scope;
 );
-~img_print = Image.open("/Users/amimid/Documents/Literary/Portfolio/SUPERCOLLIDER/2026/synth/image1.jpg");///////////////paste image image1.jpg
+~img_print = Image.open("/Users/rohifes/Documents/Literary/Portfolio/SUPERCOLLIDER/2026/synth/image1.jpg");///////////////paste image image1.jpg
 s.waitForBoot{
 Tdef(\drone, {
 //~controlBus = Bus.control(s, 1);
