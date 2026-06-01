@@ -22,7 +22,7 @@ Synthf 'Qbit' Setup Wizard
 
 ~terminate the synth either by closing SuperCollider or quiting the server from the small rectangular server window 
 
-~audio knobs are clockwise 0 to 9 with 0 being 11o clock. 0 and 1 are quantized tone variation in complex relation and localization, 2 is reverb mix and softclip gain, 3 is tonal range, 4 is drive, 5 is envelope attack, 6 is scale tonal range, 7 is tempered fundamental from sub low to mid/high, 8 is decay and 9 tempo.
+~audio knobs are clockwise 0 to 9 with 0 being 11o clock. 0 and 1 are quantized tone variation in complex relation and localization, 2 is reverb mix and overdrive, 3 is tonal range, 4 is rectifier drive, 5 is envelope attack, 6 is scale tonal range, 7 is tempered fundamental from sub low to mid/high, 8 is decay and 9 tempo.
 
 ~control knobs on the right pannel are in series from left to right gain, compressor wavelength size, lowend cutt, reverb room size
 
