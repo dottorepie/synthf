@@ -7,7 +7,6 @@ s.options.numInputBusChannels=0;
 s.options.memSize = 8192*64;
 s.options.blockSize = 64;
 s.options.maxNodes = 8192*2;
-Quarks.install("MathLib");
 Buffer.freeAll;
 Window.closeAll;
 s.makeGui(w);
