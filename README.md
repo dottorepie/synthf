@@ -1,41 +1,42 @@
- Qbit Setup Wizard
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////The following build will only work with Internet Connection (after Installation No Internet Connection ist required), 
-
-CAUTION in setting fundamental and tonal range high: Nyquist crash,
-very low fundamental will slow cook speaker driver coil, if unsure on speaker system dynamic range or speaker wattage do not set drive to high at very low pitch or at very high pitch. Preferably do not use Headphones.
+Synthf 'Qbit' Setup Wizard
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////The following build will only work with Internet Connection (after Installation No Internet Connection is required). Preferably do not use Headphones, protect your ears. Also localization is mainly wavefield, not binaural, so stereo loudspeakers  as output is recommended.
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ~download and install SuperCollider  https://supercollider.github.io
 
-~Note that project sybthf builds against SuperCollider 3.13.0,  
+~project synthf builds against SuperCollider 3.13.0, but you may install the latest build
 
-~MathLib Quark is required,so make sure there is access to quarks, install git for mac and similarly for windows. Synthf startup file installs MathLib automatically. If facing any problems just install MathLib manually via selecting on the options panel Language then Quarks and look for MathLib, after installing it, then close and reopen SuperCollider. Synthf will not execute if MathLib is not installed and compiled.
+~MathLib library Quark is required, make sure your pc has access to quarks, install git for mac and similarly for windows. Install MathLib by selecting on the SuperCollider IDE options panel Language then Quarks and look for MathLib, after installing it close and reopen SuperCollider. Synthf will not execute if MathLib is not installed and compiled.
 
-~download startup.scd
+~download startup.scd and image1.jpg or choose an image of your own liking to load to the gui interface
 
 ~find SuperCollider startup.scd file in SuperCollider file in User Library, APPDATA on Windows, Application Support on Mac
 
 ~open startup.scd and paste on the writing environment of SuperCollider, the content of startup.scd from this repository 
 
-~on this line in the file ~img_print = Image.open("/home/pi/Desktop/synth/image1.jpg");///////////////paste image image1.jpg , copy paste or drag and drop in the parentheses image1.jpg from your location. You should see in the parentheses only the new file path in ""
+~on this line in the file ~img_print = Image.open("/home/pi/Desktop/synth/image1.jpg");///////////////paste image image1.jpg , delete the content of the parentheses and copy paste or drag and drop in the parentheses image1.jpg from your location. You should see in the parentheses only the new file path in ""
 
-~save startup.scd and overwrite previous save
+~save startup.scd and overwrite the existing startup file
 
 ~close SuperCollider and reopen it, now it will open along with synthf and the sound engine running
 
-~terminate the synth either by closing SuperCollider or quiting the server on the server window 
+~terminate the synth either by closing SuperCollider or quiting the server from the small rectangular server window 
 
 ~audio knobs are clockwise 0 to 9 with 0 being 11o clock. 0 and 1 are quantized tone variation in complex relation and localization,2 reverb mix and softclip gain, 3 is tone variation range, 4 is drive, 5 is envelope attack,6 scale tonal range, 7 is tempered fundamental from sub low to mid/high, 8 is decay and 9 tempo.
 
 ~control knobs on the right pannel are in series from left to right gain, compressor wavelength size, lowend cutt, reverb room size
 
-~if turning tempo to max, preferably do not set max long attack and decay at the same time so the sound engine does not crash
+~this synthf build has bo limiters, clips or crash profibiting if statements, for control interface or synth definition. Therefore follow the below warnings and instructions:
 
-~synthf output is 4 independent channels of audio and 1024 virtual channels. According to audio interface, n(4) channels are audible, full range
+~if turning tempo to max, preferably do not set max long attack and decay at the same time so the server does not crash. If the sever crashes quickly turn tempo and decay to low, so as to end the crash, or close SuperCollider
+
+~if you set extreme value combinations, especially at high frequencies, that will crash the synth sound but not the server, just return knobs to normal and the sound will normalize. 
+
+~CAUTION in setting fundamental, tonal range and drive high at the same time: Nyquist crash. Also very low/sub fundamental will slow cook speaker driver coils, especially at hight tonal range. If unsure on speaker system dynamic range or speaker wattage do not set gain too high at very low pitch or drive at very high pitch and use low values on the compressor knob as well as high values on the lowcutt knob.
+
+~synthf output is 4 independent channels of audio and 1024 possible localizations. According to audio interface, n(4) channels are audible, at full range, or more if you clone the synth, eg. n(12), three quads.
 
 ~system runs on windows pc, mac, linux and or raspberry pi 5
-
-~if you set extreme value combinations that will crash the synth but not the server, just return knobs to normal and the sound will normalize 
  
 
 
@@ -45,7 +46,7 @@ very low fundamental will slow cook speaker driver coil, if unsure on speaker sy
 
 ~ install SuperCollider
 
-~ save synthf as startupfile at directory home/usr/config/SuperCollider
+~ save synthf as startupfile at directory home/usr/config/SuperCollider, and load image as mentioned above.
 
 ~start jack with prefered Audio Interface
 
