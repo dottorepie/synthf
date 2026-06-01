@@ -1,4 +1,4 @@
-Quarks.install("MathLib");
+///Quarks.install("MathLib");
 (
 (
 s.options.numWireBufs = 1024*2;
