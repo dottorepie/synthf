@@ -24,9 +24,9 @@ Synthf 'Qbit' Setup Wizard
 
 ~audio knobs are clockwise 0 to 9 with 0 being 11o clock. 0 and 1 are quantized tone variation in complex relation and localization, 2 is reverb mix and overdrive, 3 is tonal range, 4 is rectifier drive, 5 is envelope attack, 6 is scale tonal range, 7 is tempered fundamental from sub low to mid/high, 8 is decay and 9 tempo.
 
-~control knobs on the right pannel are in series from left to right gain, compressor wavelength size, lowend cutt, reverb room size
+~control knobs on the right panel of the gui interface are in series from left to right gain, compressor wavelength size, lowend cutt, reverb room size
 
-~this synthf build has bo limiters, clips or crash profibiting if statements, for control interface or synth definition. Therefore follow the below warnings and instructions:
+~this synthf build has bo limiters, clips or crash prohibiting 'if' statements, on control interface or synth definition. Therefore follow the below warnings and instructions:
 
 ~if turning tempo to max, preferably do not set max long attack and decay at the same time so the server does not crash. If the sever crashes quickly turn tempo and decay to low, so as to end the crash, or close SuperCollider
 
