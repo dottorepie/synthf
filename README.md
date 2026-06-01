@@ -53,3 +53,8 @@ Synthf 'Qbit' Setup Wizard
 ~start SuperCollider
 
 ~ adjust window size in sc or screen resolution. Window size is 700-1200px by default 
+
+
+////// kanal.scd
+
+~n(3)
