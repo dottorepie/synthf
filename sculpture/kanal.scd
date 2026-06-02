@@ -2,7 +2,7 @@
 (
 (
 s.options.numWireBufs = 1024*2;
-s.options.numOutputBusChannels=3;
+s.options.numOutputBusChannels=12;
 s.options.numInputBusChannels=0;
 s.options.memSize = 8192*64;
 s.options.blockSize = 64;
@@ -12,7 +12,7 @@ Window.closeAll;
 s.makeGui(w);
 //s.meter;
 //s.freqscope;
-//s.scope;
+s.scope;
 );
 ~img_print = Image.open("/Users/rohifes/Documents/Literary/Portfolio/SUPERCOLLIDER/2026/synth/image1.jpg");///////////////paste image image1.jpg
 s.waitForBoot{
@@ -105,7 +105,8 @@ var nn=2.neg;
 (
 SynthDef.new(\synth,{
 arg gain=1,lowend=20,s_size=1,room=1,drive=0,
-c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20,ssc=1,mix=0,busArray = #[0,1,2,3];
+c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20,ssc=1,mix=0,
+busArray = #[0,1,2,3,4,5,6,7,8,9,10,11];
 var fund,fu=32,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
 var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
 var b_x,b_y,b_z,polytope,env,expansion,sph1,sph2,xx,yy,zz;
@@ -191,7 +192,7 @@ sig1=Compander.ar(sig1,c1*env,threshold,1.2,1/3,0.03,0.15)+BrownNoise.ar(0.00000
 sig2=Compander.ar(sig2,c2*env,threshold,1.2,1/3,0.03,0.15)+BrownNoise.ar(0.000001);
 sig3=Compander.ar(sig3,c3*env,threshold,1.2,1/3,0.03,0.15)+BrownNoise.ar(0.000001);
 
-/*/////spat
+/////spat
 a1=a2=a3=a4=1;
 g_ch1 = (
 (Spherical(sig1.abs.range(0.001,1),(polytope.theta),(polytope.phi)).x *
@@ -224,23 +225,29 @@ Spherical(sig1.range(0.001,1),Select.kr(s4, ~az)*a4,Select.kr(s4, ~el)*a4).x) +
 Spherical(sig2.range(0.001,1),Select.kr(s4, ~az)*a4,Select.kr(s4, ~el)*a4).y)+
 (Spherical(sig3.abs.range(0.001,1),(polytope.theta),(polytope.phi)).z *
 Spherical(sig3.range(0.001,1),Select.kr(s4, ~az)*a4,Select.kr(s4, ~el)*a4).z)
-);*/
+);
 
-/*(
-Out.ar(busArray.[0],LeakDC.ar(sig1*env*g_ch1));
-Out.ar(busArray.[1],LeakDC.ar(sig1*env*g_ch2));
-Out.ar(busArray.[2],LeakDC.ar(sig1*env*g_ch3));
-Out.ar(busArray.[3],LeakDC.ar(sig1*env*g_ch4));
-Out.ar(busArray.[0],LeakDC.ar(sig2*env*g_ch1));Out.ar(busArray.[1],LeakDC.ar(sig2*env*g_ch2));
-Out.ar(busArray.[2],LeakDC.ar(sig2*env*g_ch3));Out.ar(busArray.[3],LeakDC.ar(sig2*env*g_ch4));
-Out.ar(busArray.[0],LeakDC.ar(sig3*env*g_ch1));Out.ar(busArray.[1],LeakDC.ar(sig3*env*g_ch2));
-Out.ar(busArray.[2],LeakDC.ar(sig3*env*g_ch3));Out.ar(busArray.[3],LeakDC.ar(sig3*env*g_ch4));
-)*/
 (
 Out.ar(busArray.[0],LeakDC.ar(sig1*env));
 Out.ar(busArray.[1],LeakDC.ar(sig2*env));
 Out.ar(busArray.[2],LeakDC.ar(sig3*env));
 )
+///comment out the above parentheses and uncomment the below to use the synth on
+///threefold speaker wavefield quad spat (12ch)
+/*(
+Out.ar(busArray.[0],LeakDC.ar(sig1*env*g_ch1));
+Out.ar(busArray.[1],LeakDC.ar(sig2*env*g_ch1));
+Out.ar(busArray.[2],LeakDC.ar(sig3*env*g_ch1));
+Out.ar(busArray.[3],LeakDC.ar(sig1*env*g_ch2));
+Out.ar(busArray.[4],LeakDC.ar(sig2*env*g_ch2));
+Out.ar(busArray.[5],LeakDC.ar(sig3*env*g_ch2));
+Out.ar(busArray.[6],LeakDC.ar(sig1*env*g_ch3));
+Out.ar(busArray.[7],LeakDC.ar(sig2*env*g_ch3));
+Out.ar(busArray.[8],LeakDC.ar(sig3*env*g_ch3));
+Out.ar(busArray.[9],LeakDC.ar(sig1*env*g_ch4));
+Out.ar(busArray.[10],LeakDC.ar(sig2*env*g_ch4));
+Out.ar(busArray.[11],LeakDC.ar(sig3*env*g_ch4));
+)*/
 
 }).add;
 );
