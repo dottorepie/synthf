@@ -429,7 +429,7 @@ value=obj.value.linexp(0,1,0.01,1).postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,0.001,3).postln;
+value=obj.value.linexp(0,1,0.001,pi).postln;
 ~gain=value;
 ~log.(value.asString);
 });
