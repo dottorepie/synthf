@@ -142,9 +142,16 @@ s_z=2.pow(Select.kr(mps.z.round(1).asInteger.abs,~scale).asInteger /12);
 mod_x=mpf.x;
 mod_y=mpf.y;
 mod_z=mpf.z;
-phasex=(Complex(1,mod_x).theta*2);
-phasey=(Complex(1,mod_y).theta*2);
-phasez=(Complex(1,mod_z).theta*2);
+//for linear phase mapping use linlin
+//for compresse exp smoother maping with more energe towards similar values use complex
+//for rational relations between phases and symmetry matrices use atan2 relation insteadof maping
+//here since signal is wavefield ratio phases with more sidebands and matrice symmetries may be usefull
+//phasex=(Complex(1,mod_x).theta*2);
+//phasey=(Complex(1,mod_y).theta*2);
+//phasez=(Complex(1,mod_z).theta*2);
+phasex=atan2(mod_x,mod_y);
+phasey=atan2(mod_y,mod_z);
+phasez=atan2(mod_z,mod_x);
 
 freq1=(fund)*b_x*s_x;
 freq2=(fund)*b_y*s_y;

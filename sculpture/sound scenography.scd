@@ -132,9 +132,16 @@ b_z=2.pow(mp.z.round(1)/16256);
 mod_x=mpf.x;
 mod_y=mpf.y;
 mod_z=mpf.z;
-phasex=(Complex(1,mod_x).theta*2);
-phasey=(Complex(1,mod_y).theta*2);
-phasez=(Complex(1,mod_z).theta*2);
+//for linear phase mapping use linlin
+//for compresse exp smoother maping with more energe towards similar values use complex
+//for rational relations between phases and symmetry matrices use atan2 relation insteadof maping
+//phasex=(Complex(1,mod_x).theta*2);
+//phasey=(Complex(1,mod_y).theta*2);
+//phasez=(Complex(1,mod_z).theta*2);
+phasex=atan2(mod_x,mod_y);
+phasey=atan2(mod_y,mod_z);
+phasez=atan2(mod_z,mod_x);
+
 
 
 amp1=b_x.reciprocal;
