@@ -143,7 +143,7 @@ mod_x=mpf.x;
 mod_y=mpf.y;
 mod_z=mpf.z;
 //for linear phase mapping use linlin
-//for compresse exp smoother maping with more
+//for compressed exp smoother maping with more
 ///energy towards similar values use complex
 //for rational relations between phases and
 ///symmetry matrices use atan2 relation instead
