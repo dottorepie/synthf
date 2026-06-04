@@ -58,3 +58,4 @@ Synthf 'Qbit' Setup Wizard
 ////// kanal.scd
 
 ~n(3) * spat
+every localization vbap source is three speakers (three channels xyz) wavefiled. These threefold sets can be spatialized in triangle configuration on a geodesic setup. Eg. a geodesic octahedron (order 2) 4 triangles per side (18 vertices,32 faces) could host max 6 indipendent static spat sources, or 6 sources on an interchanging multichannel expansion (panned) on 32 virtual source sets.
