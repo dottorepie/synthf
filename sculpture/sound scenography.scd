@@ -131,14 +131,14 @@ b_z=2.pow(mp.z.round(1)/16256);
 
 mod_x=mpf.x;
 mod_y=mpf.y;
-mod_z=mpf.z
+mod_z=mpf.z;
 //for linear phase mapping use linlin
 //for compressed exp smoother maping with more
 ///energy towards similar values use complex
 //for rational relations between phases and
 ///symmetry matrices use atan2 relation instead
 ///of maping
-//metaphorically linear is like vanishing point 
+//metaphorically linear is like vanishing point
 //wavefield perspective
 ///complex is fisheye
 //ratios is axonometric
