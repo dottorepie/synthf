@@ -1,4 +1,4 @@
-///Quarks.install("MathLib");
+//Quarks.install("MathLib");
 (
 (
 s.options.numWireBufs = 1024*2;
@@ -7,6 +7,7 @@ s.options.numInputBusChannels=0;
 s.options.memSize = 8192*64;
 s.options.blockSize = 64;
 s.options.maxNodes = 8192*2;
+//Quarks.install("MathLib");
 Buffer.freeAll;
 Window.closeAll;
 s.makeGui(w);
@@ -141,12 +142,9 @@ s_z=2.pow(Select.kr(mps.z.round(1).asInteger.abs,~scale).asInteger /12);
 mod_x=mpf.x;
 mod_y=mpf.y;
 mod_z=mpf.z;
-//phasex=(Complex(1,mod_x).theta*2);
-//phasey=(Complex(1,mod_y).theta*2);
-//phasez=(Complex(1,mod_z).theta*2);
-phasex = atan(mod_x);
-phasey = atan(mod_y);
-phasez = atan(mod_z);
+phasex=(Complex(1,mod_x).theta*2);
+phasey=(Complex(1,mod_y).theta*2);
+phasez=(Complex(1,mod_z).theta*2);
 
 freq1=(fund)*b_x*s_x;
 freq2=(fund)*b_y*s_y;
