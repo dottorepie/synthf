@@ -1,4 +1,4 @@
-Synthf 'Qbit' Setup Wizard
+7Synthf 'Qbit' Setup Wizard
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////The following build will only work with Internet Connection (after Installation No Internet Connection is required). Preferably do not use Headphones, protect your ears. Also localization is mainly wavefield, not binaural, so stereo loudspeakers  as output is recommended.
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -59,3 +59,5 @@ Synthf 'Qbit' Setup Wizard
 
 ~n(3) * spat
 every localization vbap source is three speakers (three channels xyz) wavefiled. These threefold sets can be spatialized in triangle configuration on a geodesic setup. Eg. a geodesic octahedron (order 2) 4 triangles per side (18 vertices,32 faces),  https://en.wikipedia.org/wiki/List_of_geodesic_polyhedra_and_Goldberg_polyhedra#/media/File%3ATetrakis_cuboctahedron.png,  could host max 5 (simplex) independent static spat sources, or 5(4) sources on an interchanging multichannel expansion (panned) on 32 virtual source sets.
+
+First proof of concept 'Geodesic Octahedron' InSonic 2015
