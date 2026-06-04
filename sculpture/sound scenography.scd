@@ -1,8 +1,4 @@
 ///Quarks.install("MathLib");
-////sound scenography method, using 3d tensor and three output channels of audio per rec channel 
-///for 3-phase Wakefield speaker source. 
-///Spatialization should be sets of three speakers per source on geodesic triangle configuration format.
-////developed by Petros Tatsiopoulos (InSonic)2015-2026
 (
 (
 s.options.numWireBufs = 1024*2;
@@ -136,12 +132,10 @@ b_z=2.pow(mp.z.round(1)/16256);
 mod_x=mpf.x;
 mod_y=mpf.y;
 mod_z=mpf.z;
-//phasex=(Complex(1,mod_x).theta*2);
-//phasey=(Complex(1,mod_y).theta*2);
-//phasez=(Complex(1,mod_z).theta*2);
-phasex = atan(mod_x);
-phasey = atan(mod_y);
-phasez = atan(mod_z);
+phasex=(Complex(1,mod_x).theta*2);
+phasey=(Complex(1,mod_y).theta*2);
+phasez=(Complex(1,mod_z).theta*2);
+
 
 amp1=b_x.reciprocal;
 amp2=b_y.reciprocal;
