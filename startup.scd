@@ -21,61 +21,74 @@ Tdef(\drone, {
 
 ////////////////////////////////////////////////////////////////////////////////////////// wavetable, scales, space,timbre///////////////////////////////////////
 (
-/*(
-~s1=pi.rand2;~s2=pi.rand2;~s3=pi.rand2;~s4=pi.rand2;
-~s5=pi.rand2;~s6=pi.rand2;~s7=pi.rand2;~s8=pi.rand2;
-~s9=pi.rand2;~s10=pi.rand2;~s11=pi.rand2;~s12=pi.rand2;
-~az=[~s1,~s2,~s3,~s4,~s5,~s6,~s7,~s8,~s9,~s10,~s11,~s12];
-~el=[~s1.rand2/2,~s2.rand2/2,~s3.rand2/2,~s4.rand2/2,~s5.rand2/2,
-~s6.rand2/2,~s7.rand2/2,~s8.rand2/2,~s9.rand2/2,~s10.rand2/2,
-~s11.rand2/2,~s12.rand2/2];
-)*/
-/*(
-~az=[0.degrad,90.degrad,180.degrad,90.neg.degrad,45.degrad,135.degrad,45.neg.degrad,135.neg.degrad,
-	0.degrad,90.degrad,180.degrad,90.neg.degrad];
-~el=[45.neg.degrad,45.neg.degrad,45.neg.degrad,45.neg.degrad,0.degrad,0.degrad,0.degrad,0.degrad,
-	45.degrad,45.degrad,45.degrad,45.degrad];
-)*/
 {
 var az1=0,el1=0,az2=0,el2=0,angle=0;
-var silver_r=(1+2.sqrt),g=((1+5.sqrt)/2),azimuth,elevation;
+var silver_r=(1+2.sqrt), g=((1+5.sqrt)/2), azimuth, elevation;
 
-~az=[];~el=[];
+~az=[]; ~el=[];
 
 32.do{
-    azimuth=32.collect{
-        az1=(az1+(2pi-(2pi/silver_r))).wrap(pi.neg,pi);
-        el1=(el1+(pi-(pi/g))).wrap((pi/2).neg,(pi/2));
-        (az1+angle).wrap(pi.neg,pi)
+    azimuth = 32.collect{
+        az1 = (az1 + (2pi-(2pi/silver_r))).wrap(pi.neg,pi);
+        el1 = (el1 + (pi-(pi/g))).wrap((pi/2).neg,(pi/2));
+        (az1 + angle).wrap(pi.neg,pi)
     };
 
-    elevation=32.collect{
-        az2=(az2+(2pi-(2pi/silver_r))).wrap(pi.neg,pi);
-        el2=(el2+(pi-(pi/g))).wrap((pi/2).neg,(pi/2));
-        (el2+angle).wrap((pi/2).neg,(pi/2))
+    elevation = 32.collect{
+        az2 = (az2 + (2pi-(2pi/silver_r))).wrap(pi.neg,pi);
+        el2 = (el2 + (pi-(pi/g))).wrap((pi/2).neg,(pi/2));
+        (el2 + angle).wrap((pi/2).neg,(pi/2))
     };
 
-    angle=(angle+(2pi-(2pi/silver_r))).wrap(pi.neg,pi);
+    angle = (angle + (2pi-(2pi/silver_r))).wrap(pi.neg,pi);
 
-    ~az=~az++azimuth;
-    ~el=~el++elevation;
+    ~az = ~az ++ azimuth;
+    ~el = ~el ++ elevation;
 
-    az1=0;el1=0;
-    az2=0;el2=0;
+    az1=0; el1=0;
+    az2=0; el2=0;
 };
 }.value;
-~vertices=1024;
+
+~vertices = 1024;
+
 {
-var timbre,raz,rel,difaz,difel,nn=1.neg,n;
-difaz=~vertices.collect{nn=nn+1;~az.[nn]};
-nn=1.neg;
-difel=~vertices.collect{nn=nn+1;~el.[nn]};
-n=0; ~cx=[]; ~cy=[]; ~cz=[];
+var nn=1.neg, n=0;
+var difaz, difel;
+
+difaz = ~vertices.collect{
+    nn = nn + 1;
+    ~az.[nn]
+};
+
+nn = 1.neg;
+
+difel = ~vertices.collect{
+    nn = nn + 1;
+    ~el.[nn]
+};
+
+~cx = [];
+~cy = [];
+~cz = [];
+
 ~vertices.do{
-~cx=~cx++Spherical(1,difaz.[n],difel.[n]).x;
-~cy=~cy++Spherical(1,difaz.[n],difel.[n]).y;
-~cz=~cz++Spherical(1,difaz.[n],difel.[n]).z;
-n=n+1;
+    var az, el;
+    var x, y, z;
+
+    az = difaz.[n];
+    el = difel.[n];
+
+    // explicit spherical -> cartesian (radius = 1)
+    x = cos(el) * cos(az);
+    y = cos(el) * sin(az);
+    z = sin(el);
+
+    ~cx = ~cx ++ x;
+    ~cy = ~cy ++ y;
+    ~cz = ~cz ++ z;
+
+    n = n + 1;
 };
 }.value;
 );
