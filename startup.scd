@@ -4,7 +4,7 @@
 s.options.numWireBufs = 1024*2;
 s.options.numOutputBusChannels=12;
 s.options.numInputBusChannels=0;
-s.options.memSize = 8192*64;
+s.options.memSize = 8192*128;
 s.options.blockSize = 64;
 s.options.maxNodes = 8192*2;
 Buffer.freeAll;
@@ -127,7 +127,7 @@ SynthDef.new(\synth,{
 arg gain=1,lowend=20,s_size=1,room=1,drive=0,
 c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20,ssc=1,mix=0,
 busArray = #[0,1,2,3,4,5,6,7,8,9,10,11];
-var fund,fu=32,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
+var fund,fu=16,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
 var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
 var b_x,b_y,b_z,polytope,env,expansion,sph1,sph2,xx,yy,zz;
 var g_ch1,g_ch2,g_ch3,g_ch4,s1,s2,s3,s4,a1,a2,a3,a4,mp,mps,mpf,px,py,pz,ptheta,pphi;
@@ -201,12 +201,12 @@ c3=FreeVerb.ar(BPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez,mul:1200).abs*
 SinOsc.ar(freq3,phase:phasez)),freq3,heavy,amp3),mix,room);
 
 ////distortion rectifier
-sig1=((((SinOsc.ar(freq1*4,phase:phasex,mul:amp1/4)).abs+(amp1))*
-(SinOsc.ar(freq1*2,phase:phasex,mul:amp1/2))).abs+(amp1))*c1;
-sig2=((((SinOsc.ar(freq2*4,phase:phasey,mul:amp2/4)).abs+(amp2))*
-(SinOsc.ar(freq2*2,phase:phasey,mul:amp2/2))).abs+(amp2))*c2;
-sig3=((((SinOsc.ar(freq3*4,phase:phasez,mul:amp3/4)).abs+(amp3))*
-(SinOsc.ar(freq3*2,phase:phasez,mul:amp3/2))).abs+(amp3))*c3;
+sig1=((((SinOsc.ar(freq1*16,phase:phasex,mul:amp1/16)).abs+(amp1))*
+(SinOsc.ar(freq1*8,phase:phasex,mul:amp1/8))).abs+(amp1))*c1*10;
+sig2=((((SinOsc.ar(freq2*16,phase:phasey,mul:amp2/16)).abs+(amp2))*
+(SinOsc.ar(freq2*8,phase:phasey,mul:amp2/8))).abs+(amp2))*c2*10;
+sig3=((((SinOsc.ar(freq3*16,phase:phasez,mul:amp3/16)).abs+(amp3))*
+(SinOsc.ar(freq3*8,phase:phasez,mul:amp3/8))).abs+(amp3))*c3*10;
 
 sig1=(sig1*mix.linlin(0,1,0.1,32)).softclip;
 sig2=(sig2*mix.linlin(0,1,0.1,32)).softclip;
