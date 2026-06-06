@@ -4,7 +4,7 @@
 s.options.numWireBufs = 1024*2;
 s.options.numOutputBusChannels=12;
 s.options.numInputBusChannels=0;
-s.options.memSize = 8192*128;
+s.options.memSize = 8192*256;
 s.options.blockSize = 64;
 s.options.maxNodes = 8192*2;
 Buffer.freeAll;
@@ -165,9 +165,9 @@ mpf_x = cos(pphi) * cos(ptheta);
 mpf_y = cos(pphi) * sin(ptheta);
 mpf_z = sin(pphi);
 
-b_x=2.pow(mpf_x.round(1)/16256);
-b_y=2.pow(mpf_y.round(1)/16256);
-b_z=2.pow(mpf_z.round(1)/16256);
+b_x=2.pow(mp_x.round(1)/16256);
+b_y=2.pow(mp_y.round(1)/16256);
+b_z=2.pow(mp_z.round(1)/16256);
 s_x=2.pow(Select.kr(mps_x.round(1).asInteger.abs,~scale).asInteger /12);
 s_y=2.pow(Select.kr(mps_y.round(1).asInteger.abs,~scale).asInteger /12);
 s_z=2.pow(Select.kr(mps_z.round(1).asInteger.abs,~scale).asInteger /12);
@@ -185,13 +185,12 @@ mod_z=mpf_z;
 phasex=atan2(mod_x,mod_y);
 phasey=atan2(mod_y,mod_z);
 phasez=atan2(mod_z,mod_x);
-
 freq1=(fund)*b_x*s_x;
 freq2=(fund)*b_y*s_y;
 freq3=(fund)*b_z*s_z;
-amp1=b_x.reciprocal*expansion.reciprocal*s_x.reciprocal;
-amp2=b_y.reciprocal*expansion.reciprocal*s_y.reciprocal;
-amp3=b_z.reciprocal*expansion.reciprocal*s_z.reciprocal;
+amp1=b_x.reciprocal*expansion.reciprocal*s_x.reciprocal*mp_x.sign;
+amp2=b_y.reciprocal*expansion.reciprocal*s_y.reciprocal*mp_y.sign;
+amp3=b_z.reciprocal*expansion.reciprocal*s_z.reciprocal*mp_z.sign;
 
 c1=FreeVerb.ar(BPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex,mul:1200).abs*
 SinOsc.ar(freq1,phase:phasex)),freq1,heavy,amp1),mix,room);
