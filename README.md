@@ -65,3 +65,5 @@
 every localization vbap source is three speakers (three channels xyz) wavefiled. These threefold sets can be spatialized in triangle configuration on a geodesic setup. Eg. a geodesic octahedron (order 2) 4 triangles per side (18 vertices,32 faces),  https://en.wikipedia.org/wiki/List_of_geodesic_polyhedra_and_Goldberg_polyhedra#/media/File%3ATetrakis_cuboctahedron.png,  could host max 5 (simplex) independent static spat sources, or 5(4) sources on an interchanging multichannel expansion (panned) on 32 virtual source sets.
 
 First proof of concept 'Geodesic Octahedron' InSonic 2015
+
+///if the intention is to use stereo sets instead of 3d wavefield just leave z channel unluged and ouput only sets of x,y channel pairs
