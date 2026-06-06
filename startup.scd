@@ -1,19 +1,18 @@
-//Quarks.install("MathLib");
+///Quarks.install("MathLib");
 (
 (
 s.options.numWireBufs = 1024*2;
-s.options.numOutputBusChannels=4;
+s.options.numOutputBusChannels=12;
 s.options.numInputBusChannels=0;
 s.options.memSize = 8192*64;
 s.options.blockSize = 64;
 s.options.maxNodes = 8192*2;
-//Quarks.install("MathLib");
 Buffer.freeAll;
 Window.closeAll;
 s.makeGui(w);
 //s.meter;
 //s.freqscope;
-//s.scope;
+s.scope;
 );
 ~img_print = Image.open("/Users/rohifes/Documents/Literary/Portfolio/SUPERCOLLIDER/2026/synth/image1.jpg");///////////////paste image image1.jpg
 s.waitForBoot{
@@ -38,25 +37,32 @@ Tdef(\drone, {
 	45.degrad,45.degrad,45.degrad,45.degrad];
 )*/
 {
-var  sph1,sph2,az1=0,el1=0,az2=0,el2=0,angle=0;
-var silver_r=(1+2.sqrt),g=((1+5.sqrt)/2),mag1=1,mag2=1,azimuth,elevation;
+var az1=0,el1=0,az2=0,el2=0,angle=0;
+var silver_r=(1+2.sqrt),g=((1+5.sqrt)/2),azimuth,elevation;
+
 ~az=[];~el=[];
 
 32.do{
-azimuth=32.collect{
-az1 = (az1+(2pi-(2pi/silver_r))).wrap(pi.neg,pi);
-el1 = (el1+(pi-(pi/g))).wrap((pi/2).neg,(pi/2));
-sph1=(Spherical(mag1,(az1+angle).wrap(pi.neg,pi),(el1+angle).wrap((pi/2).neg,(pi/2)))).theta;
+    azimuth=32.collect{
+        az1=(az1+(2pi-(2pi/silver_r))).wrap(pi.neg,pi);
+        el1=(el1+(pi-(pi/g))).wrap((pi/2).neg,(pi/2));
+        (az1+angle).wrap(pi.neg,pi)
+    };
+
+    elevation=32.collect{
+        az2=(az2+(2pi-(2pi/silver_r))).wrap(pi.neg,pi);
+        el2=(el2+(pi-(pi/g))).wrap((pi/2).neg,(pi/2));
+        (el2+angle).wrap((pi/2).neg,(pi/2))
+    };
+
+    angle=(angle+(2pi-(2pi/silver_r))).wrap(pi.neg,pi);
+
+    ~az=~az++azimuth;
+    ~el=~el++elevation;
+
+    az1=0;el1=0;
+    az2=0;el2=0;
 };
-elevation=32.collect{
-az2 = (az2+(2pi-(2pi/silver_r))).wrap(pi.neg,pi);
-el2 = (el2+(pi-(pi/g))).wrap((pi/2).neg,(pi/2));
-sph2=(Spherical(mag2,(az2+angle).wrap(pi.neg,pi),(el2+angle).wrap((pi/2).neg,(pi/2)))).phi;
-};
-angle=(angle+(2pi-(2pi/silver_r))).wrap(pi.neg,pi);
-~az=~az++azimuth;~el=~el++elevation;
-az1=0;el1=0;az2=0;el2=0;
-}
 }.value;
 ~vertices=1024;
 {
@@ -96,7 +102,7 @@ wt = signal.asWavetable;
 (
 {
 var nn=2.neg;
-~scale=~note.collect{nn=nn+1;Scale.dorian.performDegreeToKey(nn,12)};
+~scale=~note.collect{nn=nn+1;Scale.phrygian.performDegreeToKey(nn,12)};
 }.value;
 );
 );
@@ -106,12 +112,13 @@ var nn=2.neg;
 (
 SynthDef.new(\synth,{
 arg gain=1,lowend=20,s_size=1,room=1,drive=0,
-c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20,ssc=1,mix=0,busArray = #[0,1,2,3];
+c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20,ssc=1,mix=0,
+busArray = #[0,1,2,3,4,5,6,7,8,9,10,11];
 var fund,fu=32,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
 var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
 var b_x,b_y,b_z,polytope,env,expansion,sph1,sph2,xx,yy,zz;
-var g_ch1,g_ch2,g_ch3,g_ch4,s1,s2,s3,s4,a1,a2,a3,a4,mp,mps,mpf;
-var s_x,s_y,s_z,threshold,c1,c2,c3;
+var g_ch1,g_ch2,g_ch3,g_ch4,s1,s2,s3,s4,a1,a2,a3,a4,mp,mps,mpf,px,py,pz,ptheta,pphi;
+var s_x,s_y,s_z,threshold,c1,c2,c3,mp_x,mp_y,mp_z,mps_x,mps_y,mps_z,mpf_x,mpf_y,mpf_z;
 
 s1=Rand(0, ~vertices-1).round(1).asInteger;s2=Rand(0, ~vertices-1).round(1).asInteger;
 s3=Rand(0, ~vertices-1).round(1).asInteger;s4=Rand(0, ~vertices-1).round(1).asInteger;
@@ -122,47 +129,49 @@ expansion=2.pow(c.lag(0.01)/16256);
 fund=(fu*(9/8))*expansion;
 heavy=2.pow(drive.lag(0.01)/16256);
 
-xx=Spherical(~vertices,az,el).x.round(1).asInteger.abs;
-yy=Spherical(~vertices,az,el).y.round(1).asInteger.abs;
-zz=Spherical(~vertices,az,el).z.round(1).asInteger.abs;
-polytope=Cartesian(Select.kr(xx,~cx),Select.kr(yy,~cy),Select.kr(zz,~cz));
+xx = (~vertices * cos(el) * cos(az)).round(1).asInteger.abs;
+yy = (~vertices * cos(el) * sin(az)).round(1).asInteger.abs;
+zz = (~vertices * sin(el)).round(1).asInteger.abs;
+px=Select.kr(xx,~cx);
+py=Select.kr(yy,~cy);
+pz=Select.kr(zz,~cz);
+
+ptheta=atan2(py,px);
+pphi=atan2(pz,(px.squared+py.squared).sqrt);
 
 ///osc
-mp=Spherical(sc,polytope.theta, polytope.phi);
-mps=Spherical(ssc,polytope.theta, polytope.phi);
-mpf=Spherical(1,polytope.theta, polytope.phi);
+mp_x = sc  * cos(pphi) * cos(ptheta);
+mp_y = sc  * cos(pphi) * sin(ptheta);
+mp_z = sc  * sin(pphi);
 
-b_x=2.pow(mp.x.round(1)/16256);
-b_y=2.pow(mp.y.round(1)/16256);
-b_z=2.pow(mp.z.round(1)/16256);
-s_x=2.pow(Select.kr(mps.x.round(1).asInteger.abs,~scale).asInteger /12);
-s_y=2.pow(Select.kr(mps.y.round(1).asInteger.abs,~scale).asInteger /12);
-s_z=2.pow(Select.kr(mps.z.round(1).asInteger.abs,~scale).asInteger /12);
+mps_x = ssc * cos(pphi) * cos(ptheta);
+mps_y = ssc * cos(pphi) * sin(ptheta);
+mps_z = ssc * sin(pphi);
 
-mod_x=mpf.x;
-mod_y=mpf.y;
-mod_z=mpf.z;
+mpf_x = cos(pphi) * cos(ptheta);
+mpf_y = cos(pphi) * sin(ptheta);
+mpf_z = sin(pphi);
+
+b_x=2.pow(mpf_x.round(1)/16256);
+b_y=2.pow(mpf_y.round(1)/16256);
+b_z=2.pow(mpf_z.round(1)/16256);
+s_x=2.pow(Select.kr(mps_x.round(1).asInteger.abs,~scale).asInteger /12);
+s_y=2.pow(Select.kr(mps_y.round(1).asInteger.abs,~scale).asInteger /12);
+s_z=2.pow(Select.kr(mps_z.round(1).asInteger.abs,~scale).asInteger /12);
+
+mod_x=mpf_x;
+mod_y=mpf_y;
+mod_z=mpf_z;
 //for linear phase mapping use linlin
-//for compressed exp smoother maping with more
-///energy towards similar values use complex
-//for rational relations between phases and
-///symmetry matrices use atan2 relation instead
-///of maping
-///inthis particular synth where signal is not
-///wavefield simple maping may be usefull
-//instead of ratios to avoid canceling
-///symmetries
-//metaphorically linear is like vanishing point 
-//wavefield perspective
-///complex is fisheye
-//ratios is axonometric
-
-phasex=(Complex(1,mod_x).theta*2);
-phasey=(Complex(1,mod_y).theta*2);
-phasez=(Complex(1,mod_z).theta*2);
-//phasex=atan2(mod_x,mod_y);
-//phasey=atan2(mod_y,mod_z);
-//phasez=atan2(mod_z,mod_x);
+//for compresse exp smoother maping with more energe towards similar values use complex
+//for rational relations between phases and symmetry matrices use atan2 relation insteadof maping
+//here since signal is wavefield ratio phases with more sidebands and matrice symmetries may be usefull
+//phasex=(Complex(1,mod_x).theta*2);
+//phasey=(Complex(1,mod_y).theta*2);
+//phasez=(Complex(1,mod_z).theta*2);
+phasex=atan2(mod_x,mod_y);
+phasey=atan2(mod_y,mod_z);
+phasez=atan2(mod_z,mod_x);
 
 freq1=(fund)*b_x*s_x;
 freq2=(fund)*b_y*s_y;
@@ -209,88 +218,164 @@ sig3=Compander.ar(sig3,c3*env,threshold,1.2,1/3,0.03,0.15)+BrownNoise.ar(0.00000
 
 /////spat
 a1=a2=a3=a4=1;
-g_ch1 = (
-(Spherical(sig1.abs.range(0.001,1),(polytope.theta),(polytope.phi)).x *
-Spherical(sig1.range(0.001,1),Select.kr(s1, ~az)*a1,Select.kr(s1, ~el)*a1).x) +
-(Spherical(sig2.abs.range(0.001,1),(polytope.theta),(polytope.phi)).y *
-Spherical(sig2.range(0.001,1),Select.kr(s1, ~az)*a1,Select.kr(s1, ~el)*a1).y)+
-(Spherical(sig3.abs.range(0.001,1),(polytope.theta),(polytope.phi)).z *
-Spherical(sig3.range(0.001,1),Select.kr(s1, ~az)*a1,Select.kr(s1, ~el)*a1).z)
-);
-g_ch2 = (
-(Spherical(sig1.abs.range(0.001,1),(polytope.theta),(polytope.phi)).x *
-Spherical(sig1.range(0.001,1),Select.kr(s2, ~az)*a2,Select.kr(s2, ~el)*a2).x) +
-(Spherical(sig2.abs.range(0.001,1),(polytope.theta),(polytope.phi)).y *
-Spherical(sig2.range(0.001,1),Select.kr(s2, ~az)*a2,Select.kr(s2,~el)*a2).y)+
-(Spherical(sig3.abs.range(0.001,1),(polytope.theta),(polytope.phi)).z *
-Spherical(sig3.range(0.001,1),Select.kr(s2, ~az)*a2,Select.kr(s2, ~el)*a2).z)
-);
-g_ch3 = (
-(Spherical(sig1.abs.range(0.001,1),(polytope.theta),(polytope.phi)).x *
-Spherical(sig1.range(0.001,1),Select.kr(s3, ~az)*a3,Select.kr(s3, ~el)*a3).x) +
-(Spherical(sig2.abs.range(0.001,1),(polytope.theta),(polytope.phi)).y *
-Spherical(sig2.range(0.001,1),Select.kr(s3, ~az)*a3,Select.kr(s3, ~el)*a3).y)+
-(Spherical(sig3.abs.range(0.001,1),(polytope.theta),(polytope.phi)).z *
-Spherical(sig3.range(0.001,1),Select.kr(s3, ~az)*a3,Select.kr(s3, ~el)*a3).z)
-);
-g_ch4 = (
-(Spherical(sig1.abs.range(0.001,1),(polytope.theta),(polytope.phi)).x *
-Spherical(sig1.range(0.001,1),Select.kr(s4, ~az)*a4,Select.kr(s4, ~el)*a4).x) +
-(Spherical(sig2.abs.range(0.001,1),(polytope.theta),(polytope.phi)).y *
-Spherical(sig2.range(0.001,1),Select.kr(s4, ~az)*a4,Select.kr(s4, ~el)*a4).y)+
-(Spherical(sig3.abs.range(0.001,1),(polytope.theta),(polytope.phi)).z *
-Spherical(sig3.range(0.001,1),Select.kr(s4, ~az)*a4,Select.kr(s4, ~el)*a4).z)
-);
+g_ch1=
+(sig1.abs.range(0.001,1)*cos(pphi)*cos(ptheta)*
+ sig1.range(0.001,1)*cos(Select.kr(s1,~el)*a1)*cos(Select.kr(s1,~az)*a1))
++
+(sig2.abs.range(0.001,1)*cos(pphi)*sin(ptheta)*
+ sig2.range(0.001,1)*cos(Select.kr(s1,~el)*a1)*sin(Select.kr(s1,~az)*a1))
++
+(sig3.abs.range(0.001,1)*sin(pphi)*
+ sig3.range(0.001,1)*sin(Select.kr(s1,~el)*a1));
+
+g_ch2=
+(sig1.abs.range(0.001,1)*cos(pphi)*cos(ptheta)*
+ sig1.range(0.001,1)*cos(Select.kr(s2,~el)*a2)*cos(Select.kr(s2,~az)*a2))
++
+(sig2.abs.range(0.001,1)*cos(pphi)*sin(ptheta)*
+ sig2.range(0.001,1)*cos(Select.kr(s2,~el)*a2)*sin(Select.kr(s2,~az)*a2))
++
+(sig3.abs.range(0.001,1)*sin(pphi)*
+ sig3.range(0.001,1)*sin(Select.kr(s2,~el)*a2));
+
+g_ch3=
+(sig1.abs.range(0.001,1)*cos(pphi)*cos(ptheta)*
+ sig1.range(0.001,1)*cos(Select.kr(s3,~el)*a3)*cos(Select.kr(s3,~az)*a3))
++
+(sig2.abs.range(0.001,1)*cos(pphi)*sin(ptheta)*
+ sig2.range(0.001,1)*cos(Select.kr(s3,~el)*a3)*sin(Select.kr(s3,~az)*a3))
++
+(sig3.abs.range(0.001,1)*sin(pphi)*
+ sig3.range(0.001,1)*sin(Select.kr(s3,~el)*a3));
+
+g_ch4=
+(sig1.abs.range(0.001,1)*cos(pphi)*cos(ptheta)*
+ sig1.range(0.001,1)*cos(Select.kr(s4,~el)*a4)*cos(Select.kr(s4,~az)*a4))
++
+(sig2.abs.range(0.001,1)*cos(pphi)*sin(ptheta)*
+ sig2.range(0.001,1)*cos(Select.kr(s4,~el)*a4)*sin(Select.kr(s4,~az)*a4))
++
+(sig3.abs.range(0.001,1)*sin(pphi)*
+ sig3.range(0.001,1)*sin(Select.kr(s4,~el)*a4));
 
 (
-Out.ar(busArray.[0],LeakDC.ar(sig1*env*g_ch1));Out.ar(busArray.[1],LeakDC.ar(sig1*env*g_ch2));
-Out.ar(busArray.[2],LeakDC.ar(sig1*env*g_ch3));Out.ar(busArray.[3],LeakDC.ar(sig1*env*g_ch4));
-Out.ar(busArray.[0],LeakDC.ar(sig2*env*g_ch1));Out.ar(busArray.[1],LeakDC.ar(sig2*env*g_ch2));
-Out.ar(busArray.[2],LeakDC.ar(sig2*env*g_ch3));Out.ar(busArray.[3],LeakDC.ar(sig2*env*g_ch4));
-Out.ar(busArray.[0],LeakDC.ar(sig3*env*g_ch1));Out.ar(busArray.[1],LeakDC.ar(sig3*env*g_ch2));
-Out.ar(busArray.[2],LeakDC.ar(sig3*env*g_ch3));Out.ar(busArray.[3],LeakDC.ar(sig3*env*g_ch4));
+Out.ar(busArray.[0],LeakDC.ar(sig1*env));
+Out.ar(busArray.[1],LeakDC.ar(sig2*env));
+Out.ar(busArray.[2],LeakDC.ar(sig3*env));
 )
+///comment out the above parentheses and uncomment the below to use the synth on
+///threefold speaker wavefield quad spat (12ch)/// to puput stereo sets (x,y) not use z channel as ouput (2,5,etc), sig3.
+/*(
+Out.ar(busArray.[0],LeakDC.ar(sig1*env*g_ch1));
+Out.ar(busArray.[1],LeakDC.ar(sig2*env*g_ch1));
+Out.ar(busArray.[2],LeakDC.ar(sig3*env*g_ch1));
+Out.ar(busArray.[3],LeakDC.ar(sig1*env*g_ch2));
+Out.ar(busArray.[4],LeakDC.ar(sig2*env*g_ch2));
+Out.ar(busArray.[5],LeakDC.ar(sig3*env*g_ch2));
+Out.ar(busArray.[6],LeakDC.ar(sig1*env*g_ch3));
+Out.ar(busArray.[7],LeakDC.ar(sig2*env*g_ch3));
+Out.ar(busArray.[8],LeakDC.ar(sig3*env*g_ch3));
+Out.ar(busArray.[9],LeakDC.ar(sig1*env*g_ch4));
+Out.ar(busArray.[10],LeakDC.ar(sig2*env*g_ch4));
+Out.ar(busArray.[11],LeakDC.ar(sig3*env*g_ch4));
+)*/
 
 }).add;
 );
 1.wait;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////sequencer,pattern
 (
-(
-
 ({
-var m1=1.neg, m2=1.neg, m3=1.neg,a,b,c,n=0,bank=8,time=32.reciprocal,beat=1,r=0;
-~r=0;~r1=0;	~r2=0;
-(
+var m1=1.neg, m2=1.neg, m3=1.neg,a,b,c,d,n=0,bank=8,time=32.reciprocal,beat=1,r=0;
+~r=0;~r1=0;~r2=0;
+
 ~azr=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad];
 ~elr=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad];
-);
-(
-~dur1=[];~dur2=[];~dur3=[]; ~dx=[];~dy=[]; ~dz=[]; ~durx=[]; ~dury=[]; ~durz=[]; ~dur=[];
+
+~dur1=[];~dur2=[];~dur3=[];
+~dx=[];~dy=[];~dz=[];
+~durx=[];~dury=[];~durz=[];
+~dur=[];
+
 bank.do{
-							m1=m2=m3=~vertices.rand;
-~x=1.collect{
-//m1=m1+1;
-b=Spherical(beat,~az.[m1],~el.[m1]).rotate(~r).tilt(~r1).tumble(~r2).x;
-2.pow(b).round(time);
+    m1=m2=m3=~vertices.rand;
+
+    ~x=1.collect{
+        var az, el, x, y, z, xr, yr, zr;
+
+        az = ~az.[m1];
+        el = ~el.[m1];
+
+        // spherical (beat = radius)
+        x = beat * cos(el) * cos(az);
+        y = beat * cos(el) * sin(az);
+        z = beat * sin(el);
+
+        // rotate (~r, ~r1, ~r2) approximated as axis rotations
+        xr = x*cos(~r) - y*sin(~r);
+        yr = x*sin(~r) + y*cos(~r);
+        zr = z;
+
+        xr = xr;
+        2.pow(xr).round(time);
+    };
+
+    ~y=1.collect{
+        var az, el, x, y, z, xr, yr, zr;
+
+        az = ~az.[m2];
+        el = ~el.[m2];
+
+        x = beat * cos(el) * cos(az);
+        y = beat * cos(el) * sin(az);
+        z = beat * sin(el);
+
+        xr = x*cos(~r1) - z*sin(~r1);
+        zr = x*sin(~r1) + z*cos(~r1);
+
+        yr = y;
+
+        yr = yr;
+        2.pow(yr).round(time);
+    };
+
+    ~z=1.collect{
+        var az, el, x, y, z, xr, yr, zr;
+
+        az = ~az.[m3];
+        el = ~el.[m3];
+
+        x = beat * cos(el) * cos(az);
+        y = beat * cos(el) * sin(az);
+        z = beat * sin(el);
+
+        yr = y*cos(~r2) - z*sin(~r2);
+        zr = y*sin(~r2) + z*cos(~r2);
+
+        xr = x;
+
+        zr = zr;
+        2.pow(zr).round(time);
+    };
+
+    m1=1.neg; m2=1.neg; m3=1.neg;
+
+    ~dx=~dx++~x;
+    ~dy=~dy++~y;
+    ~dz=~dz++~z;
+
+    ~x=[]; ~y=[]; ~z=[];
+    r=r+90.degrad;
 };
-~y=1.collect{
-//m2=m2+1;
-c=Spherical(beat,~az.[m2],~el.[m2]).rotate(~r).tilt(~r1).tumble(~r2).y;
-2.pow(c).round(time);
-};
-~z=1.collect{
-//m3=m3+1;
-d=Spherical(beat,~az.[m3],~el.[m3]).rotate(~r).tilt(~r1).tumble(~r2).z;
-2.pow(d).round(time);
-};
-m1=1.neg; m2=1.neg; m3=1.neg; ~dx=~dx++~x; ~dy=~dy++~y;  ~dz=~dz++~z;   ~x=[]; ~y=[]; ~z=[];  r=r+90.degrad; };
-bank.do{ ~dur1=~dur1++~dx.[n];n=n+1;};n=0;
-bank.do{ ~dur2=~dur2++~dy.[n];n=n+1;};n=0;
-bank.do{ ~dur3=~dur3++~dz.[n];n=n+1;};n=0;
+
+n=0;
+bank.do{ ~dur1=~dur1++~dx.[n]; n=n+1;}; n=0;
+bank.do{ ~dur2=~dur2++~dy.[n]; n=n+1;}; n=0;
+bank.do{ ~dur3=~dur3++~dz.[n]; n=n+1;}; n=0;
+
 ~dur=~dur++~dur1++~dur2++~dur3;
-)}.value);
-);
+
+}).value;
 
 ~gain=1;~drive=0;~c=0;~attack=0.01;~decay=1;~s_size=1;~lowend=20;~room=0;
 ~incr1=0;~incr2=0;~sc=1;~gold=((1+5.sqrt)/2);~silver=(1+2.sqrt);
@@ -333,8 +418,6 @@ scope2 = FreqScopeView(~vw1, Rect(sk+100+50, sk+ssk+180,  sk+350, sk+100));
 scope2.active_(true);scope2.dbRange_(120);scope2.inBus_(1);scope2.freqMode_(0);
 scope3 = FreqScopeView(~vw1, Rect(sk+100+50, sk+ssk+330, sk+350, sk+100));
 scope3.active_(true);scope3.dbRange_(120);scope3.inBus_(2);scope3.freqMode_(0);
-scope4 = FreqScopeView(~vw1, Rect(sk+100+50, sk+ssk+480,  sk+350, sk+100));
-scope4.active_(true);scope4.dbRange_(120);scope4.inBus_(3);scope4.freqMode_(0);
 (
 ~sl1=Knob.new(~vw, Rect.aboutPoint((compass.[0].real+(size/r)) @ (compass.[0].imag+(size/r)), sk, sk)).
 background_(Color.black).action_({
@@ -440,7 +523,7 @@ value=obj.value.linexp(0,1,0.01,1).postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,0.001,10).postln;
+value=obj.value.linexp(0,1,0.001,pi).postln;
 ~gain=value;
 ~log.(value.asString);
 });
