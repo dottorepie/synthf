@@ -10,8 +10,7 @@ Synthf 'Qbit' Setup Wizard
 
 ~MathLib library Quark is required, make sure your pc has access to quarks, install git for mac and similarly for windows. Install MathLib by selecting on the SuperCollider IDE options panel Language then Quarks and look for MathLib, after installing it close and reopen SuperCollider. Synthf will not execute if MathLib is not installed and compiled.
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-for startup.scd Mathlib is not required/
+////////////////////////////////////////////////////for startup.scd Mathlib is not required/
 
 ~download startup.scd and image1.jpg or choose an image of your own liking to load to the gui interface
 
