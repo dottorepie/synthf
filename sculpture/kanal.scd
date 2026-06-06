@@ -142,20 +142,10 @@ s_z=2.pow(Select.kr(mps.z.round(1).asInteger.abs,~scale).asInteger /12);
 mod_x=mpf.x;
 mod_y=mpf.y;
 mod_z=mpf.z;
-
-//here since signal is wavefield ratio phases
-//with more sidebands and matrice symmetries
-//may be usefull
 //for linear phase mapping use linlin
-//for compresse exp smoother maping with more
-///energy towards similar values use complex
-//for rational relations between phases and
-///symmetry matrices use atan2 relation instead
-///of maping
-//metaphorically linear is like vanishing point 
-//wavefield perspective
-///complex is fisheye
-//ratios is axonometric
+//for compresse exp smoother maping with more energe towards similar values use complex
+//for rational relations between phases and symmetry matrices use atan2 relation insteadof maping
+//here since signal is wavefield ratio phases with more sidebands and matrice symmetries may be usefull
 //phasex=(Complex(1,mod_x).theta*2);
 //phasey=(Complex(1,mod_y).theta*2);
 //phasez=(Complex(1,mod_z).theta*2);
@@ -241,14 +231,14 @@ Spherical(sig2.range(0.001,1),Select.kr(s4, ~az)*a4,Select.kr(s4, ~el)*a4).y)+
 Spherical(sig3.range(0.001,1),Select.kr(s4, ~az)*a4,Select.kr(s4, ~el)*a4).z)
 );
 
-(
+/*(
 Out.ar(busArray.[0],LeakDC.ar(sig1*env));
 Out.ar(busArray.[1],LeakDC.ar(sig2*env));
 Out.ar(busArray.[2],LeakDC.ar(sig3*env));
-)
+)*/
 ///comment out the above parentheses and uncomment the below to use the synth on
 ///threefold speaker wavefield quad spat (12ch)
-/*(
+(
 Out.ar(busArray.[0],LeakDC.ar(sig1*env*g_ch1));
 Out.ar(busArray.[1],LeakDC.ar(sig2*env*g_ch1));
 Out.ar(busArray.[2],LeakDC.ar(sig3*env*g_ch1));
@@ -261,7 +251,7 @@ Out.ar(busArray.[8],LeakDC.ar(sig3*env*g_ch3));
 Out.ar(busArray.[9],LeakDC.ar(sig1*env*g_ch4));
 Out.ar(busArray.[10],LeakDC.ar(sig2*env*g_ch4));
 Out.ar(busArray.[11],LeakDC.ar(sig3*env*g_ch4));
-)*/
+)
 
 }).add;
 );
