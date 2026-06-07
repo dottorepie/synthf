@@ -129,7 +129,7 @@ c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20,ssc=1,mix=0,
 busArray = #[0,1,2,3,4,5,6,7,8,9,10,11];
 var fund,fu=32,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
 var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
-var b_x,b_y,b_z,polytope,env,expansion,sph1,sph2,xx,yy,zz;
+var b_x,b_y,b_z,polytope,env,expansion,sph1,sph2,xx,yy,zz,envf;
 var g_ch1,g_ch2,g_ch3,g_ch4,s1,s2,s3,s4,a1,a2,a3,a4,mp,mps,mpf,px,py,pz,ptheta,pphi;
 var s_x,s_y,s_z,threshold,c1,c2,c3,mp_x,mp_y,mp_z,mps_x,mps_y,mps_z,mpf_x,mpf_y,mpf_z;
 
@@ -137,6 +137,7 @@ s1=Rand(0, ~vertices-1).round(1).asInteger;s2=Rand(0, ~vertices-1).round(1).asIn
 s3=Rand(0, ~vertices-1).round(1).asInteger;s4=Rand(0, ~vertices-1).round(1).asInteger;
 
 env=EnvGen.ar(Env.perc(attack,dicay,gain),doneAction:2);
+envf=EnvGen.ar(Env.new([0,pi,2pi],[(attack/2+dicay/2),(attack/2+dicay/2)]),doneAction:0);
 
 expansion=2.pow(c.lag(0.01)/16256);
 fund=(fu*(9/8))*expansion;
@@ -182,9 +183,9 @@ mod_z=mpf_z;
 //phasex=(Complex(1,mod_x).theta*2);
 //phasey=(Complex(1,mod_y).theta*2);
 //phasez=(Complex(1,mod_z).theta*2);
-phasex=atan2(mod_x,mod_y);
-phasey=atan2(mod_y,mod_z);
-phasez=atan2(mod_z,mod_x);
+phasex=atan2(mod_x,mod_y)+envf;
+phasey=atan2(mod_y,mod_z)+envf;
+phasez=atan2(mod_z,mod_x)+envf;
 
 freq1=(fund)*b_x*s_x;
 freq2=(fund)*b_y*s_y;
@@ -201,12 +202,12 @@ c3=FreeVerb.ar(BPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez,mul:1200).abs*
 SinOsc.ar(freq3,phase:phasez)),freq3,heavy,amp3),mix,room);
 
 ////distortion rectifier
-sig1=((((SinOsc.ar(freq1*32,phase:phasex,mul:amp1/32)).abs+(amp1))*
-(SinOsc.ar(freq1*16,phase:phasex,mul:amp1/16))).abs+(amp1))*c1*10;
-sig2=((((SinOsc.ar(freq2*32,phase:phasey,mul:amp2/32)).abs+(amp2))*
-(SinOsc.ar(freq2*16,phase:phasey,mul:amp2/16))).abs+(amp2))*c2*10;
-sig3=((((SinOsc.ar(freq3*32,phase:phasez,mul:amp3/32)).abs+(amp3))*
-(SinOsc.ar(freq3*16,phase:phasez,mul:amp3/16))).abs+(amp3))*c3*10;
+sig1=((((SinOsc.ar(freq1*32,phase:phasex+2pi,mul:amp1/32)).abs+(amp1))*
+(SinOsc.ar(freq1*16,phase:phasex+pi,mul:amp1/16))).abs+(amp1))*c1*10;
+sig2=((((SinOsc.ar(freq2*32,phase:phasey+2pi,mul:amp2/32)).abs+(amp2))*
+(SinOsc.ar(freq2*16,phase:phasey+pi,mul:amp2/16))).abs+(amp2))*c2*10;
+sig3=((((SinOsc.ar(freq3*32,phase:phasez+2pi,mul:amp3/32)).abs+(amp3))*
+(SinOsc.ar(freq3*16,phase:phasez+pi,mul:amp3/16))).abs+(amp3))*c3*10;
 
 sig1=(sig1*mix.linlin(0,1,0.1,32)).softclip;
 sig2=(sig2*mix.linlin(0,1,0.1,32)).softclip;
