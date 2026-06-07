@@ -185,12 +185,13 @@ mod_z=mpf_z;
 phasex=atan2(mod_x,mod_y);
 phasey=atan2(mod_y,mod_z);
 phasez=atan2(mod_z,mod_x);
+
 freq1=(fund)*b_x*s_x;
 freq2=(fund)*b_y*s_y;
 freq3=(fund)*b_z*s_z;
-amp1=b_x.reciprocal*expansion.reciprocal*s_x.reciprocal*mp_x.sign;
-amp2=b_y.reciprocal*expansion.reciprocal*s_y.reciprocal*mp_y.sign;
-amp3=b_z.reciprocal*expansion.reciprocal*s_z.reciprocal*mp_z.sign;
+amp1=b_x.reciprocal*expansion.reciprocal*s_x.reciprocal;
+amp2=b_y.reciprocal*expansion.reciprocal*s_y.reciprocal;
+amp3=b_z.reciprocal*expansion.reciprocal*s_z.reciprocal;
 
 c1=FreeVerb.ar(BPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex,mul:1200).abs*
 SinOsc.ar(freq1,phase:phasex)),freq1,heavy,amp1),mix,room);
@@ -210,6 +211,11 @@ sig3=((((SinOsc.ar(freq3*16,phase:phasez,mul:amp3/16)).abs+(amp3))*
 sig1=(sig1*mix.linlin(0,1,0.1,32)).softclip;
 sig2=(sig2*mix.linlin(0,1,0.1,32)).softclip;
 sig3=(sig3*mix.linlin(0,1,0.1,32)).softclip;
+
+//////propagation
+sig1=sig1*mp_x.sign;
+sig2=sig2*mp_y.sign;
+sig3=sig3*mp_z.sign;
 
 ///spectral compensation
 //sig1=BRF.ar(c1,freq1/2,heavy);
