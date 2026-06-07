@@ -201,12 +201,12 @@ c3=FreeVerb.ar(BPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez,mul:1200).abs*
 SinOsc.ar(freq3,phase:phasez)),freq3,heavy,amp3),mix,room);
 
 ////distortion rectifier
-sig1=((((SinOsc.ar(freq1*16,phase:phasex,mul:amp1/16)).abs+(amp1))*
-(SinOsc.ar(freq1*8,phase:phasex,mul:amp1/8))).abs+(amp1))*c1*10;
-sig2=((((SinOsc.ar(freq2*16,phase:phasey,mul:amp2/16)).abs+(amp2))*
-(SinOsc.ar(freq2*8,phase:phasey,mul:amp2/8))).abs+(amp2))*c2*10;
-sig3=((((SinOsc.ar(freq3*16,phase:phasez,mul:amp3/16)).abs+(amp3))*
-(SinOsc.ar(freq3*8,phase:phasez,mul:amp3/8))).abs+(amp3))*c3*10;
+sig1=((((SinOsc.ar(freq1*32,phase:phasex,mul:amp1/32)).abs+(amp1))*
+(SinOsc.ar(freq1*16,phase:phasex,mul:amp1/16))).abs+(amp1))*c1*10;
+sig2=((((SinOsc.ar(freq2*32,phase:phasey,mul:amp2/32)).abs+(amp2))*
+(SinOsc.ar(freq2*16,phase:phasey,mul:amp2/16))).abs+(amp2))*c2*10;
+sig3=((((SinOsc.ar(freq3*32,phase:phasez,mul:amp3/32)).abs+(amp3))*
+(SinOsc.ar(freq3*16,phase:phasez,mul:amp3/16))).abs+(amp3))*c3*10;
 
 sig1=(sig1*mix.linlin(0,1,0.1,32)).softclip;
 sig2=(sig2*mix.linlin(0,1,0.1,32)).softclip;
