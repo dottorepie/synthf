@@ -67,3 +67,7 @@ every localization vbap source is three speakers (three channels xyz) wavefiled.
 First proof of concept 'Geodesic Octahedron' InSonic 2015
 
 ///if the intention is to use stereo sets instead of 3d wavefield just leave z channel unluged and ouput only sets of x,y channel pairs
+
+
+///////////////////////image to sound
+on this file you can find a synthf strtup file, at which you can load different images as timbre information source for the synth
