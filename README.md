@@ -41,7 +41,21 @@ Synthf 'Qbit' Setup Wizard
 ~synthf output is 4 independent channels of audio and 1024 possible localizations. According to audio interface, n(4) channels are audible, at full range, or more if you clone the synth, eg. n(12), three quads.
 
 ~system runs on windows pc, mac, linux and or raspberry pi 5
- 
+
+ ///////////////////////////////////////////////////////////////////IMAGE TO SOUND
+
+~on this file you can find a synthf strtup file, at which you can load different images as timbre information source for the synth.
+
+~On that build the same inage that is used for the timbre, is used for tonal information
+
+~Image on interface can be normal size. Image for sound must be resized to 100x100 pixels, before loadingit into the buffer.
+
+~same instructions apply as in no image to sound startup file, only difference image has to be loaded also to a second buffer (line bellow the first one). 
+
+~Programm needs more time to load cause of image sonification.
+
+~in case of interpreter crash (rare case if you load to many image synth clones, or run the code many times on the same server instance), terminate scsynth from activity monitor
+
 
 
 ///////////////////////////////////////Raspberry:
@@ -60,7 +74,7 @@ Synthf 'Qbit' Setup Wizard
 
 
 
-//////////////////////////////////// kanal.scd
+//////////////////////////////////// kanal.scd and last startup.scd synthf architecture structure
 
 ~n(3) * spat
 every localization vbap source is three speakers (three channels xyz) wavefiled. These threefold sets can be spatialized in triangle configuration on a geodesic setup. Eg. a geodesic octahedron (order 2) 4 triangles per side (18 vertices,32 faces),  https://en.wikipedia.org/wiki/List_of_geodesic_polyhedra_and_Goldberg_polyhedra#/media/File%3ATetrakis_cuboctahedron.png,  could host max 5 (simplex) independent static spat sources, or 5(4) sources on an interchanging multichannel expansion (panned) on 32 virtual source sets.
@@ -68,19 +82,3 @@ every localization vbap source is three speakers (three channels xyz) wavefiled.
 First proof of concept 'Geodesic Octahedron' InSonic 2015
 
 ///if the intention is to use stereo sets instead of 3d wavefield just leave z channel unluged and ouput only sets of x,y channel pairs
-
-
-
-///////////////////////////////////////////////////////////////////image to sound
-
-~on this file you can find a synthf strtup file, at which you can load different images as timbre information source for the synth.
-
-~On that build the same inage that is used for the timbre, is used for tonal information
-
-~Image on interface can be normal size. Image for sound must be resized to 100x100 pixels, before loadingit into the buffer.
-
-~same instructions apply as in no image to sound startup file, only difference image has to be loaded also to a second buffer (line bellow the first one). 
-
-~Programm needs more time to load cause of image sonification.
-
-~in case of interpreter crash (rare case if you load to many image synth clones, or run the code many times on the same server instance), terminate scsynth from activity monitor
