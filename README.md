@@ -71,8 +71,14 @@ First proof of concept 'Geodesic Octahedron' InSonic 2015
 
 ///////////////////////image to sound
 
-on this file you can find a synthf strtup file, at which you can load different images as timbre information source for the synth.
+~on this file you can find a synthf strtup file, at which you can load different images as timbre information source for the synth.
 
-On that build the same inage that is used for the timbre, is used for tonal information
+~On that build the same inage that is used for the timbre, is used for tonal information
 
-Image on interface can be normal size. Image for sound must be resized to 100x100 pixels, before loadingit into the buffer.
+~Image on interface can be normal size. Image for sound must be resized to 100x100 pixels, before loadingit into the buffer.
+
+~same instructions apply as in no image to sound startup file, only difference image has to be loaded also to a second buffer (line bellow the first one). 
+
+~Programm needs more time to load cause of image sonification.
+
+~in case of interpreter crash (rare case if you load to many image synth clones, or run the code many times on the same server instance), terminate scsynth from activity monitor
