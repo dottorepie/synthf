@@ -70,4 +70,5 @@ First proof of concept 'Geodesic Octahedron' InSonic 2015
 
 
 ///////////////////////image to sound
+
 on this file you can find a synthf strtup file, at which you can load different images as timbre information source for the synth
