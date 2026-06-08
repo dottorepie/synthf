@@ -180,9 +180,9 @@ mod_z=mpf_z;
 //for compresse exp smoother maping with more energe towards similar values use complex
 //for rational relations between phases and symmetry matrices use atan2 relation insteadof maping
 //here since signal is wavefield ratio phases with more sidebands and matrice symmetries may be usefull
-//phasex=(Complex(1,mod_x).theta*2);
-//phasey=(Complex(1,mod_y).theta*2);
-//phasez=(Complex(1,mod_z).theta*2);
+//phasex=(Complex(1,mod_x).theta*2)+envf;
+//phasey=(Complex(1,mod_y).theta*2)+envf;
+//phasez=(Complex(1,mod_z).theta*2)+envf;
 phasex=atan2(mod_x,mod_y)+envf;
 phasey=atan2(mod_y,mod_z)+envf;
 phasez=atan2(mod_z,mod_x)+envf;
@@ -301,7 +301,7 @@ Out.ar(busArray.[11],LeakDC.ar(sig3*env*g_ch4));
 
 }).add;
 );
-1.wait;
+5.wait;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////sequencer,pattern
 (
 ({
