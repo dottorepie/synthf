@@ -72,4 +72,7 @@ First proof of concept 'Geodesic Octahedron' InSonic 2015
 ///////////////////////image to sound
 
 on this file you can find a synthf strtup file, at which you can load different images as timbre information source for the synth.
+
 On that build the same inage that is used for the timbre, is used for tonal information
+
+Image on interface can be normal size. Image for sound must be resized to 100x100 pixels, before loadingit into the buffer.
