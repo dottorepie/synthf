@@ -394,7 +394,7 @@ bank.do{ ~dur3=~dur3++~dz.[n]; n=n+1;}; n=0;
 
 ~dur=~dur++~dur1++~dur2++~dur3;
 
-}).value;
+			}.value);
 
 ~gain=1;~drive=0;~c=0;~attack=0.01;~decay=1;~s_size=1;~lowend=20;~room=0;
 ~incr1=0;~incr2=0;~sc=1;~gold=((1+5.sqrt)/2);~silver=(1+2.sqrt);
