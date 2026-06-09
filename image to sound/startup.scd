@@ -1,7 +1,7 @@
 ///Quarks.install("MathLib");
 (
 (
-s.options.numWireBufs = 1024*2;
+s.options.numWireBufs = 1024*16;
 s.options.numOutputBusChannels=12;
 s.options.numInputBusChannels=0;
 s.options.memSize = 8192*256;
