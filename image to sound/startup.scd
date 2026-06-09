@@ -1,7 +1,7 @@
 ///Quarks.install("MathLib");
 (
 (
-s.options.numWireBufs = 1024*16;
+s.options.numWireBufs = 1024*2;
 s.options.numOutputBusChannels=12;
 s.options.numInputBusChannels=0;
 s.options.memSize = 8192*256;
@@ -116,7 +116,7 @@ s1=Rand(0, ~vertices-1).round(1).asInteger;s2=Rand(0, ~vertices-1).round(1).asIn
 s3=Rand(0, ~vertices-1).round(1).asInteger;s4=Rand(0, ~vertices-1).round(1).asInteger;
 
 env=EnvGen.ar(Env.perc(attack,dicay,gain),doneAction:2);
-envf=EnvGen.ar(Env.new([0,pi,2pi],[(attack/2+dicay/2),(attack/2+dicay/2)]),doneAction:0);
+envf=EnvGen.ar(Env.new([0,0,pi,pi,2pi],[(dicay/2),(attack/2),(dicay/2),(attack/2)]),doneAction:0);
 
 expansion=2.pow(c.lag(0.01)/16256);
 fund=(fu*(9/8))*expansion;
