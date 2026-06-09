@@ -38,17 +38,17 @@ Synthf 'Qbit' Setup Wizard
 
 ~CAUTION in setting fundamental, tonal range and drive high at the same time: Nyquist crash. Also very low/sub fundamental will slow cook speaker driver coils, especially at hight tonal range. If unsure on speaker system dynamic range or speaker wattage do not set gain too high at very low pitch or drive at very high pitch and use low values on the compressor knob as well as high values on the lowcutt knob.
 
-~synthf output is 4 independent channels of audio and 1024 possible localizations. According to audio interface, n(4) channels are audible, at full range, or more if you clone the synth, eg. n(12), three quads.
+~synthf output is 3*spat independent channels of audio and 1024 possible localizations, or pixel count possible localizations in case of loading image as audio data seed (image to sound folder). According to audio interface, n channels are audible, at full range, or more if you clone the synth, eg. laptop orchestra setup.
 
 ~system runs on windows pc, mac, linux and or raspberry pi 5
 
  ///////////////////////////////////////////////////////////////////IMAGE TO SOUND
 
-~on this file you can find a synthf strtup file, at which you can load different images as timbre information source for the synth.
+~on this file you can find a synthf startup file, at which you can load different images as timbre,spat and rhythm information source for the synth.
 
-~On that build the same inage that is used for the timbre, is used for tonal information
+~On that build the same image that is used for the timbre, is used for tonal information
 
-~Image on interface can be normal size. Image for sound must be resized to 100x100 pixels, before loadingit into the buffer.
+~Image on interface can be normal size. Image for sound must be resized to 100x100 pixels or less, before loading it into the buffer.
 
 ~same instructions apply as in no image to sound startup file, only difference image has to be loaded also to a second buffer (line bellow the first one). 
 
