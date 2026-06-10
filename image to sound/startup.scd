@@ -12,7 +12,7 @@ Window.closeAll;
 s.makeGui(w);
 //s.meter;
 //s.freqscope;
-s.scope;
+//s.scope;
 );
 ~img_print = Image.open("/Users/rohifes/Desktop/sample image.png");////interface image
 ~img_sound=Image.open("/Users/rohifes/Desktop/sample image.png");//////sound image
@@ -531,7 +531,7 @@ value=obj.value.linexp(0,1,0.001,pi).postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,0.05,10).postln;
+value=obj.value.linlin(0,1,0.05,1).postln;
 ~s_size=value;
 ~log.(value.asString);
 });
