@@ -552,7 +552,7 @@ value=obj.value.linexp(0,1,0.001,pi).postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,0.05,10).postln;
+value=obj.value.linlin(0,1,0.05,3).postln;
 ~s_size=value;
 ~log.(value.asString);
 });
