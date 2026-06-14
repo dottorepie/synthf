@@ -125,7 +125,7 @@ var nn=2.neg;
 (
 SynthDef.new(\synth,{
 arg gain=1,lowend=20,s_size=1,room=1,drive=0,
-c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20,ssc=1,mix=0,
+c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20,ssc=1,mix=0,rect=16,
 busArray = #[0,1,2,3,4,5,6,7,8,9,10,11];
 var fund,fu=32,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
 var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
@@ -202,12 +202,12 @@ c3=FreeVerb.ar(BPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez,mul:1200).abs*
 SinOsc.ar(freq3,phase:phasez)),freq3,heavy,amp3),mix,room);
 
 ////distortion rectifier
-sig1=((((SinOsc.ar(freq1*32,phase:phasex+2pi,mul:amp1/32)).abs+(amp1))*
-(SinOsc.ar(freq1*16,phase:phasex+pi,mul:amp1/16))).abs+(amp1))*c1*10;
-sig2=((((SinOsc.ar(freq2*32,phase:phasey+2pi,mul:amp2/32)).abs+(amp2))*
-(SinOsc.ar(freq2*16,phase:phasey+pi,mul:amp2/16))).abs+(amp2))*c2*10;
-sig3=((((SinOsc.ar(freq3*32,phase:phasez+2pi,mul:amp3/32)).abs+(amp3))*
-(SinOsc.ar(freq3*16,phase:phasez+pi,mul:amp3/16))).abs+(amp3))*c3*10;
+sig1=((((SinOsc.ar(freq1*(rect*2),phase:phasex+2pi,mul:amp1)).abs+(amp1))*
+(SinOsc.ar(freq1*(rect),phase:phasex+pi,mul:amp1))).abs+(amp1))*c1*10;
+sig2=((((SinOsc.ar(freq2*(rect*2),phase:phasey+2pi,mul:amp2)).abs+(amp2))*
+(SinOsc.ar(freq2*(rect),phase:phasey+pi,mul:amp2))).abs+(amp2))*c2*10;
+sig3=((((SinOsc.ar(freq3*(rect*2),phase:phasez+2pi,mul:amp3)).abs+(amp3))*
+(SinOsc.ar(freq3*(rect),phase:phasez+pi,mul:amp3))).abs+(amp3))*c3*10;
 
 sig1=(sig1*mix.linlin(0,1,0.1,32)).softclip;
 sig2=(sig2*mix.linlin(0,1,0.1,32)).softclip;
@@ -398,7 +398,7 @@ bank.do{ ~dur3=~dur3++~dz.[n]; n=n+1;}; n=0;
 
 ~gain=1;~drive=0;~c=0;~attack=0.01;~decay=1;~s_size=1;~lowend=20;~room=0;
 ~incr1=0;~incr2=0;~sc=1;~gold=((1+5.sqrt)/2);~silver=(1+2.sqrt);
-~incr=0;~ssc=26;~mix=0;
+~incr=0;~ssc=26;~mix=0;~rect=16;
 //~seq= Pseq([~dur.[0],Rest(~dur.[13.rand]),~dur.[1],Rest(~dur.[13.rand]),~dur.[2],Rest(~dur.[13.rand]),~dur.[3]] ,inf);
 TempoClock.default.tempo_(0.01);
 
@@ -406,7 +406,7 @@ TempoClock.default.tempo_(0.01);
 Pbind(\instrument, \synth,
 \dur, Pseq(~dur ,inf),\s_size,Pfunc { ~s_size }, \lowend,Pfunc { ~lowend }, \room,Pfunc { ~room },
 \gain,Pfunc { ~gain }, \sc, Pfunc { ~sc },\drive, Pfunc { ~drive },
-\c, Pfunc { ~c },\mix, Pfunc{~mix},
+	\c, Pfunc { ~c },\mix, Pfunc{~mix},\rect,Pfunc{~rect},
 \az, Pseries(0, Pfunc{~incr1}, inf).collect(_.wrap(pi.neg, pi)),
 \el, Pseries(0, Pfunc{~incr2}, inf).collect(_.wrap(0.5pi.neg, 0.5pi)),
 \attack,  Pfunc { ~attack }, \dicay, Pfunc { ~decay }, \ssc, Pfunc{~ssc};
@@ -552,7 +552,7 @@ value=obj.value.linexp(0,1,0.001,pi).postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,0.05,3).postln;
+value=obj.value.linexp(0,1,0.05,3).postln;
 ~s_size=value;
 ~log.(value.asString);
 });
@@ -574,6 +574,16 @@ arg obj;
 var value;
 value=obj.value.linexp(0,1,0.01,1).postln;
 ~room=value;
+~log.(value.asString);
+});
+);
+(
+~sl05=Knob.new(~vw1, Rect.new(sk+sk+450+50+sk,sk+sk, sk+ssk, sk+ssk)).
+background_(Color.black).action_({
+arg obj;
+var value;
+value=obj.value.linlin(0,1,1,16).postln;
+~rect=value;
 ~log.(value.asString);
 });
 )
