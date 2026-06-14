@@ -442,7 +442,7 @@ scope3.active_(true);scope3.dbRange_(120);scope3.inBus_(2);scope3.freqMode_(0);
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,1,16256).round(1).asInteger.postln;
+value=obj.value.linexp(0,1,1,16256/3).round(1).asInteger.postln;
 ~sc=value;
 ~log.(value.asString);
 });
@@ -502,7 +502,7 @@ value=obj.value.linexp(0,1,1,8).postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,1/16,64).round(1/64).postln;
+value=obj.value.linexp(0,1,1/16,4).round(1/64).postln;
 TempoClock.default.tempo_(value);
 ~log.(value.asString);
 });
