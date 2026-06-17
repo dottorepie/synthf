@@ -230,9 +230,9 @@ sig2=((((SinOsc.ar(freq2*(rect*2),phase:phasey,mul:amp2)).abs+(amp2))*
 sig3=((((SinOsc.ar(freq3*(rect*2),phase:phasez,mul:amp3)).abs+(amp3))*
 (SinOsc.ar(freq3*(rect),phase:phasez,mul:amp3))).abs+(amp3))*c3*10;
 
-sig1=(sig1*mix.linlin(0,1,0.1,32)).softclip;
-sig2=(sig2*mix.linlin(0,1,0.1,32)).softclip;
-sig3=(sig3*mix.linlin(0,1,0.1,32)).softclip;
+sig1=(sig1*mix.linlin(0,1,0.1,2)).softclip;
+sig2=(sig2*mix.linlin(0,1,0.1,2)).softclip;
+sig3=(sig3*mix.linlin(0,1,0.1,2)).softclip;
 
 //////propagation
 sig1=sig1*mp_x.sign;
@@ -563,7 +563,7 @@ value=obj.value.linexp(0,1,0.01,1).postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,0.001,pi).postln;
+value=obj.value.linexp(0,1,0.001,2pi).postln;
 ~gain=value;
 ~log.(value.asString);
 });
