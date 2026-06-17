@@ -118,7 +118,7 @@ wt = signal.asWavetable;
 ~note=21;
 (
 {
-var nn=2.neg;
+var nn=1.neg;
 ~scale=~note.collect{nn=nn+1;Scale.dorian.performDegreeToKey(nn,12)};
 }.value;
 );
@@ -128,7 +128,7 @@ var nn=2.neg;
 /////////////////////////////////////////////////////////////////////////////////////////////////////sound
 (
 SynthDef.new(\synth,{
-arg gain=1,lowend=20,s_size=1,room=1,drive=0,
+arg gain=1,lowend=20,s_size=1,room=1,drive=0,au=0,
 c=0,az=0,el=0,dicay=2,attack=2,sc=20,ssc=1,mix=0,rect=16,
 busArray = #[0,1,2,3,4,5,6,7,8,9,10,11];
 var fund,fu=24,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
@@ -136,7 +136,7 @@ var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
 var b_x,b_y,b_z,polytope,env,expansion,sph1,sph2,xx,yy,zz,envf;
 var g_ch1,g_ch2,g_ch3,g_ch4,s1,s2,s3,s4,a1,a2,a3,a4,mp,mps,mpf,px,py,pz,ptheta,pphi;
 var s_x,s_y,s_z,threshold,c1,c2,c3,mp_x,mp_y,mp_z,mps_x,mps_y,mps_z,mpf_x,mpf_y,mpf_z;
-var peak, times,signal,rip,enva;
+var peak, times,signal,rip,enva,key;
 
 s1=Rand(0, ~vertices-1).round(1).asInteger;s2=Rand(0, ~vertices-1).round(1).asInteger;
 s3=Rand(0, ~vertices-1).round(1).asInteger;s4=Rand(0, ~vertices-1).round(1).asInteger;
@@ -187,9 +187,12 @@ mpf_z = sin(pphi);
 b_x=2.pow(mp_x.round(1)/16256);
 b_y=2.pow(mp_y.round(1)/16256);
 b_z=2.pow(mp_z.round(1)/16256);
-s_x=2.pow(Select.kr(mps_x.round(1).asInteger.abs,~scale).asInteger /12);
-s_y=2.pow(Select.kr(mps_y.round(1).asInteger.abs,~scale).asInteger /12);
-s_z=2.pow(Select.kr(mps_z.round(1).asInteger.abs,~scale).asInteger /12);
+s_x=2.pow(Select.kr(mps_x.round(1).abs,~scale).asInteger /12);
+s_y=2.pow(Select.kr(mps_y.round(1).abs,~scale).asInteger /12);
+s_z=2.pow(Select.kr(mps_z.round(1).abs,~scale).asInteger /12);
+
+key=2.pow(Select.kr(au,~scale).asInteger/12);
+fund=fund*key;
 
 mod_x=mpf_x;
 mod_y=mpf_y;
@@ -208,9 +211,9 @@ phasez=atan2(mod_z,mod_x)+envf;
 freq1=(fund)*b_x*s_x;
 freq2=(fund)*b_y*s_y;
 freq3=(fund)*b_z*s_z;
-amp1=b_x.reciprocal*expansion.reciprocal*s_x.reciprocal;
-amp2=b_y.reciprocal*expansion.reciprocal*s_y.reciprocal;
-amp3=b_z.reciprocal*expansion.reciprocal*s_z.reciprocal;
+amp1=b_x.reciprocal*expansion.reciprocal*s_x.reciprocal*key.reciprocal;
+amp2=b_y.reciprocal*expansion.reciprocal*s_y.reciprocal*key.reciprocal;
+amp3=b_z.reciprocal*expansion.reciprocal*s_z.reciprocal*key.reciprocal;
 
 c1=FreeVerb.ar(BPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex,mul:1200).abs*
 SinOsc.ar(freq1,phase:phasex)),freq1,heavy,amp1),mix,room);
@@ -423,8 +426,8 @@ TempoClock.default.tempo_(0.01);
 ~pattern = Pdef(\1,
 Pbind(\instrument, \synth,
 \dur, Pseq(~dur ,inf),\s_size,Pfunc { ~s_size }, \lowend,Pfunc { ~lowend }, \room,Pfunc { ~room },
-\gain,Pfunc { ~gain }, \sc, Pfunc { ~sc },\drive, Pfunc { ~drive },
-	\c, Pfunc { ~c },\mix, Pfunc{~mix},\rect,Pfunc{~rect},
+\gain,Pfunc { ~gain }, \sc, Pfunc { ~sc },\drive, Pfunc { ~drive },\au,Pseq([2,11,7,5,3],inf),
+\c, Pfunc { ~c },\mix, Pfunc{~mix},\rect,Pfunc{~rect},
 \az, Pseries(0, Pfunc{~incr1}, inf).collect(_.wrap(pi.neg, pi)),
 \el, Pseries(0, Pfunc{~incr2}, inf).collect(_.wrap(0.5pi.neg, 0.5pi)),
 \attack,  Pfunc { ~attack }, \dicay, Pfunc { ~decay }, \ssc, Pfunc{~ssc};
@@ -520,7 +523,7 @@ value=obj.value.linexp(0,1,1,8).postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,1/16,4).round(1/64).postln;
+value=obj.value.linexp(0,1,1/16,8).round(1/64).postln;
 TempoClock.default.tempo_(value);
 ~log.(value.asString);
 });
