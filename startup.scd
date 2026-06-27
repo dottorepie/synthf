@@ -129,7 +129,7 @@ var nn=1.neg,scale1,scale2;
 scale1=~note10.collect{nn=nn+1;Scale.minorPentatonic.performDegreeToKey(nn,12)};
 nn=1.neg;
 scale2=~note10.collect{nn=nn+1;Scale.majorPentatonic.performDegreeToKey(nn,12)};
-~scale10=scale1++scale2;
+~scale10=[scale1,scale2];
 }.value;
 );
 );
@@ -138,7 +138,7 @@ scale2=~note10.collect{nn=nn+1;Scale.majorPentatonic.performDegreeToKey(nn,12)};
 /////////////////////////////////////////////////////////////////////////////////////////////////////sound
 (
 SynthDef.new(\synth,{
-arg gain=1,lowend=20,s_size=1,room=1,drive=0,au=0,
+arg gain=1,lowend=20,s_size=1,room=1,drive=0,au=0,sb=0,
 c=0,az=0,el=0,dicay=2,attack=2,sc=20,ssc=1,mix=0,rect=16,
 busArray = #[0,1,2,3,4,5,6,7,8,9,10,11];
 var fund,fu=24,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
@@ -201,7 +201,7 @@ s_x=2.pow(Select.kr(mps_x.round(1).abs,~scale).asInteger /12);
 s_y=2.pow(Select.kr(mps_y.round(1).abs,~scale).asInteger /12);
 s_z=2.pow(Select.kr(mps_z.round(1).abs,~scale).asInteger /12);
 
-key=2.pow(Select.kr(au,~scale10).asInteger/12);
+key=2.pow(Select.kr(au,Select.kr(sb,~scale10)).asInteger/12);
 fund=fund*key;
 
 mod_x=mpf_x;
@@ -409,7 +409,7 @@ TempoClock.default.tempo_(0.01);
 Pbind(\instrument, \synth,
 \dur, Pseq(~dur ,inf),\s_size,Pfunc { ~s_size }, \lowend,Pfunc { ~lowend }, \room,Pfunc { ~room },
 \gain,Pfunc { ~gain }, \sc, Pfunc { ~sc },\drive, Pfunc { ~drive },
-\au,Pseq([0,5,1,6,2,7,3,8,4,9],inf),
+\au,Pseq([0,4,2,3,1],inf),\sb,Pseq([0,1,0,1,0,1,0,1,0,1,0],inf),
 \c, Pfunc { ~c },\mix, Pfunc{~mix},\rect,Pfunc{~rect},
 \az, Pseries(0, Pfunc{~incr1}, inf).collect(_.wrap(pi.neg, pi)),
 \el, Pseries(0, Pfunc{~incr2}, inf).collect(_.wrap(0.5pi.neg, 0.5pi)),
