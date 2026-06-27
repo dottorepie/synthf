@@ -14,8 +14,8 @@ s.makeGui(w);
 //s.freqscope;
 //s.scope;
 );
-~img_print = Image.open("/Users/rohifes/Desktop/sample image.png");////interface image
-~img_sound=Image.open("/Users/rohifes/Desktop/sample image.png");//////sound image
+~img_print = Image.open("/Users/rohifes/Documents/3d plotter/sound engine/synthf/image to sound/Su painting.png");////interface image
+~img_sound=Image.open("/Users/rohifes/Documents/3d plotter/sound engine/synthf/image to sound/Su painting feed.png");//////sound image
 s.waitForBoot{
 Tdef(\drone, {
 //~controlBus = Bus.control(s, 1);
@@ -73,6 +73,19 @@ xx=xx+1;
 }.value;
 );
 5.wait;
+		////envelope sig
+		(
+~ne=1.neg;~arraye=56.collect{~ne=~ne+1;2.pow(~ne/56)};
+~signalSizee = 2048*1;
+);
+
+(
+~n=1.neg;~array=992.collect{~n=~n+1;2.pow(~n/992)};
+~n=(0-(2pi/992)); ~ph=992.collect{~n=~n+(2pi/992);};
+~bufferSize = 4096*8;
+~signalSize = 2048*8;
+);
+		///////
 (
 ~n=1.neg;~array=992.collect{~n=~n+1;2.pow(~n/992)};
 ~n=(0-(2pi/992)); ~ph=992.collect{~n=~n+(2pi/992);};
@@ -90,32 +103,56 @@ wt = signal.asWavetable;
 }.value;
 );
 (
-~note=32;
+~note=21;
+~note10=5;
 (
 {
-var nn=2.neg;
-~scale=~note.collect{nn=nn+1;Scale.phrygian.performDegreeToKey(nn,12)};
+var nn=1.neg;
+~scale=~note.collect{nn=nn+1;Scale.dorian.performDegreeToKey(nn,12)};
 }.value;
 );
+(
+{
+var nn=1.neg,scale1,scale2;
+scale1=~note10.collect{nn=nn+1;Scale.minorPentatonic.performDegreeToKey(nn,12)};
+nn=1.neg;
+scale2=~note10.collect{nn=nn+1;Scale.majorPentatonic.performDegreeToKey(nn,12)};
+~scale10=scale1++scale2;
+}.value;
+)
 );
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////sound
 (
 SynthDef.new(\synth,{
-arg gain=1,lowend=20,s_size=1,room=1,drive=0,
-c=0,az=0,el=0,dicay=0.5,attack=0.01,sc=20,ssc=1,mix=0,
+arg gain=1,lowend=20,s_size=1,room=1,drive=0,au=0,
+c=0,az=0,el=0,dicay=2,attack=2,sc=20,ssc=1,mix=0,rect=16,
 busArray = #[0,1,2,3,4,5,6,7,8,9,10,11];
-var fund,fu=32,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
+var fund,fu=24,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
 var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
 var b_x,b_y,b_z,polytope,env,expansion,sph1,sph2,xx,yy,zz,envf;
 var g_ch1,g_ch2,g_ch3,g_ch4,s1,s2,s3,s4,a1,a2,a3,a4,mp,mps,mpf,px,py,pz,ptheta,pphi;
 var s_x,s_y,s_z,threshold,c1,c2,c3,mp_x,mp_y,mp_z,mps_x,mps_y,mps_z,mpf_x,mpf_y,mpf_z;
+var peak, times,signal,rip,enva,key;
 
 s1=Rand(0, ~vertices-1).round(1).asInteger;s2=Rand(0, ~vertices-1).round(1).asInteger;
 s3=Rand(0, ~vertices-1).round(1).asInteger;s4=Rand(0, ~vertices-1).round(1).asInteger;
 
-env=EnvGen.ar(Env.perc(attack,dicay,gain),doneAction:2);
+////envelope
+signal = Signal.sineFill(~signalSizee, ~arraye, [0]);
+signal = signal.rotate(signal.size div: 2);
+peak = signal.abs.maxIndex.max(1);
+rip = Env.perc(0.5,0.5).asSignal(~signalSizee);
+rip = rip * (1 + (signal / 8));
+rip = rip.normalize;
+peak = peak.min(signal.size - 2).max(1);
+times =Array.fill(peak, attack / peak) ++ Array.fill(signal.size - peak - 1, dicay / (signal.size - peak - 1));
+enva = Env(rip.asArray, times);
+env = EnvGen.ar(enva,doneAction:2)*gain;
+
+
+//env=EnvGen.ar(Env.perc(attack,dicay,gain),doneAction:2);
 envf=EnvGen.ar(Env.new([0,0,pi,pi,2pi],[(dicay/2),(attack/2),(dicay/2),(attack/2)]),doneAction:0);
 
 expansion=2.pow(c.lag(0.01)/16256);
@@ -148,9 +185,12 @@ mpf_z = sin(pphi);
 b_x=2.pow(mp_x.round(1)/16256);
 b_y=2.pow(mp_y.round(1)/16256);
 b_z=2.pow(mp_z.round(1)/16256);
-s_x=2.pow(Select.kr(mps_x.round(1).asInteger.abs,~scale).asInteger /12);
-s_y=2.pow(Select.kr(mps_y.round(1).asInteger.abs,~scale).asInteger /12);
-s_z=2.pow(Select.kr(mps_z.round(1).asInteger.abs,~scale).asInteger /12);
+s_x=2.pow(Select.kr(mps_x.round(1).abs,~scale).asInteger /12);
+s_y=2.pow(Select.kr(mps_y.round(1).abs,~scale).asInteger /12);
+s_z=2.pow(Select.kr(mps_z.round(1).abs,~scale).asInteger /12);
+
+key=2.pow(Select.kr(au,~scale10).asInteger/12);
+fund=fund*key;
 
 mod_x=mpf_x;
 mod_y=mpf_y;
@@ -169,9 +209,9 @@ phasez=atan2(mod_z,mod_x)+envf;
 freq1=(fund)*b_x*s_x;
 freq2=(fund)*b_y*s_y;
 freq3=(fund)*b_z*s_z;
-amp1=b_x.reciprocal*expansion.reciprocal*s_x.reciprocal;
-amp2=b_y.reciprocal*expansion.reciprocal*s_y.reciprocal;
-amp3=b_z.reciprocal*expansion.reciprocal*s_z.reciprocal;
+amp1=b_x.reciprocal*expansion.reciprocal*s_x.reciprocal*key.reciprocal;
+amp2=b_y.reciprocal*expansion.reciprocal*s_y.reciprocal*key.reciprocal;
+amp3=b_z.reciprocal*expansion.reciprocal*s_z.reciprocal*key.reciprocal;
 
 c1=FreeVerb.ar(BPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex,mul:1200).abs*
 SinOsc.ar(freq1,phase:phasex)),freq1,heavy,amp1),mix,room);
@@ -181,16 +221,16 @@ c3=FreeVerb.ar(BPF.ar((Osc.ar(~wt.bufnum,freq3,phase:phasez,mul:1200).abs*
 SinOsc.ar(freq3,phase:phasez)),freq3,heavy,amp3),mix,room);
 
 ////distortion rectifier
-sig1=((((SinOsc.ar(freq1*32,phase:phasex+2pi,mul:amp1/32)).abs+(amp1))*
-(SinOsc.ar(freq1*16,phase:phasex+pi,mul:amp1/16))).abs+(amp1))*c1*10;
-sig2=((((SinOsc.ar(freq2*32,phase:phasey+2pi,mul:amp2/32)).abs+(amp2))*
-(SinOsc.ar(freq2*16,phase:phasey+pi,mul:amp2/16))).abs+(amp2))*c2*10;
-sig3=((((SinOsc.ar(freq3*32,phase:phasez+2pi,mul:amp3/32)).abs+(amp3))*
-(SinOsc.ar(freq3*16,phase:phasez+pi,mul:amp3/16))).abs+(amp3))*c3*10;
+sig1=((((SinOsc.ar(freq1*(rect*2),phase:phasex,mul:amp1)).abs+(amp1))*
+(SinOsc.ar(freq1*(rect),phase:phasex,mul:amp1))).abs+(amp1))*c1*10;
+sig2=((((SinOsc.ar(freq2*(rect*2),phase:phasey,mul:amp2)).abs+(amp2))*
+(SinOsc.ar(freq2*(rect),phase:phasey,mul:amp2))).abs+(amp2))*c2*10;
+sig3=((((SinOsc.ar(freq3*(rect*2),phase:phasez,mul:amp3)).abs+(amp3))*
+(SinOsc.ar(freq3*(rect),phase:phasez,mul:amp3))).abs+(amp3))*c3*10;
 
-sig1=(sig1*mix.linlin(0,1,0.1,32)).softclip;
-sig2=(sig2*mix.linlin(0,1,0.1,32)).softclip;
-sig3=(sig3*mix.linlin(0,1,0.1,32)).softclip;
+sig1=(sig1*mix.linlin(0,1,0.1,2)).softclip;
+sig2=(sig2*mix.linlin(0,1,0.1,2)).softclip;
+sig3=(sig3*mix.linlin(0,1,0.1,2)).softclip;
 
 //////propagation
 sig1=sig1*mp_x.sign;
@@ -210,9 +250,9 @@ sig1=HPF.ar(sig1,lowend);
 sig2=HPF.ar(sig2, lowend);
 sig3=HPF.ar(sig3, lowend);
 threshold=(((343/s_size)/fund).reciprocal.ampdb/2.sqrt).dbamp;
-sig1=Compander.ar(sig1,c1*env,threshold,1.2,1/3,0.03,0.15)+BrownNoise.ar(0.000001);
-sig2=Compander.ar(sig2,c2*env,threshold,1.2,1/3,0.03,0.15)+BrownNoise.ar(0.000001);
-sig3=Compander.ar(sig3,c3*env,threshold,1.2,1/3,0.03,0.15)+BrownNoise.ar(0.000001);
+sig1=Compander.ar(sig1,c1,threshold,1.2,1/3,0.03,0.15)+BrownNoise.ar(0.000001);
+sig2=Compander.ar(sig2,c2,threshold,1.2,1/3,0.03,0.15)+BrownNoise.ar(0.000001);
+sig3=Compander.ar(sig3,c3,threshold,1.2,1/3,0.03,0.15)+BrownNoise.ar(0.000001);
 
 /////spat
 a1=a2=a3=a4=1;
@@ -284,100 +324,72 @@ Out.ar(busArray.[11],LeakDC.ar(sig3*env*g_ch4));
 /////////////////////////////////////////////////////////////////////////////////////////////////////////sequencer,pattern
 (
 ({
-var m1=1.neg, m2=1.neg, m3=1.neg,a,b,c,d,n=0,bank=8,time=32.reciprocal,beat=1,r=0;
-~r=0;~r1=0;~r2=0;
+var m1=1.neg, m2=1.neg;
+var m3=1.neg,n=0,bank=5,rhythm=4,time=32.reciprocal,beat=1;
+var durx=[],dury=[],durz=[],durx1=[],dury1=[],durz1=[];
+var dx=[],dy=[],dz=[],bx,by,bz,durx2,dury2,durz2;
 
 ~azr=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad];
 ~elr=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad];
+~r=0;~r1=0;~r2=0;
 
-~dur1=[];~dur2=[];~dur3=[];
-~dx=[];~dy=[];~dz=[];
-~durx=[];~dury=[];~durz=[];
 ~dur=[];
 
 bank.do{
     m1=m2=m3=~vertices.rand;
 
-    ~x=1.collect{
-        var az, el, x, y, z, xr, yr, zr;
-
+    bx=1.collect{
+        var az, el, x, y, z;
         az = ~az.[m1];
         el = ~el.[m1];
-
-        // spherical (beat = radius)
         x = beat * cos(el) * cos(az);
         y = beat * cos(el) * sin(az);
         z = beat * sin(el);
+        2.pow(x).round(time)};
 
-        // rotate (~r, ~r1, ~r2) approximated as axis rotations
-        xr = x*cos(~r) - y*sin(~r);
-        yr = x*sin(~r) + y*cos(~r);
-        zr = z;
-
-        xr = xr;
-        2.pow(xr).round(time);
-    };
-
-    ~y=1.collect{
-        var az, el, x, y, z, xr, yr, zr;
-
+   by=1.collect{
+        var az, el, x, y, z;
         az = ~az.[m2];
         el = ~el.[m2];
-
         x = beat * cos(el) * cos(az);
         y = beat * cos(el) * sin(az);
         z = beat * sin(el);
+        2.pow(y).round(time)};
 
-        xr = x*cos(~r1) - z*sin(~r1);
-        zr = x*sin(~r1) + z*cos(~r1);
-
-        yr = y;
-
-        yr = yr;
-        2.pow(yr).round(time);
-    };
-
-    ~z=1.collect{
-        var az, el, x, y, z, xr, yr, zr;
-
+    bz=1.collect{
+        var az, el, x, y, z;
         az = ~az.[m3];
         el = ~el.[m3];
-
         x = beat * cos(el) * cos(az);
         y = beat * cos(el) * sin(az);
         z = beat * sin(el);
-
-        yr = y*cos(~r2) - z*sin(~r2);
-        zr = y*sin(~r2) + z*cos(~r2);
-
-        xr = x;
-
-        zr = zr;
-        2.pow(zr).round(time);
-    };
+        2.pow(z).round(time)};
 
     m1=1.neg; m2=1.neg; m3=1.neg;
 
-    ~dx=~dx++~x;
-    ~dy=~dy++~y;
-    ~dz=~dz++~z;
+    dx=dx++bx;
+    dy=dy++by;
+    dz=dz++bz;
 
-    ~x=[]; ~y=[]; ~z=[];
-    r=r+90.degrad;
+    bx=[]; by=[]; bz=[];
 };
 
 n=0;
-bank.do{ ~dur1=~dur1++~dx.[n]; n=n+1;}; n=0;
-bank.do{ ~dur2=~dur2++~dy.[n]; n=n+1;}; n=0;
-bank.do{ ~dur3=~dur3++~dz.[n]; n=n+1;}; n=0;
-
-~dur=~dur++~dur1++~dur2++~dur3;
-
-			}.value);
+rhythm.do{ durx=durx++dx.[n]; n=n+1;}; n=0;
+rhythm.do{ dury=dury++dy.[n]; n=n+1;}; n=0;
+rhythm.do{ durz=durz++dz.[n]; n=n+1;}; n=1;
+(rhythm-1).do{ durx1=durx1++dx.[n]; n=n+1;}; n=1;
+(rhythm-1).do{ dury1=dury1++dy.[n]; n=n+1;}; n=1;
+(rhythm-1).do{ durz1=durz1++dz.[n]; n=n+1;}; n=0;
+durx2=[dx.[4]]++durx1.reverse;
+dury2=[dy.[4]]++dury1.reverse;
+durz2=[dz.[4]]++durz1.reverse;
+~dur=~dur++durx++dury++durz++durx2++dury2++durz2;
+}.value);
 
 ~gain=1;~drive=0;~c=0;~attack=0.01;~decay=1;~s_size=1;~lowend=20;~room=0;
 ~incr1=0;~incr2=0;~sc=1;~gold=((1+5.sqrt)/2);~silver=(1+2.sqrt);
-~incr=0;~ssc=26;~mix=0;
+~incr=0;~ssc=26;~mix=0;~rect=16;
 //~seq= Pseq([~dur.[0],Rest(~dur.[13.rand]),~dur.[1],Rest(~dur.[13.rand]),~dur.[2],Rest(~dur.[13.rand]),~dur.[3]] ,inf);
 TempoClock.default.tempo_(0.01);
 
@@ -385,7 +397,8 @@ TempoClock.default.tempo_(0.01);
 Pbind(\instrument, \synth,
 \dur, Pseq(~dur ,inf),\s_size,Pfunc { ~s_size }, \lowend,Pfunc { ~lowend }, \room,Pfunc { ~room },
 \gain,Pfunc { ~gain }, \sc, Pfunc { ~sc },\drive, Pfunc { ~drive },
-\c, Pfunc { ~c },\mix, Pfunc{~mix},
+\au,Pseq([0,5,1,6,2,7,3,8,4,9],inf),
+\c, Pfunc { ~c },\mix, Pfunc{~mix},\rect,Pfunc{~rect},
 \az, Pseries(0, Pfunc{~incr1}, inf).collect(_.wrap(pi.neg, pi)),
 \el, Pseries(0, Pfunc{~incr2}, inf).collect(_.wrap(0.5pi.neg, 0.5pi)),
 \attack,  Pfunc { ~attack }, \dicay, Pfunc { ~decay }, \ssc, Pfunc{~ssc};
@@ -421,7 +434,7 @@ scope3.active_(true);scope3.dbRange_(120);scope3.inBus_(2);scope3.freqMode_(0);
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,1,16256).round(1).asInteger.postln;
+value=obj.value.linexp(0,1,1,16256/3).round(1).asInteger.postln;
 ~sc=value;
 ~log.(value.asString);
 });
@@ -431,7 +444,7 @@ value=obj.value.linexp(0,1,1,16256).round(1).asInteger.postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,(16256*8).neg,(16256*4)).round(1).asInteger.postln;
+value=obj.value.linlin(0,1,(16256*4).neg,(16256*3)).round(1).asInteger.postln;
 ~drive=value;
 ~log.(value.asString);
 });
@@ -481,7 +494,7 @@ value=obj.value.linexp(0,1,1,8).postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,1/16,64).round(1/64).postln;
+value=obj.value.linexp(0,1,1/16,8).round(1/64).postln;
 TempoClock.default.tempo_(value);
 ~log.(value.asString);
 });
@@ -521,7 +534,7 @@ value=obj.value.linexp(0,1,0.01,1).postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,0.001,pi).postln;
+value=obj.value.linexp(0,1,0.001,2pi).postln;
 ~gain=value;
 ~log.(value.asString);
 });
@@ -531,7 +544,7 @@ value=obj.value.linexp(0,1,0.001,pi).postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linlin(0,1,0.05,1).postln;
+value=obj.value.linexp(0,1,0.05,3).postln;
 ~s_size=value;
 ~log.(value.asString);
 });
@@ -555,6 +568,16 @@ value=obj.value.linexp(0,1,0.01,1).postln;
 ~room=value;
 ~log.(value.asString);
 });
+);
+(
+~sl05=Knob.new(~vw1, Rect.new(sk+sk+450+50+sk,sk+sk, sk+ssk, sk+ssk)).
+background_(Color.black).action_({
+arg obj;
+var value;
+value=obj.value.linlin(0,1,1,16).postln;
+~rect=value;
+~log.(value.asString);
+});
 )
 }.defer
 )
@@ -568,75 +591,4 @@ value=obj.value.linexp(0,1,0.01,1).postln;
 
 
 
-/////space symmetric, for music keys, timbre or vbap
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////spaces
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////tetrahedron
-(
-~azimuth=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad];
-~elevation=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad];
-);
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////cube
-(
-~azimuth=[45.degrad,135.degrad,45.neg.degrad,135.neg.degrad,45.degrad,135.degrad,45.neg.degrad,135.neg.degrad];
-~elevation=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad,35.264390.degrad,35.264390.degrad];
-)
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////octahedron
-(
-~azimuth=[0.degrad,0.degrad,90.degrad,180.degrad,90.neg.degrad,0.degrad];
-~elevation=[90.neg.degrad,0.degrad,0.degrad,0.degrad,0.degrad,90.degrad];
-)
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////icosahedron
-(
-~azimuth=[90.degrad,90.neg.degrad,0.degrad,180.degrad,58.28.degrad,121.72.degrad,121.72.neg.degrad,58.neg.degrad,90.degrad,90.neg.degrad,0.degrad,180.degrad];
-~elevation=[58.28.neg.degrad,58.28.neg.degrad,31.72.neg.degrad,31.72.neg.degrad,0.degrad,0.degrad,0.degrad,0.degrad,58.28.degrad,58.28.degrad,31.72.degrad,31.72.degrad];
-)
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////dodecahedron
-(
-~azimuth=[45.degrad,135.neg.degrad,135.degrad,45.neg.degrad,90.degrad,90.neg.degrad,0.degrad,180.degrad,45.degrad,135.neg.degrad,135.degrad,45.neg.degrad,90.degrad,
-	90.neg.degrad,69.09.degrad,110.91.degrad,110.91.neg.degrad,69.09.neg.degrad,0.degrad,180.degrad];
-
-~elevation=[35.26.neg.degrad,35.26.neg.degrad,35.26.neg.degrad,35.26.neg.degrad,69.09.neg.degrad,69.09.neg.degrad,20.91.neg.degrad,20.91.neg.degrad,
-	35.26.degrad,35.26.degrad,35.26.degrad,35.26.degrad,69.09.degrad,69.09.degrad,0.degrad,0.degrad,0.degrad,0.degrad,20.91.degrad,20.91.degrad]
-)
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Rhombic dodecahedron
-(
-~azimuth=[0.degrad,45.degrad,135.neg.degrad,135.degrad,45.neg.degrad,0.degrad,180.degrad,90.degrad,90.neg.degrad,0.degrad,
-	45.degrad,135.neg.degrad,135.degrad,45.neg.degrad];
-~elevation=[90.neg.degrad,35.264390.neg.degrad,35.264390.neg.degrad,35.264390.neg.degrad,35.264390.neg.degrad,0.degrad
-	,0.degrad,0.degrad,0.degrad,90.degrad,35.264390.degrad,35.264390.degrad,35.264390.degrad,35.264390.degrad];
-)
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////cuboctahedron
-(
-~azimuth=[0.degrad,90.degrad,180.degrad,90.neg.degrad,45.degrad,135.degrad,45.neg.degrad,135.neg.degrad,
-	0.degrad,90.degrad,180.degrad,90.neg.degrad];
-~elevation=[45.neg.degrad,45.neg.degrad,45.neg.degrad,45.neg.degrad,0.degrad,0.degrad,0.degrad,0.degrad,
-	45.degrad,45.degrad,45.degrad,45.degrad];
-)
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Rhombic Triacontahedron
-(
-~azimuth=[0.degrad,0.degrad,72.degrad,144.degrad,144.neg.degrad,72.neg.degrad,36.degrad,108.degrad,180.degrad,108.neg.degrad,36.neg.degrad,
-	0.degrad,72.degrad,144.degrad,144.neg.degrad,72.neg.degrad,36.degrad,108.degrad,180.degrad,108.neg.degrad,36.neg.degrad,
-	0.degrad,72.degrad,144.degrad,144.neg.degrad,72.neg.degrad,36.degrad,108.degrad,180.degrad,108.neg.degrad,36.neg.degrad,0.degrad];
-
-~elevation=[90.neg.degrad,52.6.neg.degrad,52.6.neg.degrad,52.6.neg.degrad,52.6.neg.degrad,52.6.neg.degrad,26.6.neg.degrad,26.6.neg.degrad,26.6.neg.degrad,26.6.neg.degrad,26.6.neg.degrad,10.8.neg.degrad,10.8.neg.degrad,10.8.neg.degrad,10.8.neg.degrad,10.8.neg.degrad,52.6.degrad,52.6.degrad,52.6.degrad,52.6.degrad,52.6.degrad,26.6.degrad,26.6.degrad,26.6.degrad,26.6.degrad,26.6.degrad,10.8.degrad,10.8.degrad,10.8.degrad,10.8.degrad,10.8.degrad,90.degrad];
-
-)
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////icosidodecahedron
-(
-~azimuth=[18.degrad,90.degrad,162.degrad,126.neg.degrad,54.neg.degrad,54.degrad,126.degrad,162.neg.degrad,90.neg.degrad,18.neg.degrad,
-	0.degrad,36.degrad,72.degrad,108.degrad,144.degrad,180.degrad,144.neg.degrad,108.neg.degrad,72.neg.degrad,36.neg.degrad,
-	54.degrad,126.degrad,162.neg.degrad,90.neg.degrad,18.neg.degrad,18.degrad,90.degrad,162.degrad,126.neg.degrad,54.neg.degrad];
-
-~elevation=[58.283.degrad,58.283.degrad,58.283.degrad,58.283.degrad,58.283.degrad,58.283.neg.degrad,58.283.neg.degrad,58.283.neg.degrad,58.283.neg.degrad,58.283.neg.degrad,0.degrad,0.degrad,0.degrad,0.degrad,0.degrad,0.degrad,0.degrad,0.degrad,0.degrad,0.degrad,
-37.717.degrad,37.717.degrad,37.717.degrad,37.717.degrad,37.717.degrad,37.717.neg.degrad,37.717.neg.degrad,37.717.neg.degrad,37.717.neg.degrad,37.717.neg.degrad];
-)*/
+/
