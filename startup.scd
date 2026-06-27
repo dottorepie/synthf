@@ -14,7 +14,7 @@ s.makeGui(w);
 //s.freqscope;
 s.scope;
 );
-~img_print = Image.open("/Users/rohifes/Documents/Literary/Portfolio/SUPERCOLLIDER/2026/synth/image1.jpg");///////////////paste image image1.jpg
+~img_print = Image.open("/Users/rohifes/Documents/3d plotter/sound engine/synthf/image1.jpg");///////////////paste image image1.jpg
 s.waitForBoot{
 Tdef(\drone, {
 //~controlBus = Bus.control(s, 1);
@@ -116,10 +116,20 @@ wt = signal.asWavetable;
 );
 (
 ~note=21;
+~note10=5;
 (
 {
 var nn=1.neg;
 ~scale=~note.collect{nn=nn+1;Scale.dorian.performDegreeToKey(nn,12)};
+}.value;
+);
+(
+{
+var nn=1.neg,scale1,scale2;
+scale1=~note10.collect{nn=nn+1;Scale.minorPentatonic.performDegreeToKey(nn,12)};
+nn=1.neg;
+scale2=~note10.collect{nn=nn+1;Scale.majorPentatonic.performDegreeToKey(nn,12)};
+~scale10=scale1++scale2;
 }.value;
 );
 );
@@ -191,7 +201,7 @@ s_x=2.pow(Select.kr(mps_x.round(1).abs,~scale).asInteger /12);
 s_y=2.pow(Select.kr(mps_y.round(1).abs,~scale).asInteger /12);
 s_z=2.pow(Select.kr(mps_z.round(1).abs,~scale).asInteger /12);
 
-key=2.pow(Select.kr(au,~scale).asInteger/12);
+key=2.pow(Select.kr(au,~scale10).asInteger/12);
 fund=fund*key;
 
 mod_x=mpf_x;
@@ -326,96 +336,68 @@ Out.ar(busArray.[11],LeakDC.ar(sig3*env*g_ch4));
 /////////////////////////////////////////////////////////////////////////////////////////////////////////sequencer,pattern
 (
 ({
-var m1=1.neg, m2=1.neg, m3=1.neg,a,b,c,d,n=0,bank=8,time=32.reciprocal,beat=1,r=0;
-~r=0;~r1=0;~r2=0;
+var m1=1.neg, m2=1.neg;
+var m3=1.neg,n=0,bank=5,rhythm=4,time=32.reciprocal,beat=1;
+var durx=[],dury=[],durz=[],durx1=[],dury1=[],durz1=[];
+var dx=[],dy=[],dz=[],bx,by,bz,durx2,dury2,durz2;
 
 ~azr=[45.degrad,135.neg.degrad,45.neg.degrad,135.degrad];
 ~elr=[35.264390.neg.degrad,35.264390.neg.degrad,35.264390.degrad,35.264390.degrad];
+~r=0;~r1=0;~r2=0;
 
-~dur1=[];~dur2=[];~dur3=[];
-~dx=[];~dy=[];~dz=[];
-~durx=[];~dury=[];~durz=[];
 ~dur=[];
 
 bank.do{
     m1=m2=m3=~vertices.rand;
 
-    ~x=1.collect{
-        var az, el, x, y, z, xr, yr, zr;
-
+    bx=1.collect{
+        var az, el, x, y, z;
         az = ~az.[m1];
         el = ~el.[m1];
-
-        // spherical (beat = radius)
         x = beat * cos(el) * cos(az);
         y = beat * cos(el) * sin(az);
         z = beat * sin(el);
+        2.pow(x).round(time)};
 
-        // rotate (~r, ~r1, ~r2) approximated as axis rotations
-        xr = x*cos(~r) - y*sin(~r);
-        yr = x*sin(~r) + y*cos(~r);
-        zr = z;
-
-        xr = xr;
-        2.pow(xr).round(time);
-    };
-
-    ~y=1.collect{
-        var az, el, x, y, z, xr, yr, zr;
-
+   by=1.collect{
+        var az, el, x, y, z;
         az = ~az.[m2];
         el = ~el.[m2];
-
         x = beat * cos(el) * cos(az);
         y = beat * cos(el) * sin(az);
         z = beat * sin(el);
+        2.pow(y).round(time)};
 
-        xr = x*cos(~r1) - z*sin(~r1);
-        zr = x*sin(~r1) + z*cos(~r1);
-
-        yr = y;
-
-        yr = yr;
-        2.pow(yr).round(time);
-    };
-
-    ~z=1.collect{
-        var az, el, x, y, z, xr, yr, zr;
-
+    bz=1.collect{
+        var az, el, x, y, z;
         az = ~az.[m3];
         el = ~el.[m3];
-
         x = beat * cos(el) * cos(az);
         y = beat * cos(el) * sin(az);
         z = beat * sin(el);
-
-        yr = y*cos(~r2) - z*sin(~r2);
-        zr = y*sin(~r2) + z*cos(~r2);
-
-        xr = x;
-
-        zr = zr;
-        2.pow(zr).round(time);
-    };
+        2.pow(z).round(time)};
 
     m1=1.neg; m2=1.neg; m3=1.neg;
 
-    ~dx=~dx++~x;
-    ~dy=~dy++~y;
-    ~dz=~dz++~z;
+    dx=dx++bx;
+    dy=dy++by;
+    dz=dz++bz;
 
-    ~x=[]; ~y=[]; ~z=[];
-    r=r+90.degrad;
+    bx=[]; by=[]; bz=[];
 };
 
 n=0;
-bank.do{ ~dur1=~dur1++~dx.[n]; n=n+1;}; n=0;
-bank.do{ ~dur2=~dur2++~dy.[n]; n=n+1;}; n=0;
-bank.do{ ~dur3=~dur3++~dz.[n]; n=n+1;}; n=0;
-
-~dur=~dur++~dur1++~dur2++~dur3;
-
-			}.value);
+rhythm.do{ durx=durx++dx.[n]; n=n+1;}; n=0;
+rhythm.do{ dury=dury++dy.[n]; n=n+1;}; n=0;
+rhythm.do{ durz=durz++dz.[n]; n=n+1;}; n=1;
+(rhythm-1).do{ durx1=durx1++dx.[n]; n=n+1;}; n=1;
+(rhythm-1).do{ dury1=dury1++dy.[n]; n=n+1;}; n=1;
+(rhythm-1).do{ durz1=durz1++dz.[n]; n=n+1;}; n=0;
+durx2=[dx.[4]]++durx1.reverse;
+dury2=[dy.[4]]++dury1.reverse;
+durz2=[dz.[4]]++durz1.reverse;
+~dur=~dur++durx++dury++durz++durx2++dury2++durz2;
+}.value);
 
 ~gain=1;~drive=0;~c=0;~attack=0.01;~decay=1;~s_size=1;~lowend=20;~room=0;
 ~incr1=0;~incr2=0;~sc=1;~gold=((1+5.sqrt)/2);~silver=(1+2.sqrt);
@@ -426,7 +408,8 @@ TempoClock.default.tempo_(0.01);
 ~pattern = Pdef(\1,
 Pbind(\instrument, \synth,
 \dur, Pseq(~dur ,inf),\s_size,Pfunc { ~s_size }, \lowend,Pfunc { ~lowend }, \room,Pfunc { ~room },
-\gain,Pfunc { ~gain }, \sc, Pfunc { ~sc },\drive, Pfunc { ~drive },\au,Pseq([2,11,7,5,3],inf),
+\gain,Pfunc { ~gain }, \sc, Pfunc { ~sc },\drive, Pfunc { ~drive },
+\au,Pseq([0,5,1,6,2,7,3,8,4,9],inf),
 \c, Pfunc { ~c },\mix, Pfunc{~mix},\rect,Pfunc{~rect},
 \az, Pseries(0, Pfunc{~incr1}, inf).collect(_.wrap(pi.neg, pi)),
 \el, Pseries(0, Pfunc{~incr2}, inf).collect(_.wrap(0.5pi.neg, 0.5pi)),
