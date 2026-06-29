@@ -141,31 +141,40 @@ SynthDef.new(\synth,{
 arg gain=1,lowend=20,s_size=1,room=1,drive=0,au=0,sb=0,
 c=0,az=0,el=0,dicay=2,attack=2,sc=20,ssc=1,mix=0,rect=16,
 busArray = #[0,1,2,3,4,5,6,7,8,9,10,11];
-var fund,fu=24,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0;
+var fund,fu=24,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0,sustain,tremolo=128;
 var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
 var b_x,b_y,b_z,polytope,env,expansion,sph1,sph2,xx,yy,zz,envf;
 var g_ch1,g_ch2,g_ch3,g_ch4,s1,s2,s3,s4,a1,a2,a3,a4,mp,mps,mpf,px,py,pz,ptheta,pphi;
 var s_x,s_y,s_z,threshold,c1,c2,c3,mp_x,mp_y,mp_z,mps_x,mps_y,mps_z,mpf_x,mpf_y,mpf_z;
-var peak, times,signal,rip,enva,key;
+var peak, times,signal,rip,enva,key,attackLen,sustainLen,decayLen;
 
 s1=Rand(0, ~vertices-1).round(1).asInteger;s2=Rand(0, ~vertices-1).round(1).asInteger;
 s3=Rand(0, ~vertices-1).round(1).asInteger;s4=Rand(0, ~vertices-1).round(1).asInteger;
 
-////envelope
+//env=EnvGen.ar(Env.perc(attack,dicay,gain),doneAction:2);
+envf=EnvGen.ar(Env.new([0,0,pi,pi,2pi],[(dicay/2),(attack/2),(dicay/2),(attack/2)]),doneAction:0);
+
+sustain=1;
+key=2.pow(Select.kr(au,Select.kr(sb,~scale10)).asInteger/12);
+
+attack=attack*(key);
+dicay=dicay*(key);
+////signal envelope
 signal = Signal.sineFill(~signalSizee, ~arraye, [0]);
 signal = signal.rotate(signal.size div: 2);
 peak = signal.abs.maxIndex.max(1);
-rip = Env.perc(0.5,0.5).asSignal(~signalSizee);
-rip = rip * (1 + (signal / 8));
+rip = Env.new([0,1,1,0],[0.25,0.25,0.5],[4.neg,0,4.neg]).asSignal(~signalSizee);
+rip = rip * (1 + (signal / tremolo));
 rip = rip.normalize;
 peak = peak.min(signal.size - 2).max(1);
-times =Array.fill(peak, attack / peak) ++ Array.fill(signal.size - peak - 1, dicay / (signal.size - peak - 1));
+attackLen = (peak / 2).floor;
+sustainLen = peak - attackLen;
+decayLen = signal.size - peak - 1;
+times =Array.fill(attackLen, attack / attackLen)
+ ++ Array.fill(sustainLen, sustain / sustainLen)
+ ++ Array.fill(decayLen, dicay / decayLen);
 enva = Env(rip.asArray, times);
 env = EnvGen.ar(enva,doneAction:2)*gain;
-
-
-//env=EnvGen.ar(Env.perc(attack,dicay,gain),doneAction:2);
-envf=EnvGen.ar(Env.new([0,0,pi,pi,2pi],[(dicay/2),(attack/2),(dicay/2),(attack/2)]),doneAction:0);
 
 expansion=2.pow(c.lag(0.01)/16256);
 fund=(fu*(9/8))*expansion;
@@ -201,7 +210,6 @@ s_x=2.pow(Select.kr(mps_x.round(1).abs,~scale).asInteger /12);
 s_y=2.pow(Select.kr(mps_y.round(1).abs,~scale).asInteger /12);
 s_z=2.pow(Select.kr(mps_z.round(1).abs,~scale).asInteger /12);
 
-key=2.pow(Select.kr(au,Select.kr(sb,~scale10)).asInteger/12);
 fund=fund*key;
 
 mod_x=mpf_x;
@@ -308,10 +316,17 @@ g_ch4=
 (sig3.abs.range(0.001,1)*sin(pphi)*
  sig3.range(0.001,1)*sin(Select.kr(s4,~el)*a4));
 
-(
+/*(
 Out.ar(busArray.[0],LeakDC.ar(sig1*env));
 Out.ar(busArray.[1],LeakDC.ar(sig2*env));
 Out.ar(busArray.[2],LeakDC.ar(sig3*env));
+)*/
+//perspective
+(
+Out.ar(busArray.[0],LeakDC.ar(sig1*env));
+Out.ar(busArray.[1],LeakDC.ar(sig2*env));
+Out.ar(busArray.[0],LeakDC.ar(gain/(gain+(sig3*env))));
+Out.ar(busArray.[1],LeakDC.ar(gain/(gain+(sig3*env))));
 )
 ///comment out the above parentheses and uncomment the below to use the synth on
 ///threefold speaker wavefield quad spat (12ch)/// to puput stereo sets (x,y) not use z channel as ouput (2,5,etc), sig3.
@@ -484,7 +499,7 @@ value=obj.value.linlin(0,1,(16256*4).neg,(16256*3)).round(1).asInteger.postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,0.01,4).postln;
+value=obj.value.linexp(0,1,0.01,1).postln;
 ~attack=value;
 ~log.(value.asString);
 });
@@ -514,7 +529,7 @@ value=obj.value.linlin(0,1,0,16256*3).round(1).asInteger.postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,1,8).postln;
+value=obj.value.linexp(0,1,0.01,8).postln;
 ~decay=value;
 ~log.(value.asString);
 });
@@ -524,7 +539,7 @@ value=obj.value.linexp(0,1,1,8).postln;
 background_(Color.black).action_({
 arg obj;
 var value;
-value=obj.value.linexp(0,1,1/16,8).round(1/64).postln;
+value=obj.value.linexp(0,1,1/16,16).round(1/64).postln;
 TempoClock.default.tempo_(value);
 ~log.(value.asString);
 });
