@@ -141,7 +141,7 @@ SynthDef.new(\synth,{
 arg gain=1,lowend=20,s_size=1,room=1,drive=0,au=0,sb=0,
 c=0,az=0,el=0,dicay=2,attack=2,sc=20,ssc=1,mix=0,rect=16,
 busArray = #[0,1,2,3,4,5,6,7,8,9,10,11];
-var fund,fu=24,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0,sustain,tremolo=128;
+var fund,fu=24,n=0,mod_x,mod_y,mod_z,phasex,phasey,phasez,low=0,sustain,tremolo=1000;
 var freq1,freq2,freq3,amp1,amp2,amp3,sig1,sig2,sig3,heavy;
 var b_x,b_y,b_z,polytope,env,expansion,sph1,sph2,xx,yy,zz,envf;
 var g_ch1,g_ch2,g_ch3,g_ch4,s1,s2,s3,s4,a1,a2,a3,a4,mp,mps,mpf,px,py,pz,ptheta,pphi;
@@ -154,7 +154,7 @@ s3=Rand(0, ~vertices-1).round(1).asInteger;s4=Rand(0, ~vertices-1).round(1).asIn
 //env=EnvGen.ar(Env.perc(attack,dicay,gain),doneAction:2);
 envf=EnvGen.ar(Env.new([0,0,pi,pi,2pi],[(dicay/2),(attack/2),(dicay/2),(attack/2)]),doneAction:0);
 
-sustain=1;
+sustain=0.25;
 key=2.pow(Select.kr(au,Select.kr(sb,~scale10)).asInteger/12);
 
 attack=attack*(key);
@@ -316,18 +316,18 @@ g_ch4=
 (sig3.abs.range(0.001,1)*sin(pphi)*
  sig3.range(0.001,1)*sin(Select.kr(s4,~el)*a4));
 
-/*(
+(
 Out.ar(busArray.[0],LeakDC.ar(sig1*env));
 Out.ar(busArray.[1],LeakDC.ar(sig2*env));
 Out.ar(busArray.[2],LeakDC.ar(sig3*env));
-)*/
+)
 //perspective
-(
+/*(
 Out.ar(busArray.[0],LeakDC.ar(sig1*env));
 Out.ar(busArray.[1],LeakDC.ar(sig2*env));
 Out.ar(busArray.[0],LeakDC.ar(gain/(gain+(sig3*env))));
 Out.ar(busArray.[1],LeakDC.ar(gain/(gain+(sig3*env))));
-)
+)*/
 ///comment out the above parentheses and uncomment the below to use the synth on
 ///threefold speaker wavefield quad spat (12ch)/// to puput stereo sets (x,y) not use z channel as ouput (2,5,etc), sig3.
 /*(
