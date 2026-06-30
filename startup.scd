@@ -228,9 +228,9 @@ amp2=b_y.reciprocal*expansion.reciprocal*s_y.reciprocal*key.reciprocal;
 amp3=b_z.reciprocal*expansion.reciprocal*s_z.reciprocal*key.reciprocal;
 
 ///simple  az/el wave phase relations
-phasex=b_x*s_x*2pi;
-phasey=b_y*s_y*2pi;
-phasez=b_z*s_z*2pi;
+phasex=b_x.reciprocal*s_x.reciprocal*2pi;
+phasey=b_y.reciprocal*s_y.reciprocal*2pi;
+phasez=b_z.reciprocal*s_z.reciprocal*2pi;
 ///perspective phase relations
 //for linear phase mapping use linlin
 //for compresse exp smoother maping with more energe towards similar values use complex
