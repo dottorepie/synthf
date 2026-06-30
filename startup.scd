@@ -215,13 +215,7 @@ fund=fund*key;
 mod_x=mpf_x;
 mod_y=mpf_y;
 mod_z=mpf_z;
-//for linear phase mapping use linlin
-//for compresse exp smoother maping with more energe towards similar values use complex
-//for rational relations between phases and symmetry matrices use atan2 relation insteadof maping
-//here since signal is wavefield ratio phases with more sidebands and matrice symmetries may be usefull
-//phasex=(Complex(1,mod_x).theta*2)+envf;
-//phasey=(Complex(1,mod_y).theta*2)+envf;
-//phasez=(Complex(1,mod_z).theta*2)+envf;
+
 phasex=atan2(mod_x,mod_y)+envf;
 phasey=atan2(mod_y,mod_z)+envf;
 phasez=atan2(mod_z,mod_x)+envf;
@@ -232,6 +226,22 @@ freq3=(fund)*b_z*s_z;
 amp1=b_x.reciprocal*expansion.reciprocal*s_x.reciprocal*key.reciprocal;
 amp2=b_y.reciprocal*expansion.reciprocal*s_y.reciprocal*key.reciprocal;
 amp3=b_z.reciprocal*expansion.reciprocal*s_z.reciprocal*key.reciprocal;
+
+///simple  az/el wave phase relations
+phasex=b_x*s_x*2pi;
+phasey=b_y*s_y*2pi;
+phasez=b_z*s_z*2pi;
+///perspective phase relations
+//for linear phase mapping use linlin
+//for compresse exp smoother maping with more energe towards similar values use complex
+//for rational relations between phases and symmetry matrices use atan2 relation insteadof maping
+//here since signal is wavefield ratio phases with more sidebands and matrice symmetries may be usefull
+//phasex=(Complex(1,mod_x).theta*2)+envf;
+//phasey=(Complex(1,mod_y).theta*2)+envf;
+//phasez=(Complex(1,mod_z).theta*2)+envf;
+///phasex=atan2(mod_x,mod_y)+envf;
+//phasey=atan2(mod_y,mod_z)+envf;
+//phasez=atan2(mod_z,mod_x)+envf;
 
 c1=FreeVerb.ar(BPF.ar((Osc.ar(~wt.bufnum,freq1,phase:phasex,mul:1200).abs*
 SinOsc.ar(freq1,phase:phasex)),freq1,heavy,amp1),mix,room);
