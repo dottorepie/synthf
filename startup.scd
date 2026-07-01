@@ -326,18 +326,16 @@ g_ch4=
 (sig3.abs.range(0.001,1)*sin(pphi)*
  sig3.range(0.001,1)*sin(Select.kr(s4,~el)*a4));
 
-(
-Out.ar(busArray.[0],LeakDC.ar(sig1*env));
-Out.ar(busArray.[1],LeakDC.ar(sig2*env));
-Out.ar(busArray.[2],LeakDC.ar(sig3*env));
-)
-//perspective
 /*(
 Out.ar(busArray.[0],LeakDC.ar(sig1*env));
 Out.ar(busArray.[1],LeakDC.ar(sig2*env));
-Out.ar(busArray.[0],LeakDC.ar(gain/(gain+(sig3*env))));
-Out.ar(busArray.[1],LeakDC.ar(gain/(gain+(sig3*env))));
+Out.ar(busArray.[2],LeakDC.ar(sig3*env));
 )*/
+//perspective
+(
+Out.ar(busArray.[0],LeakDC.ar(sig1*env*(gain/(gain+(sig3*env)))));
+Out.ar(busArray.[1],LeakDC.ar(sig2*env*(gain/(gain+(sig3*env)))));
+);
 ///comment out the above parentheses and uncomment the below to use the synth on
 ///threefold speaker wavefield quad spat (12ch)/// to puput stereo sets (x,y) not use z channel as ouput (2,5,etc), sig3.
 /*(
